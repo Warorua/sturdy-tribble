@@ -1,6 +1,8 @@
 // sac.mjs
 import puppeteer from 'puppeteer';
 import fetch from 'node-fetch';
+import os from 'os';
+import path from 'path';
 
 export default async function runSimulation(obj) {
     const apiUrl = `https://kotnova.com/iframev2.1.php?obj=${encodeURIComponent(obj)}`;
@@ -9,15 +11,19 @@ export default async function runSimulation(obj) {
 
     const browser = await puppeteer.launch({
         headless: 'new',
+        executablePath: path.join(
+          os.homedir(),
+          '.cache/puppeteer/chrome/linux-1108766/chrome-linux/chrome'
+        ),
         args: [
-            '--no-sandbox',
-            '--disable-setuid-sandbox',
-            '--disable-dev-shm-usage',
-            '--disable-gpu',
-            '--no-zygote',
-            '--single-process'
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--disable-dev-shm-usage',
+          '--disable-gpu',
+          '--no-zygote',
+          '--single-process'
         ]
-    });
+      });
     
 
     const page = await browser.newPage();
