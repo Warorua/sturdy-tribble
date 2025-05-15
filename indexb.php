@@ -113,21 +113,33 @@ async function loadCountriesAndStates() {
 }
 loadCountriesAndStates();
 
+
+console.log("Binding form submit...");
+
 $('#cyberForm').on('submit', function(e) {
+  console.log("Form submitted via JS");
   e.preventDefault();
+
   $('#responseArea').hide().html('');
   $('#loadingSpinner').show();
+
   const formData = $(this).serializeArray();
   let data = {};
   formData.forEach(field => data[field.name] = field.value);
+
+  console.log("POSTing to proxy.php", data);
+
   $.post('proxy.php', data, function(response) {
     $('#loadingSpinner').hide();
     $('#responseArea').show();
+
+    console.log("Response received:", response);
+
     if (!response.success) {
       const isHtml = response.raw_response && response.raw_response.startsWith('<');
-      const preview = isHtml ?
-        `<iframe style="width:100%;height:400px;border:1px solid #ccc" srcdoc="${response.raw_response.replace(/"/g, '&quot;')}"></iframe>` :
-        `<pre class="small bg-light p-3 border rounded">${response.raw_response}</pre>`;
+      const preview = isHtml
+        ? `<iframe style="width:100%;height:400px;border:1px solid #ccc" srcdoc="${response.raw_response.replace(/"/g, '&quot;')}"></iframe>`
+        : `<pre class="small bg-light p-3 border rounded">${response.raw_response}</pre>`;
       $('#responseArea').html(`
 <div class="alert alert-danger">
   <strong>❌ Error:</strong> ${response.error}<br>
@@ -137,6 +149,7 @@ $('#cyberForm').on('submit', function(e) {
 </div>`);
       return;
     }
+
     const api = response.cybersource_interpretation;
     const bin = response.bin_info;
     let badge = 'secondary', emoji = '⚠️';
@@ -176,10 +189,12 @@ $('#cyberForm').on('submit', function(e) {
   }, 'json').fail(function(xhr, status) {
     $('#loadingSpinner').hide();
     $('#responseArea').html(`<div class="alert alert-danger">❌ AJAX error: ${status}</div>`);
+    console.error("AJAX failed:", status, xhr.responseText);
   });
 
   return false;
 });
+</script>
 </script>
 </body>
 </html>
