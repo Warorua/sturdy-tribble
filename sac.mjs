@@ -1,9 +1,9 @@
-// simulate-and-capture.mjs
+// sac.mjs
 import puppeteer from 'puppeteer';
 import fetch from 'node-fetch';
 
-export default async function runSimulation() {
-    const apiUrl = 'https://kotnova.com/iframev2.1.php';
+export default async function runSimulation(obj) {
+    const apiUrl = `https://kotnova.com/iframev2.1.php?obj=${encodeURIComponent(obj)}`;
     const response = await fetch(apiUrl);
     const fields = await response.json();
 
@@ -39,7 +39,7 @@ export default async function runSimulation() {
     html += '</form><script>document.getElementById("form").submit();</script></body></html>';
 
     await page.setContent(html);
-    await new Promise(resolve => setTimeout(resolve, 10000));
+    await new Promise(resolve => setTimeout(resolve, 10000)); // wait for form submission
     await browser.close();
 
     return captured;
