@@ -30,9 +30,7 @@
                     <div class="col-md-4"><input type="text" class="form-control" name="bill_to_address_state" placeholder="State" value="NC" /></div>
                     <div class="col-md-4"><input type="text" class="form-control" name="bill_to_address_postal_code" placeholder="Postal Code" value="28403" /></div>
                     <div class="col-md-6"><input type="text" class="form-control" name="bill_to_address_country" placeholder="Country" value="US" /></div>
-                    <div class="col-md-12">
-                        <textarea class="form-control" name="anchor" rows="3" placeholder="Anchor query string">amountExpected=650.00&apiClientID=1&billDesc=OFFICIAL%20SEARCH%20(%22CR12%22)&billRefNumber=X8VJM3&callBackURLOnFail=https%3A%2F%2Fbrs.ecitizen.go.ke%2Fpayments%2FX8VJM3%2Fcallback%2Ffailed&callBackURLOnSuccess=https%3A%2F%2Fbrs.ecitizen.go.ke%2Fpayments%2FX8VJM3%2Fcallback%2Fsuccess&clientEmail=bombardier.devs.master%40gmail.com&clientIDNumber=4917833&clientMSISDN=%2B254756754595&clientName=GODFREY%20GITAU%20NGURE&currency=KES&notificationURL=https%3A%2F%2Fbrs.ecitizen.go.ke%2Fapi%2Fpayments%2Fpesaflow-ipn&secureHash=ODAwNTBjZjQzMWE4NzZmMjNhZDE4M2E1OTJiMzFjNGZmMzU2YTUwN2ZlOTFiMDVkMmEyMmMzOTliMDcwNzkxYQ%3D%3D&serviceID=42&clientType=1</textarea>
-                    </div>
+                    
                     <div class="col-md-12 text-center">
                         <button type="submit" class="btn btn-primary mt-3">Submit</button>
                     </div>
@@ -57,8 +55,7 @@
 
             const formData = $(this).serializeArray();
             let data = {};
-            let anchor = $('[name="anchor"]').val();
-            data['anchor'] = decodeURIComponent(anchor); // Clean escape sequences
+            
             formData.forEach(field => data[field.name] = field.value);
 
             $.post('proxy.php', data, function(response) {
