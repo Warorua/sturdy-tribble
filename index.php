@@ -64,17 +64,22 @@
                 $('#responseArea').show();
 
                 if (!response.success) {
-                    $('#responseArea').html(`
+  const isHtml = response.raw_response && response.raw_response.startsWith('<');
+  const preview = isHtml
+    ? `<iframe style="width:100%;height:400px;border:1px solid #ccc" srcdoc="${response.raw_response.replace(/"/g, '&quot;')}"></iframe>`
+    : `<pre class="small bg-light p-3 border rounded">${response.raw_response}</pre>`;
+
+  $('#responseArea').html(`
     <div class="alert alert-danger">
       <strong>❌ Error:</strong> ${response.error}<br>
       <strong>Status:</strong> ${response.http_code || 'N/A'}<br>
       <strong>JSON Error:</strong> ${response.json_error || 'N/A'}
       <hr>
-      <pre class="small bg-light p-3 border rounded overflow-auto" style="max-height: 400px;">${response.raw_response}</pre>
+      ${preview}
     </div>
   `).show();
-                    return;
-                }
+  return;
+}
 
 
                 const api = response.cybersource_interpretation;
