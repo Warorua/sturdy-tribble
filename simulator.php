@@ -5,17 +5,6 @@ use HeadlessChromium\BrowserFactory;
 
 include './iframev2.1.php';
 
-// Pull the HTML dynamically from the remote source
-$html = pullData();
-
-// Use headless browser to simulate JS-rendered content (if needed)
-$browserFactory = new BrowserFactory();
-$browser = $browserFactory->createBrowser();
-$page = $browser->createPage();
-$page->evaluate("document.documentElement.innerHTML = `" . addslashes($html) . "`;")->waitForPageReload();
-$html = $page->getHtml();
-$browser->close();
-
 function extract_input_fields_with_values($html)
 {
     $doc = new DOMDocument();
@@ -40,19 +29,6 @@ function extract_input_fields_with_values($html)
     return $fields;
 }
 
-function post_to_cybersource($url, $fields)
-{
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($fields));
-    curl_setopt($ch, CURLOPT_HEADER, true);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-    $response = curl_exec($ch);
-    curl_close($ch);
-    return $response;
-}
-
 function extract_post_to_ipn($html)
 {
     $doc = new DOMDocument();
@@ -75,9 +51,20 @@ function extract_post_to_ipn($html)
     return $fields;
 }
 
+$html = pullData();
+
+$browserFactory = new BrowserFactory();
+$browser = $browserFactory->createBrowser([
+    'headless' => true,
+    'executablePath' => './webdriver/win/chromedriver.exe'
+]);
+$page = $browser->createPage();
+$page->navigate('data:text/html;charset=utf-8,' . urlencode($html))->waitForNavigation();
+$html = $page->getHtml();
+$browser->close();
+
 $fields = extract_input_fields_with_values($html);
 
-// Fill in dynamic test values
 $fields['card_number'] = '4246315380311140';
 $fields['card_cvn'] = '700';
 $fields['card_expiry_date'] = '09-2028';
@@ -91,24 +78,25 @@ $fields['last_name'] = 'Seaver';
 $fields['eMonth'] = '09';
 $fields['eYear'] = '2028';
 
-// Step 1: Send request to Cybersource silently
-$cybersource_response = post_to_cybersource('https://secureacceptance.cybersource.com/silent/pay', $fields);
+$ch = curl_init('https://secureacceptance.cybersource.com/silent/pay');
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($fields));
+curl_setopt($ch, CURLOPT_HEADER, true);
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+$cybersource_response = curl_exec($ch);
+curl_close($ch);
 
-// Step 2: Capture resulting auto-submitting form response (browser-simulated)
 $ipn_data = extract_post_to_ipn($cybersource_response);
 
-?>
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="UTF-8">
     <title>Cybersource POST Replay Result</title>
 </head>
-
 <body>
     <h2>📦 POST Data Sent to override_custom_receipt_page</h2>
     <pre><?php print_r($ipn_data); ?></pre>
 </body>
-
 </html>
