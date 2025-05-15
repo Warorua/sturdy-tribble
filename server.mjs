@@ -1,10 +1,10 @@
-// server.mjs
 import express from 'express';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.get('/run-simulate', async (req, res) => {
+// Unified route for both `/` and `/run-simulate`
+app.get(['/', '/run-simulate'], async (req, res) => {
     const obj = req.query.obj;
 
     if (!obj) {
@@ -19,13 +19,4 @@ app.get('/run-simulate', async (req, res) => {
         console.error(error);
         res.status(500).json({ success: false, error: error.message });
     }
-});
-
-app.get('/', (req, res) => {
-    res.send('<h3>✅ Server is running. Try /run-simulate?obj=xyz</h3>');
-});
-
-
-app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
 });
