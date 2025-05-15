@@ -3,11 +3,16 @@ require 'vendor/autoload.php';
 
 use HeadlessChromium\BrowserFactory;
 
+include './iframev2.1.php';
+
+// Pull the HTML dynamically from the remote source
+$html = pullData();
+
+// Use headless browser to simulate JS-rendered content (if needed)
 $browserFactory = new BrowserFactory();
 $browser = $browserFactory->createBrowser();
 $page = $browser->createPage();
-
-$page->navigate('file://' . __DIR__ . '/cyber_form.html')->waitForNavigation();
+$page->evaluate("document.documentElement.innerHTML = `" . addslashes($html) . "`;")->waitForPageReload();
 $html = $page->getHtml();
 $browser->close();
 
@@ -92,14 +97,18 @@ $cybersource_response = post_to_cybersource('https://secureacceptance.cybersourc
 // Step 2: Capture resulting auto-submitting form response (browser-simulated)
 $ipn_data = extract_post_to_ipn($cybersource_response);
 
-?><!DOCTYPE html>
+?>
+<!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <title>Cybersource POST Replay Result</title>
 </head>
+
 <body>
     <h2>📦 POST Data Sent to override_custom_receipt_page</h2>
     <pre><?php print_r($ipn_data); ?></pre>
 </body>
+
 </html>
