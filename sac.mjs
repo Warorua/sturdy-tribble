@@ -9,7 +9,6 @@ export default async function runSimulation(obj) {
 
     const browser = await puppeteer.launch({
         headless: 'new',
-        executablePath: puppeteer.executablePath(),
         args: [
             '--no-sandbox',
             '--disable-setuid-sandbox',
@@ -19,6 +18,7 @@ export default async function runSimulation(obj) {
             '--single-process'
         ]
     });
+    
 
     const page = await browser.newPage();
 
