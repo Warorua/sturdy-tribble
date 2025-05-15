@@ -21,6 +21,11 @@ app.get('/run-simulate', async (req, res) => {
     }
 });
 
+app.get('/', (req, res) => {
+    res.send('<h3>✅ Server is running. Try /run-simulate?obj=xyz</h3>');
+});
+
+
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
 });
