@@ -1,5 +1,15 @@
 <?php
-include './iframev2.1.php';
+require 'vendor/autoload.php';
+
+use HeadlessChromium\BrowserFactory;
+
+$browserFactory = new BrowserFactory();
+$browser = $browserFactory->createBrowser();
+$page = $browser->createPage();
+
+$page->navigate('file://' . __DIR__ . '/cyber_form.html')->waitForNavigation();
+$html = $page->getHtml();
+$browser->close();
 
 function extract_input_fields_with_values($html)
 {
@@ -11,7 +21,6 @@ function extract_input_fields_with_values($html)
     $xpath = new DOMXPath($doc);
     $fields = [];
 
-    // Extract all input fields that have name and a non-empty value
     $inputs = $xpath->query('//form[@id="moodleform4"]//input[@name]');
     foreach ($inputs as $input) {
         if ($input instanceof DOMElement) {
@@ -33,7 +42,7 @@ function post_to_cybersource($url, $fields)
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($fields));
     curl_setopt($ch, CURLOPT_HEADER, true);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false); // stop before redirect
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
     $response = curl_exec($ch);
     curl_close($ch);
     return $response;
@@ -41,18 +50,29 @@ function post_to_cybersource($url, $fields)
 
 function extract_post_to_ipn($html)
 {
-    preg_match_all('/name=\"(.*?)\" value=\"(.*?)\"/', $html, $matches);
-    $results = [];
-    foreach ($matches[1] as $i => $key) {
-        $results[$key] = $matches[2][$i];
+    $doc = new DOMDocument();
+    libxml_use_internal_errors(true);
+    $doc->loadHTML($html);
+    libxml_clear_errors();
+
+    $xpath = new DOMXPath($doc);
+    $fields = [];
+
+    $inputs = $xpath->query('//form//input[@type="hidden"]');
+    foreach ($inputs as $input) {
+        if ($input instanceof DOMElement) {
+            $name = $input->getAttribute('name');
+            $value = $input->getAttribute('value');
+            $fields[$name] = $value;
+        }
     }
-    return $results;
+
+    return $fields;
 }
 
-$html = pullData();
 $fields = extract_input_fields_with_values($html);
 
-// Hardcode required missing fields
+// Fill in dynamic test values
 $fields['card_number'] = '4246315380311140';
 $fields['card_cvn'] = '700';
 $fields['card_expiry_date'] = '09-2028';
@@ -66,15 +86,13 @@ $fields['last_name'] = 'Seaver';
 $fields['eMonth'] = '09';
 $fields['eYear'] = '2028';
 
-// Step 1: POST to Cybersource silently
+// Step 1: Send request to Cybersource silently
 $cybersource_response = post_to_cybersource('https://secureacceptance.cybersource.com/silent/pay', $fields);
 
-// Step 2: Simulate POST back to override_custom_receipt_page (extract form fields if possible)
+// Step 2: Capture resulting auto-submitting form response (browser-simulated)
 $ipn_data = extract_post_to_ipn($cybersource_response);
 
-// Display final POST body that would be sent to override_custom_receipt_page
-?>
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
