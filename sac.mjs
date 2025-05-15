@@ -13,7 +13,7 @@ export default async function runSimulation(obj) {
         headless: 'new',
         executablePath: path.join(
             os.homedir(),
-            '.cache/puppeteer/chrome/linux-1108766/chrome-linux64/chrome' // <-- Correct path
+            '.cache/puppeteer/chrome/linux-1108766/chrome-linux64/chrome-linux64/chrome'
         ),
         args: [
             '--no-sandbox',
