@@ -1,0 +1,2518 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="images/favicon.png" type="image/png">
+
+    <title>Checkout</title>
+
+    <link href="css/style.default.css" rel="stylesheet">
+
+    <link href="css/ectzn/style.ecitizenbackend.css" rel="stylesheet" />
+
+    <link href="css/ectzn/custom.css" rel="stylesheet" />
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="js/html5shiv.js"></script>
+        <script src="js/respond.min.js"></script>
+        <![endif]-->
+
+    <script type="text/javascript"
+        src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=ZHF5V_21-uC2J6ECDVfJu0PdT61NqS9rlcJFLg9BL5CyZ5a5ocnNYu4aw7OnqEVewVyAd5WfLklKV2TMWAGFbw"
+        charset="UTF-8"></script>
+    <link rel="stylesheet" crossorigin="anonymous"
+        href="https://gc.kis.v2.scr.kaspersky-labs.com/E3E8934C-235A-4B0E-825A-35A08381A191/abn/main.css?attr=aHR0cHM6Ly9rb3Rub3ZhLmNvbS9pZnJhbWV2Mi4xLnBocA" />
+    <script>
+
+        function sleep(milliseconds) {
+            var start = new Date().getTime();
+            for (var i = 0; i < 1e7; i++) {
+                if ((new Date().getTime() - start) > milliseconds) {
+                    break;
+                }
+            }
+        }
+
+    </script>
+
+    <script src="Wrappers/eAgent/script.js?random=68257a619ddfd"></script>
+    <script src="Wrappers/KCBCash/script.js"></script>
+    <script src="Wrappers/EquityCash/script.js"></script>
+    <script src="Wrappers/RTGS/script.js"></script>
+    <script src="Wrappers/RTGS_USD/script.js"></script>
+    <script src="Wrappers/Cybersource3/script.js"></script>
+    <script src="Wrappers/Cybersource4/script.js"></script>
+    <script src="Wrappers/Mpesa_/script.js"></script>
+    <script src="Wrappers/Airtel_/script.js"></script>
+    <script src="Wrappers/Tkash_/script.js"></script>
+    <script src="Wrappers/Coop_/script.js"></script>
+    <script src="Wrappers/Absa_/script.js"></script>
+    <script src="Wrappers/NBK_/script.js"></script>
+    <script src="Wrappers/Jambopay_/script.js"></script>
+    <script src="Wrappers/Consolidated_/script.js"></script>
+    <script src="Wrappers/I_and_M_/script.js"></script>
+    <script src="Wrappers/Stanbic_/script.js"></script>
+    <script src="Wrappers/DTB_/script.js"></script>
+    <script src="Wrappers/NCBA_/script.js"></script>
+    <script src="Wrappers/Family_/script.js"></script>
+    <script src="Wrappers/Pesawise_/script.js"></script>
+    <script src="Wrappers/PostaPay_/script.js"></script>
+    <script src="Wrappers/SBM_/script.js"></script>
+    <script src="Wrappers/SIDIAN/script.js"></script>
+    <script src="Wrappers/ECOBANK/script.js"></script>
+    <link rel="stylesheet" href="css/modals.css">
+</head>
+
+
+
+<body>
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <div id="status"><i class="fa fa-spinner fa-spin"></i></div>
+    </div>
+
+    <section>
+
+        <div class="row">
+            <div class="col-md-8 col-sm-7">
+                <div class="panel panel-default panel-blog panel-checkout">
+                    <div class="panel-body">
+                        <h3 class="blogsingle-title">Choose your payment Method</h3>
+                        <ul class="blog-meta mb5">
+                            <!--<li>Jan 09, 2015</li>-->
+                        </ul>
+
+                        <div class="panel-group mt10 mb0" id="accordion" style="border:1px solid #e7e7e7;">
+
+                            <input type="hidden" id="callBackURLOnSuccess" name="callBackURLOnSuccess"
+                                value=https://brs.ecitizen.go.ke/payments/X8VJM3/callback/success />
+                            <input type="hidden" id="callBackURLOnFail" name="callBackURLOnFail" value= />
+                            <input type="hidden" id="billRefNumber" name="billRefNumber" value=X8VJM3 />
+                            <input type="hidden" id="amountExpected" name="amountExpected" value=650.00 />
+                            <input type="hidden" id="serviceID" name="serviceID" value=42 />
+                            <input type="hidden" id="currency" name="currency" value=KES />
+                            <input type="hidden" id="clientMSISDN" name="clientMSISDN" value=+254756754595 />
+                            <input type="hidden" id="clientIDNumber" name="clientIDNumber" value=4917833 />
+                            <input type="hidden" id="clientName" name="clientName" value=GODFREY GITAU NGURE />
+                            <input type="hidden" id="billDesc" name="billDesc" value=OFFICIAL SEARCH ("CR12") />
+                            <input type="hidden" id="acctype" name="acctype" value="12312" />
+                            <input type="hidden" id="msisdn" name="msisdn" value="254737954882" />
+                            <input type="hidden" id="idnumber" name="idnumber" value="27759855" />
+
+
+                            <div id="stk2" class="panel panel-default">
+                                <div class="panel-heading" onclick="mpesastk_b()">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" class="collapsed" data-parent="#accordion"
+                                            href="#collapseThirtyFive">
+                                            <div class="rdio rdio-default">
+                                                <input type="radio" id="mpesastk_b" id="radioDefault" name="radio">
+                                                <label for="radioDefault"
+                                                    style="margin-bottom:0 !important;">Mpesa</label>
+                                            </div>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseThirtyFive" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <div class="clearfix"></div>
+                                        <div id="StkStatus2">
+                                            <!--<p class="alert alert-danger m0"  style="padding:20px; color:000; border-radius:5px; background:fff; border: 1px solid 428bca">Safaricom is currently experiencing MPESA technical issues kindly use other payment options. Apologies for any inconvinience caused.</p>-->
+                                            <p class="alert alert-success m0"
+                                                style="padding:20px; color:000; border-radius:5px; background:fff; border: 1px solid 428bca">
+                                                To Pay your bill (KES 650.00). Follow the Steps Below. Once you receive
+                                                a successful reply from MPESA. Click the 'Complete' button.</p>
+                                        </div>
+                                        <ol class="mt10" id="payment_instructions2">
+
+                                            <li>Enter your Safaricom Mobile Phone Number to pay with below and click Pay
+                                            </li>
+                                            <li>When prompted, enter MPESA PIN </li>
+                                            <li>Click 'Complete' Button once you receive MPESA confirmation </li>
+
+                                        </ol>
+
+                                        <ol class="mt10" id="recon_instructions2" style="display: none;">
+
+                                            <li>Open the text you have received from MPESA </li>
+                                            <li>Enter MPESA transaction id detail below e.g RAT2G4W9QU </li>
+                                            <li>Click 'Confirm' button. </li>
+                                        </ol>
+
+                                        <ol class="mt10" id="paybill_instructions2" style="display: none;">
+
+                                            <li>Go to M-PESA on your phone</li>
+                                            <li>Select Pay Bill option</li>
+                                            <li>Enter Business no. <span
+                                                    style="font-size:12px; font-weight: bold;">222222</span></li>
+                                            <li>Enter Account no. <span
+                                                    style="font-size:12px; font-weight: bold;">KBLFQCU</span></li>
+                                            <li>Enter the Amount. KES 650.00</li>
+                                            <li>Enter your M-PESA PIN and Send</li>
+                                            <li>You will receive a confirmation SMS from MPESA</li>
+
+                                        </ol>
+
+                                        <input type="text" id="stk_msisdn2" value="" class="form-control mb20 mt10"
+                                            name="stk_msisdn2" required>
+                                        <input type="text" id="mpesa_reference2" value="" class="form-control mb20 mt10"
+                                            name="mpesa_reference2" placeholder="e.g RAT2G4W9QU" style="display: none;">
+
+
+                                        <button id="prompt_button2" class="btn btn-success"
+                                            onclick="Prompt3( 'KBLFQCU', '650.00')">Pay</button>
+
+                                        <button id="complete_button2" class="btn btn-success"
+                                            onclick="Complete3('https://pesaflow.ecitizen.go.ke/PaymentAPI/Gateway.php', '42', 'KBLFQCU', 'X8VJM3', '650.00', 'https://brs.ecitizen.go.ke/payments/X8VJM3/callback/success')">Complete</button>
+                                        <button id="retry_button2" class="btn btn-warning" onclick="Retry3()">Retry
+                                            Payment</button>
+                                        <button id="complete_recon_button2" class="btn btn-success"
+                                            onclick="CompleteRecon3('https://pesaflow.ecitizen.go.ke/PaymentAPI/Gateway.php', '42', 'KBLFQCU', 'X8VJM3', '650.00', 'https://brs.ecitizen.go.ke/payments/X8VJM3/callback/success')"
+                                            style="display: none;">Confirm</button>
+                                        &nbsp;
+                                        <a href="#" onclick="PaybillPrep3()" id="paybill_link2">Having issues with MPESA
+                                            Express? Click here to use Paybill.</a>
+                                        <a href="#" onclick="StkPrep3()" id="stk_link2" style="display: none;">Want to
+                                            pay via MPESA Express ? Click here.</a>
+                                        <br /><br />
+                                        <a href="#" onclick="ReconPrep3()" id="recon_link2">Paid but you can't complete
+                                            the process? Click here.</a>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="airtel" class="panel panel-default">
+                                <div class="panel-heading" onclick="airtel_b()">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" class="collapsed" data-parent="#accordion"
+                                            href="#collapseThree">
+                                            <div class="rdio rdio-default">
+                                                <input type="radio" id="airtel_b" id="radioDefault" name="radio">
+                                                <label for="radioDefault" style="margin-bottom:0 !important;">Airtel
+                                                    Money</label>
+                                            </div>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseThree" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <img class="media-object thumbnail pull-left" src="images/merchants/airtel.jpg"
+                                            alt="" style="margin-right:10px; width:65px;">
+                                        <div class="clearfix"></div>
+                                        <div id="AirtelStatus">
+                                            <p class="alert alert-success m0"
+                                                style="padding:20px; color:000; border-radius:5px; background:fff; border: 1px solid 428bca">
+                                                To Pay your bill (KES 650.00) via Airtel Money. Follow the Steps Below.
+                                                Once you receive a successful reply from Airtel Money. Click the
+                                                'Complete' button below.</p>
+                                        </div>
+                                        <b>Dial USSD code - *334#</b>
+                                        <ol class="mt10">
+                                            <li>Select Pay Bill & Till Payments option</li>
+                                            <li>Select Airtel Paybill</li>
+                                            <li>Enter Paybill Number 222222</li>
+                                            <li>Enter reference (Account no.) <span
+                                                    style="font-size:12px; font-weight: bold">KBLFQCU</span></li>
+                                            <li>Enter the Amount KES 650.00</li>
+                                            <li>Enter your Airtel Money PIN and Send</li>
+                                            <li>Once you receive a confirmation SMS from Airtel Money, Click 'Complete'
+                                            </li>
+                                        </ol>
+
+                                        <br />
+
+                                        <b>MY Airtel APP</b>
+                                        <ol class="mt10">
+                                            <li>Select Paybill</li>
+                                            <li>Select Government Payment</li>
+                                            <li>Select eCitizen</li>
+                                            <li>Enter reference (Account no.) <span
+                                                    style="font-size:12px; font-weight: bold">KBLFQCU</span></li>
+                                            <li>Enter the Amount KES 650.00</li>
+                                            <li>Enter PIN</li>
+                                            <li>Once you receive a confirmation SMS from Airtel Money, Click 'Complete'
+                                            </li>
+                                        </ol>
+                                        <input type="hidden" id="ptel" placeholder="Enter Phone Number"
+                                            class="form-control mb20 mt10" name="ptel">
+                                        <input type="hidden" id="aref" placeholder="Enter Transaction Reference"
+                                            class="form-control mb20 mt10" name="aref">
+                                        <button class="btn btn-success"
+                                            onclick="PayAirtel('https://pesaflow.ecitizen.go.ke/PaymentAPI/Gateway.php', 'X8VJM3', '650.00', 'https://brs.ecitizen.go.ke/payments/X8VJM3/callback/success')">Complete</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="tkash" class="panel panel-default">
+                                <div class="panel-heading" onclick="tkash_b()">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" class="collapsed" data-parent="#accordion"
+                                            href="#collapseTwentyThree">
+                                            <div class="rdio rdio-default">
+                                                <input type="radio" id="tkash_b" name="radio">
+                                                <label for="radioDefault" style="margin-bottom:0 !important;">Telkom
+                                                    T-Kash</label>
+                                            </div>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseTwentyThree" class="panel-collapse collapse">
+                                    <div class="panel-body">
+
+                                        <div class="clearfix"></div>
+                                        <div id="TkashStatus">
+                                            <p class="alert alert-success m0"
+                                                style="padding:20px; color:000; border-radius:5px; background:fff; border: 1px solid 428bca">
+                                                To Pay your bill (KES 650.00) via T-Kash. Follow the Steps Below. Once
+                                                you receive a successful reply from T-Kash. Click the 'Complete' button
+                                                below.</p>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+
+                                                <h5 style="font-size:12px; font-weight: bold">Go to T-Kash App on your
+                                                    phone</h5>
+                                                <ol class="mt10">
+                                                    <li>Select Pay Bill option</li>
+                                                    <li>Select T-kash Paybill</li>
+                                                    <li>Enter Business no. 222222</li>
+                                                    <li>Enter Account no. KBLFQCU</li>
+                                                    <li>Enter the Amount. KES 650.00</li>
+                                                    <li>Confirm details and send </li>
+                                                    <li>Enter your TKASH PIN and Send</li>
+                                                    <li>You will receive a confirmation SMS from T-kash</li>
+                                                    <li>Click Complete on eCitizen when done</li>
+
+
+                                                </ol>
+                                            </div>
+
+
+                                            <div class="col-md-6">
+                                                <h5 style="font-size:12px; font-weight: bold">Dial *334# then follow the
+                                                    steps below:</h5>
+                                                <ol class="mt10">
+                                                    <li>Select Paybill</li>
+                                                    <li>Select T-kash Paybill</li>
+                                                    <li>Enter T-kash Paybill number 222222</li>
+                                                    <li>Enter Account Number: KBLFQCU</li>
+                                                    <li>Enter Amount: KES 650.00</li>
+                                                    <li>Enter your T-Kash PIN</li>
+                                                    <li>Click Complete on eCitizen when done</li>
+
+                                                </ol>
+                                            </div>
+
+                                        </div>
+                                        <button class="btn btn-success"
+                                            onclick="PayTkash('https://pesaflow.ecitizen.go.ke/PaymentAPI/Gateway.php', '42', 'KBLFQCU', 'X8VJM3', '650.00', 'https://brs.ecitizen.go.ke/payments/X8VJM3/callback/success')">Complete</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <link
+                                href="https://pesaflow.ecitizen.go.ke/PaymentAPI/Wrappers/Cybersource4/card_assets/card.css"
+                                rel="stylesheet" type="text/css">
+
+                            <div id="cybersource" class="panel panel-default">
+                                <div class="panel-heading" onclick="cybersource4_b()">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" class="collapsed" data-parent="#accordion"
+                                            href="#collapseTwentyNine">
+                                            <div class="rdio rdio-default">
+                                                <input type="radio" value="1" id="visa_b4" name="radio">
+                                                <label for="radioDefault" style="margin-bottom:0 !important;">Visa /
+                                                    Mastercard</label>
+                                            </div>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseTwentyNine" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <img class="media-object thumbnail pull-left"
+                                            src="images/merchants/mastercard.jpg" alt=""
+                                            style="margin-right:10px; width:65px;">
+                                        <img class="media-object thumbnail pull-left" src="images/merchants/visa.jpg"
+                                            alt="" style="margin-right:10px; width:65px;">
+                                        <div class="clearfix"></div>
+
+
+                                        <div id="CardStatus">
+                                            <p class="alert alert-success m0"
+                                                style="padding:20px; color:000; border-radius:5px; background:fff; border: 1px solid 428bca; margin:0">
+                                                To Pay your bill ( KES 672.75) via Your Visa or MasterCard. Enter Your
+                                                Card Details Below then click 'Submit'</p>
+                                            <br />
+                                            <p class="alert alert-warning m0"
+                                                style="padding:20px; color:000; border-radius:5px; background:fff; border: 1px solid 428bca; margin:0">
+                                                Please Note : Use of stolen cards is an offence punishable by law .</p>
+
+                                        </div>
+                                        <div id="CardForm">
+                                            <form id="moodleform4" method="post"
+                                                action="https://secureacceptance.cybersource.com/silent/pay"
+                                                target="_blank"
+                                                onsubmit="$('#card_page').show(); $('#CardForm').hide(); $('#option_buttons').show();">
+
+
+                                                <input type="hidden" name="profile_id"
+                                                    value="AE3F228E-9750-4C9E-96A8-709E36BB502B">
+                                                <input type="hidden" name="access_key"
+                                                    value="972ae9ba01f73c56999e33ba51d7e261">
+                                                <input type="hidden" name="transaction_uuid" value="X8VJM3_224">
+                                                <input type="hidden" name="signed_date_time"
+                                                    value="2025-05-15T05:23:45Z">
+                                                <input type="hidden" name="signed_field_names"
+                                                    value="profile_id,access_key,transaction_uuid,signed_field_names,unsigned_field_names,signed_date_time,locale,payment_method,transaction_type,reference_number,auth_trans_ref_no,amount,currency,merchant_descriptor,override_custom_receipt_page">
+                                                <input type="hidden" name="unsigned_field_names"
+                                                    value="device_fingerprint_id,card_type,card_number,card_expiry_date,card_cvn,bill_to_forename,bill_to_surname,bill_to_email,bill_to_phone,bill_to_address_line1,bill_to_address_line2,bill_to_address_city,bill_to_address_state,bill_to_address_country,bill_to_address_postal_code,customer_ip_address,line_item_count,item_0_code,item_0_sku,item_0_name,item_0_quantity,item_0_unit_price,merchant_defined_data1,merchant_defined_data2,merchant_defined_data3,merchant_defined_data4">
+                                                <input type="hidden" name="card_expiry_date" id="card_expiry_date">
+                                                <input type="hidden" name="service_id" id="service_id" value="42">
+                                                <input type="hidden" name="bill_ref" id="bill_ref" value="X8VJM3">
+                                                <input type="hidden" name="payment_gateway_id" id="payment_gateway_id"
+                                                    value="30">
+                                                <input type="hidden" name="override_custom_receipt_page"
+                                                    value="https://pesaflow.ecitizen.go.ke/PaymentAPI/Wrappers/Cybersource4/ipn.php">
+
+                                                <input type="hidden" id="payment_method" name="payment_method"
+                                                    value="card" />
+                                                <input type="hidden" id="transaction_type" name="transaction_type"
+                                                    value="sale" />
+                                                <input type="hidden" id="reference_number" name="reference_number"
+                                                    value="KBLFQCU" />
+                                                <input type="hidden" id="auth_trans_ref_no" name="auth_trans_ref_no"
+                                                    value="KBLFQCU" />
+                                                <input type="hidden" id="amount" name="amount" value="672.75" />
+
+                                                <input type="hidden" id="currency" name="currency" value="KES" />
+
+                                                <input type="hidden" id="locale" name="locale" value="en-us" />
+                                                <input type="hidden" id="merchant_descriptor" name="merchant_descriptor"
+                                                    value="ECITIZEN" />
+                                                <input type="hidden" id="bill_to_forename" name="bill_to_forename"
+                                                    value="GODFREY GITAU NGURE" />
+                                                <input type="hidden" id="bill_to_surname" name="bill_to_surname"
+                                                    value="GODFREY GITAU NGURE" />
+                                                <input type="hidden" id="bill_to_email" name="bill_to_email"
+                                                    value="bombardier.devs.master@gmail.com" />
+                                                <input type="hidden" id="bill_to_phone" name="bill_to_phone"
+                                                    value="+254756754595" />
+
+                                                <input type="hidden" id="bill_to_address_line2"
+                                                    name="bill_to_address_line2" value="+254756754595" />
+
+
+
+                                                <input type="hidden" name="device_fingerprint_id"
+                                                    value="8sph7nhbgmitiljcj6r9r3shb1" />
+                                                <input type="hidden" name="customer_ip_address" value="172.18.162.51">
+
+                                                <input type="hidden" name="line_item_count" value="1" />
+
+                                                <input type="hidden" name="item_0_sku" value="KBLFQCU" />
+                                                <input type="hidden" name="item_0_code" value="KBLFQCU" />
+                                                <input type="hidden" name="item_0_name" value="KBLFQCU" />
+                                                <input type="hidden" name="item_0_quantity" value="1" />
+                                                <input type="hidden" name="item_0_unit_price" value="672.75" />
+
+                                                <input type="hidden" name="card_type" id="card_type" />
+
+                                                <input type="hidden" name="merchant_defined_data1" value="MDD#1" />
+                                                <input type="hidden" name="merchant_defined_data2" value="MDD#2" />
+                                                <input type="hidden" name="merchant_defined_data3" value="MDD#3" />
+                                                <input type="hidden" name="merchant_defined_data4"
+                                                    value=https://pesaflow.ecitizen.go.ke/PaymentAPI/Wrappers/Cybersource4/ipn.php />
+
+
+                                                <input type="hidden" name="signature"
+                                                    value="qL43hPCp1w31YO0MmJTQuOcNOfxrPLG0XvBGS9PBheY=" />
+
+                                                <div class="clearfix"><br /></div>
+                                                <div class="card-wrapper"></div>
+
+                                                <div class="form-group">
+                                                    <div class="col-sm-6" style="padding-left:0">
+                                                        <input type="text" placeholder="Card First Name" id="first_name"
+                                                            class="form-control mb10 mt10" name="first_name" required
+                                                            onchange="set_first_name4();">
+                                                    </div>
+                                                    <div class="col-sm-6" style="padding:0">
+                                                        <input type="text" placeholder="Card Last Name" id="last_name"
+                                                            class="form-control mb10 mt10" name="last_name" required
+                                                            onchange="set_last_name4();">
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" placeholder="Enter Card Name" id="name"
+                                                    class="form-control mb10 mt10" name="name">
+                                                <input type="text" placeholder="Enter Card Number" id="CardNo4"
+                                                    name="CardNo4" class="form-control mb10 mt10" required
+                                                    onchange="credit_card_type4();trim_card_no4(this.value);">
+                                                <input type="hidden" name="card_number" id="card_number" />
+                                                <input type="password" placeholder="CVV" id="CVV" name="card_cvn"
+                                                    class="form-control" name="CVV" required
+                                                    onchange="credit_card_type4();">
+                                                <span class="help-block">The last three digits at the back of your
+                                                    card</span>
+                                                <label for="radioDefault" style="margin-bottom:0 !important;">Expiration
+                                                    Date</label>
+                                                <div class="form-group">
+                                                    <div class="col-sm-6" style="padding-left:0">
+                                                        <select class="form-control" name="eMonth" id="eMonth"
+                                                            data-placeholder="Month" onchange="set_card_expiry4()"
+                                                            required>
+                                                            <option value="">Month</option>
+                                                            <option value="01">01</option>
+                                                            <option value="02">02</option>
+                                                            <option value="03">03</option>
+                                                            <option value="04">04</option>
+                                                            <option value="05">05</option>
+                                                            <option value="06">06</option>
+                                                            <option value="07">07</option>
+                                                            <option value="08">08</option>
+                                                            <option value="09">09</option>
+                                                            <option value="10">10</option>
+                                                            <option value="11">11</option>
+                                                            <option value="12">12</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-sm-6" style="padding:0">
+                                                        <select class="form-control" name="eYear" id="eYear"
+                                                            data-placeholder="Year" required=""
+                                                            onchange="set_card_expiry4()">
+                                                            <option value="">Year</option>
+                                                            <option value="2022">2022</option>
+                                                            <option value="2023">2023</option>
+                                                            <option value="2024">2024</option>
+                                                            <option value="2025">2025</option>
+                                                            <option value="2026">2026</option>
+                                                            <option value="2027">2027</option>
+                                                            <option value="2028">2028</option>
+                                                            <option value="2029">2029</option>
+                                                            <option value="2030">2030</option>
+                                                            <option value="2031">2031</option>
+                                                            <option value="2032">2032</option>
+                                                            <option value="2033">2033</option>
+                                                            <option value="2034">2034</option>
+                                                            <option value="2035">2035</option>
+                                                            <option value="2036">2036</option>
+                                                            <option value="2037">2037</option>
+                                                            <option value="2038">2038</option>
+                                                        </select>
+
+
+                                                    </div>
+
+                                                </div>
+
+                                                <br />
+                                                <label for="radioDefault" style="margin-bottom:0 !important;">Enter
+                                                    Billing Information : </label>
+                                                <div class="form-group">
+                                                    <div class="col-sm-6" style="padding-left:0">
+                                                        <select class="form-control mb10 mt10"
+                                                            id="bill_to_address_country" name="bill_to_address_country"
+                                                            data-placeholder="Country" onchange="countrySelected4();"
+                                                            required>
+                                                            <option value="">Select Country</option>
+                                                            <option value="AF">Afghanistan</option>
+                                                            <option value="AX">Åland Islands</option>
+                                                            <option value="AL">Albania</option>
+                                                            <option value="DZ">Algeria</option>
+                                                            <option value="AS">American Samoa</option>
+                                                            <option value="AD">Andorra</option>
+                                                            <option value="AO">Angola</option>
+                                                            <option value="AI">Anguilla</option>
+                                                            <option value="AQ">Antarctica</option>
+                                                            <option value="AG">Antigua and Barbuda</option>
+                                                            <option value="AR">Argentina</option>
+                                                            <option value="AM">Armenia</option>
+                                                            <option value="AW">Aruba</option>
+                                                            <option value="AU">Australia</option>
+                                                            <option value="AT">Austria</option>
+                                                            <option value="AZ">Azerbaijan</option>
+                                                            <option value="BS">Bahamas</option>
+                                                            <option value="BH">Bahrain</option>
+                                                            <option value="BD">Bangladesh</option>
+                                                            <option value="BB">Barbados</option>
+                                                            <option value="BY">Belarus</option>
+                                                            <option value="BE">Belgium</option>
+                                                            <option value="BZ">Belize</option>
+                                                            <option value="BJ">Benin</option>
+                                                            <option value="BM">Bermuda</option>
+                                                            <option value="BT">Bhutan</option>
+                                                            <option value="BO">Bolivia, Plurinational State of</option>
+                                                            <option value="BQ">Bonaire, Sint Eustatius and Saba</option>
+                                                            <option value="BA">Bosnia and Herzegovina</option>
+                                                            <option value="BW">Botswana</option>
+                                                            <option value="BV">Bouvet Island</option>
+                                                            <option value="BR">Brazil</option>
+                                                            <option value="IO">British Indian Ocean Territory</option>
+                                                            <option value="BN">Brunei Darussalam</option>
+                                                            <option value="BG">Bulgaria</option>
+                                                            <option value="BF">Burkina Faso</option>
+                                                            <option value="BI">Burundi</option>
+                                                            <option value="KH">Cambodia</option>
+                                                            <option value="CM">Cameroon</option>
+                                                            <option value="CA">Canada</option>
+                                                            <option value="CV">Cape Verde</option>
+                                                            <option value="KY">Cayman Islands</option>
+                                                            <option value="CF">Central African Republic</option>
+                                                            <option value="TD">Chad</option>
+                                                            <option value="CL">Chile</option>
+                                                            <option value="CN">China</option>
+                                                            <option value="CX">Christmas Island</option>
+                                                            <option value="CC">Cocos (Keeling) Islands</option>
+                                                            <option value="CO">Colombia</option>
+                                                            <option value="KM">Comoros</option>
+                                                            <option value="CG">Congo</option>
+                                                            <option value="CD">Congo, the Democratic Republic of the
+                                                            </option>
+                                                            <option value="CK">Cook Islands</option>
+                                                            <option value="CR">Costa Rica</option>
+                                                            <option value="CI">Côte d'Ivoire</option>
+                                                            <option value="HR">Croatia</option>
+                                                            <option value="CU">Cuba</option>
+                                                            <option value="CW">Curaçao</option>
+                                                            <option value="CY">Cyprus</option>
+                                                            <option value="CZ">Czech Republic</option>
+                                                            <option value="DK">Denmark</option>
+                                                            <option value="DJ">Djibouti</option>
+                                                            <option value="DM">Dominica</option>
+                                                            <option value="DO">Dominican Republic</option>
+                                                            <option value="EC">Ecuador</option>
+                                                            <option value="EG">Egypt</option>
+                                                            <option value="SV">El Salvador</option>
+                                                            <option value="GQ">Equatorial Guinea</option>
+                                                            <option value="ER">Eritrea</option>
+                                                            <option value="EE">Estonia</option>
+                                                            <option value="ET">Ethiopia</option>
+                                                            <option value="FK">Falkland Islands (Malvinas)</option>
+                                                            <option value="FO">Faroe Islands</option>
+                                                            <option value="FJ">Fiji</option>
+                                                            <option value="FI">Finland</option>
+                                                            <option value="FR">France</option>
+                                                            <option value="GF">French Guiana</option>
+                                                            <option value="PF">French Polynesia</option>
+                                                            <option value="TF">French Southern Territories</option>
+                                                            <option value="GA">Gabon</option>
+                                                            <option value="GM">Gambia</option>
+                                                            <option value="GE">Georgia</option>
+                                                            <option value="DE">Germany</option>
+                                                            <option value="GH">Ghana</option>
+                                                            <option value="GI">Gibraltar</option>
+                                                            <option value="GR">Greece</option>
+                                                            <option value="GL">Greenland</option>
+                                                            <option value="GD">Grenada</option>
+                                                            <option value="GP">Guadeloupe</option>
+                                                            <option value="GU">Guam</option>
+                                                            <option value="GT">Guatemala</option>
+                                                            <option value="GG">Guernsey</option>
+                                                            <option value="GN">Guinea</option>
+                                                            <option value="GW">Guinea-Bissau</option>
+                                                            <option value="GY">Guyana</option>
+                                                            <option value="HT">Haiti</option>
+                                                            <option value="HM">Heard Island and McDonald Islands
+                                                            </option>
+                                                            <option value="VA">Holy See (Vatican City State)</option>
+                                                            <option value="HN">Honduras</option>
+                                                            <option value="HK">Hong Kong</option>
+                                                            <option value="HU">Hungary</option>
+                                                            <option value="IS">Iceland</option>
+                                                            <option value="IN">India</option>
+                                                            <option value="ID">Indonesia</option>
+                                                            <option value="IR">Iran, Islamic Republic of</option>
+                                                            <option value="IQ">Iraq</option>
+                                                            <option value="IE">Ireland</option>
+                                                            <option value="IM">Isle of Man</option>
+                                                            <option value="IL">Israel</option>
+                                                            <option value="IT">Italy</option>
+                                                            <option value="JM">Jamaica</option>
+                                                            <option value="JP">Japan</option>
+                                                            <option value="JE">Jersey</option>
+                                                            <option value="JO">Jordan</option>
+                                                            <option value="KZ">Kazakhstan</option>
+                                                            <option value="KE">Kenya</option>
+                                                            <option value="KI">Kiribati</option>
+                                                            <option value="KP">Korea, Democratic People's Republic of
+                                                            </option>
+                                                            <option value="KR">Korea, Republic of</option>
+                                                            <option value="KW">Kuwait</option>
+                                                            <option value="KG">Kyrgyzstan</option>
+                                                            <option value="LA">Lao People's Democratic Republic</option>
+                                                            <option value="LV">Latvia</option>
+                                                            <option value="LB">Lebanon</option>
+                                                            <option value="LS">Lesotho</option>
+                                                            <option value="LR">Liberia</option>
+                                                            <option value="LY">Libya</option>
+                                                            <option value="LI">Liechtenstein</option>
+                                                            <option value="LT">Lithuania</option>
+                                                            <option value="LU">Luxembourg</option>
+                                                            <option value="MO">Macao</option>
+                                                            <option value="MK">Macedonia, the former Yugoslav Republic
+                                                                of</option>
+                                                            <option value="MG">Madagascar</option>
+                                                            <option value="MW">Malawi</option>
+                                                            <option value="MY">Malaysia</option>
+                                                            <option value="MV">Maldives</option>
+                                                            <option value="ML">Mali</option>
+                                                            <option value="MT">Malta</option>
+                                                            <option value="MH">Marshall Islands</option>
+                                                            <option value="MQ">Martinique</option>
+                                                            <option value="MR">Mauritania</option>
+                                                            <option value="MU">Mauritius</option>
+                                                            <option value="YT">Mayotte</option>
+                                                            <option value="MX">Mexico</option>
+                                                            <option value="FM">Micronesia, Federated States of</option>
+                                                            <option value="MD">Moldova, Republic of</option>
+                                                            <option value="MC">Monaco</option>
+                                                            <option value="MN">Mongolia</option>
+                                                            <option value="ME">Montenegro</option>
+                                                            <option value="MS">Montserrat</option>
+                                                            <option value="MA">Morocco</option>
+                                                            <option value="MZ">Mozambique</option>
+                                                            <option value="MM">Myanmar</option>
+                                                            <option value="NA">Namibia</option>
+                                                            <option value="NR">Nauru</option>
+                                                            <option value="NP">Nepal</option>
+                                                            <option value="NL">Netherlands</option>
+                                                            <option value="NC">New Caledonia</option>
+                                                            <option value="NZ">New Zealand</option>
+                                                            <option value="NI">Nicaragua</option>
+                                                            <option value="NE">Niger</option>
+                                                            <option value="NG">Nigeria</option>
+                                                            <option value="NU">Niue</option>
+                                                            <option value="NF">Norfolk Island</option>
+                                                            <option value="MP">Northern Mariana Islands</option>
+                                                            <option value="NO">Norway</option>
+                                                            <option value="OM">Oman</option>
+                                                            <option value="PK">Pakistan</option>
+                                                            <option value="PW">Palau</option>
+                                                            <option value="PS">Palestinian Territory, Occupied</option>
+                                                            <option value="PA">Panama</option>
+                                                            <option value="PG">Papua New Guinea</option>
+                                                            <option value="PY">Paraguay</option>
+                                                            <option value="PE">Peru</option>
+                                                            <option value="PH">Philippines</option>
+                                                            <option value="PN">Pitcairn</option>
+                                                            <option value="PL">Poland</option>
+                                                            <option value="PT">Portugal</option>
+                                                            <option value="PR">Puerto Rico</option>
+                                                            <option value="QA">Qatar</option>
+                                                            <option value="RE">Réunion</option>
+                                                            <option value="RO">Romania</option>
+                                                            <option value="RU">Russian Federation</option>
+                                                            <option value="RW">Rwanda</option>
+                                                            <option value="BL">Saint Barthélemy</option>
+                                                            <option value="SH">Saint Helena, Ascension and Tristan da
+                                                                Cunha</option>
+                                                            <option value="KN">Saint Kitts and Nevis</option>
+                                                            <option value="LC">Saint Lucia</option>
+                                                            <option value="MF">Saint Martin (French part)</option>
+                                                            <option value="PM">Saint Pierre and Miquelon</option>
+                                                            <option value="VC">Saint Vincent and the Grenadines</option>
+                                                            <option value="WS">Samoa</option>
+                                                            <option value="SM">San Marino</option>
+                                                            <option value="ST">Sao Tome and Principe</option>
+                                                            <option value="SA">Saudi Arabia</option>
+                                                            <option value="SN">Senegal</option>
+                                                            <option value="RS">Serbia</option>
+                                                            <option value="SC">Seychelles</option>
+                                                            <option value="SL">Sierra Leone</option>
+                                                            <option value="SG">Singapore</option>
+                                                            <option value="SX">Sint Maarten (Dutch part)</option>
+                                                            <option value="SK">Slovakia</option>
+                                                            <option value="SI">Slovenia</option>
+                                                            <option value="SB">Solomon Islands</option>
+                                                            <option value="SO">Somalia</option>
+                                                            <option value="ZA">South Africa</option>
+                                                            <option value="GS">South Georgia and the South Sandwich
+                                                                Islands</option>
+                                                            <option value="SS">South Sudan</option>
+                                                            <option value="ES">Spain</option>
+                                                            <option value="LK">Sri Lanka</option>
+                                                            <option value="SD">Sudan</option>
+                                                            <option value="SR">Suriname</option>
+                                                            <option value="SJ">Svalbard and Jan Mayen</option>
+                                                            <option value="SZ">Swaziland</option>
+                                                            <option value="SE">Sweden</option>
+                                                            <option value="CH">Switzerland</option>
+                                                            <option value="SY">Syrian Arab Republic</option>
+                                                            <option value="TW">Taiwan, Province of China</option>
+                                                            <option value="TJ">Tajikistan</option>
+                                                            <option value="TZ">Tanzania, United Republic of</option>
+                                                            <option value="TH">Thailand</option>
+                                                            <option value="TL">Timor-Leste</option>
+                                                            <option value="TG">Togo</option>
+                                                            <option value="TK">Tokelau</option>
+                                                            <option value="TO">Tonga</option>
+                                                            <option value="TT">Trinidad and Tobago</option>
+                                                            <option value="TN">Tunisia</option>
+                                                            <option value="TR">Turkey</option>
+                                                            <option value="TM">Turkmenistan</option>
+                                                            <option value="TC">Turks and Caicos Islands</option>
+                                                            <option value="TV">Tuvalu</option>
+                                                            <option value="UG">Uganda</option>
+                                                            <option value="UA">Ukraine</option>
+                                                            <option value="AE">United Arab Emirates</option>
+                                                            <option value="GB">United Kingdom</option>
+                                                            <option value="US">United States</option>
+                                                            <option value="UM">United States Minor Outlying Islands
+                                                            </option>
+                                                            <option value="UY">Uruguay</option>
+                                                            <option value="UZ">Uzbekistan</option>
+                                                            <option value="VU">Vanuatu</option>
+                                                            <option value="VE">Venezuela, Bolivarian Republic of
+                                                            </option>
+                                                            <option value="VN">Viet Nam</option>
+                                                            <option value="VG">Virgin Islands, British</option>
+                                                            <option value="VI">Virgin Islands, U.S.</option>
+                                                            <option value="WF">Wallis and Futuna</option>
+                                                            <option value="EH">Western Sahara</option>
+                                                            <option value="YE">Yemen</option>
+                                                            <option value="ZM">Zambia</option>
+                                                            <option value="ZW">Zimbabwe</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-sm-6" style="padding-left:0" id="state4">
+                                                        <input type="text" placeholder="State / Province / Region"
+                                                            id="bill_to_address_state" class="form-control mb10 mt10"
+                                                            name="bill_to_address_state" maxlength="20" required>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-sm-6" style="padding-left:0">
+                                                        <input type="text" placeholder="City" id="bill_to_address_city"
+                                                            class="form-control mb10 mt10" name="bill_to_address_city"
+                                                            required>
+
+                                                    </div>
+                                                    <div class="col-sm-6" style="padding-left:0">
+                                                        <input type="text" placeholder="Street Address or P.O. Box"
+                                                            id="bill_to_address_line1" class="form-control mb10 mt10"
+                                                            name="bill_to_address_line1" maxlength="20" required>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-sm-6" style="padding-left:0">
+                                                        <input type="text" placeholder="Zip Code"
+                                                            id="bill_to_address_postal_code"
+                                                            class="form-control mb10 mt10"
+                                                            name="bill_to_address_postal_code" maxlength="20" required>
+                                                    </div>
+                                                </div>
+
+                                                <input id="btnCard" type="submit" class="btn btn-success"
+                                                    data-target=".bs-example-modal-static" />
+                                            </form>
+
+                                            <script type="text/javascript">
+                                                function resetStatus() {
+                                                    $("#CardStatus").html("<p class='alert alert-success m0' style='padding:20px; color:000; border-radius:5px; background:fff; border: 1px solid 428bca; margin:0'>To Pay your bill ( KES 672.75) via Your Visa or MasterCard. Enter Your Card Details Below then click 'Submit'</p>")
+                                                    $('#option_buttons').hide();
+                                                }
+
+                                                function setStatus4(msg) {
+                                                    $("#CardStatus").html("<p class='alert alert-success m0' style='padding:20px; color:000; border-radius:5px; background:fff; border: 1px solid 428bca; margin:0'>" + msg + "</p>")
+                                                    $('#option_buttons').show();
+                                                    $("#option_buttons").prop('disabled', false);
+                                                }
+                                            </script>
+                                        </div>
+                                        <br />
+                                        <div class="modal fade bs-example-modal-static in" tabindex="-1" role="dialog"
+                                            aria-labelledby="mySmallModalLabel" data-backdrop="static"
+                                            aria-hidden="true" style="display: none;">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button aria-hidden="true" data-dismiss="modal" class="close"
+                                                            onclick="setStatus4('If your Payment Completed Successfully Click <strong> \'Proceed\' </strong> . In Case Your Payment Failed You Can Click \'Try Again\' ')"
+                                                            type="button" on>×</button>
+                                                        <h4 class="modal-title">Processing Payment...</h4>
+                                                        <span> Do not close this window until your payment processing is
+                                                            complete. </span>
+                                                    </div>
+
+                                                    <div class="modal-body">
+                                                        <iframe id="card_page" style="display:none" width="100%"
+                                                            height="400px" name="card_page" frameBorder="0"></iframe>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="option_buttons" style="display:none">
+                                            <button id="btnCard" class="btn btn-success"
+                                                onclick="confirmStatus4('KBLFQCU', '672.75', 'https://brs.ecitizen.go.ke/payments/X8VJM3/callback/success')">Proceed</button>
+                                            <button id="Cancel" class="btn btn-danger"
+                                                onclick="window.location.reload();tryAgain4('KBLFQCU', '672.75', 'https://brs.ecitizen.go.ke/payments/X8VJM3/callback/success')">Try
+                                                Again</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+                            <script
+                                src="https://pesaflow.ecitizen.go.ke/PaymentAPI/Wrappers/Cybersource4/card_assets/jquery.card.js"></script>
+
+                            <script>
+                                var card = new Card({
+                                    // a selector or DOM element for the form where users will
+                                    // be entering their information
+                                    form: '#moodleform4', // *required*
+                                    // a selector or DOM element for the container
+                                    // where you want the card to appear
+                                    container: '.card-wrapper', // *required*
+
+                                    formSelectors: {
+                                        numberInput: 'input#CardNo4', // optional — default input[name="number"]
+                                        expiryInput: 'input#expiry', // optional — default input[name="expiry"]
+                                        cvcInput: 'input#CVV', // optional — default input[name="cvc"]
+                                        nameInput: 'input#name' // optional - defaults input[name="name"]
+                                    },
+
+                                    width: 345, // optional — default 350px
+                                    formatting: true, // optional - default true
+
+                                    // Strings for translation - optional
+                                    messages: {
+                                        validDate: 'valid\ndate', // optional - default 'valid\nthru'
+                                        monthYear: 'mm/yyyy', // optional - default 'month/year'
+                                    },
+
+                                    // Default placeholders for rendered fields - optional
+                                    placeholders: {
+                                        CardNo4: '•••• •••• •••• ••••',
+                                        name: '',
+                                        expiry: '',
+                                        CVV: '•••'
+                                    },
+
+                                    masks: {
+                                        //cardNumber: '•' // optional - mask card number
+                                    },
+
+                                    // if true, will log helpful messages for setting up Card
+                                    debug: false // optional - default false
+                                });
+
+
+                                function set_card_expiry4() {
+                                    $('#moodleform4').find('input[name="card_expiry_date"]').val($('#moodleform4').find('select[name="eMonth"]').val() + "-" + $('#moodleform4').find('select[name="eYear"]').val());
+                                }
+
+                                function countrySelected4() {
+                                    var selectVal = $("#bill_to_address_country option:selected").val();
+
+                                    if (selectVal == "US") {
+                                        var us_states = '<select class="form-control mb10 mt10" id="bill_to_address_state" name="bill_to_address_state" data-placeholder="State" required >\n' +
+                                            '<option value="">Select State</option>\n' +
+                                            '<option value="AL">Alabama</option>\n' +
+                                            '<option value="AK">Alaska</option>\n' +
+                                            '<option value="AZ">Arizona</option>\n' +
+                                            '<option value="AR">Arkansas</option>\n' +
+                                            '<option value="CA">California</option>\n' +
+                                            '<option value="CO">Colorado</option>\n' +
+                                            '<option value="CT">Connecticut</option>\n' +
+                                            '<option value="DE">Delaware</option>\n' +
+                                            '<option value="DC">District Of Columbia</option>\n' +
+                                            '<option value="FL">Florida</option>\n' +
+                                            '<option value="GA">Georgia</option>\n' +
+                                            '<option value="HI">Hawaii</option>\n' +
+                                            '<option value="ID">Idaho</option>\n' +
+                                            '<option value="IL">Illinois</option>\n' +
+                                            '<option value="IN">Indiana</option>\n' +
+                                            '<option value="IA">Iowa</option>\n' +
+                                            '<option value="KS">Kansas</option>\n' +
+                                            '<option value="KY">Kentucky</option>\n' +
+                                            '<option value="LA">Louisiana</option>\n' +
+                                            '<option value="ME">Maine</option>\n' +
+                                            '<option value="MD">Maryland</option>\n' +
+                                            '<option value="MA">Massachusetts</option>\n' +
+                                            '<option value="MI">Michigan</option>\n' +
+                                            '<option value="MN">Minnesota</option>\n' +
+                                            '<option value="MS">Mississippi</option>\n' +
+                                            '<option value="MO">Missouri</option>\n' +
+                                            '<option value="MT">Montana</option>\n' +
+                                            '<option value="NE">Nebraska</option>\n' +
+                                            '<option value="NV">Nevada</option>\n' +
+                                            '<option value="NH">New Hampshire</option>\n' +
+                                            '<option value="NJ">New Jersey</option>\n' +
+                                            '<option value="NM">New Mexico</option>\n' +
+                                            '<option value="NY">New York</option>\n' +
+                                            '<option value="NC">North Carolina</option>\n' +
+                                            '<option value="ND">North Dakota</option>\n' +
+                                            '<option value="OH">Ohio</option>\n' +
+                                            '<option value="OK">Oklahoma</option>\n' +
+                                            '<option value="OR">Oregon</option>\n' +
+                                            '<option value="PA">Pennsylvania</option>\n' +
+                                            '<option value="RI">Rhode Island</option>\n' +
+                                            '<option value="SC">South Carolina</option>\n' +
+                                            '<option value="SD">South Dakota</option>\n' +
+                                            '<option value="TN">Tennessee</option>\n' +
+                                            '<option value="TX">Texas</option>\n' +
+                                            '<option value="UT">Utah</option>\n' +
+                                            '<option value="VT">Vermont</option>\n' +
+                                            '<option value="VA">Virginia</option>\n' +
+                                            '<option value="WA">Washington</option>\n' +
+                                            '<option value="WV">West Virginia</option>\n' +
+                                            '<option value="WI">Wisconsin</option>\n' +
+                                            '<option value="WY">Wyoming</option>\n' +
+                                            '<option value="AS">American Samoa</option>\n' +
+                                            '<option value="GU">Guam</option>\n' +
+                                            '<option value="MP">Northern Mariana Islands</option>\n' +
+                                            '<option value="PR">Puerto Rico</option>\n' +
+                                            '<option value="UM">United States Minor Outlying Islands</option>\n' +
+                                            '<option value="VI">Virgin Islands</option>\n' +
+                                            '</select>\n';
+                                        $('#state4').html(us_states);
+                                    } else if (selectVal == "CA") {
+                                        var can_states = '<select class="form-control mb10 mt10" id="bill_to_address_state" name="bill_to_address_state" data-placeholder="State" required >\n' +
+                                            '<option value="">Select State/Province </option>\n' +
+                                            '<option value="AB">Alberta</option>\n' +
+                                            '<option value="BC">British Columbia</option>\n' +
+                                            '<option value="MB">Manitoba</option>\n' +
+                                            '<option value="NB">New Brunswick</option>\n' +
+                                            '<option value="NL">Newfoundland and Labrador</option>\n' +
+                                            '<option value="NS">Nova Scotia</option>\n' +
+                                            '<option value="NT">Northwest Territories</option>\n' +
+                                            '<option value="NU">Nunavut</option>\n' +
+                                            '<option value="ON">Ontario</option>\n' +
+                                            '<option value="PE">Prince Edward Island</option>\n' +
+                                            '<option value="QC">Quebec</option>\n' +
+                                            '<option value="SK">Saskatchewan</option>\n' +
+                                            '<option value="YT">Yukon</option>\n' +
+                                            '</select>\n';
+
+                                        $('#state4').html(can_states);
+
+                                    } else {
+                                        $('#state4').html('<input type="text" placeholder="State / Province / Region" id="bill_to_address_state" class="form-control mb10 mt10" name="bill_to_address_state" required>');
+                                    }
+                                }
+
+                                function credit_card_type4() {
+                                    let cc = $('#moodleform4').find('input[name="CardNo4"]').val();
+                                    let card = cc.replace(/\s/g, '');
+                                    var selected_card_type_is = null;
+                                    let amex = new RegExp(/^3[47][0-9]{13}$/);
+                                    let visa = new RegExp(/^4[0-9]{12}(?:[0-9]{3})?$/);
+                                    let cup1 = new RegExp(/^62[0-9]{14}[0-9]*$/);
+                                    let cup2 = new RegExp(/^81[0-9]{14}[0-9]*$/);
+
+                                    let mastercard = new RegExp(/^5[1-5][0-9]{14}$/);
+                                    let mastercard2 = new RegExp(/^2[2-7][0-9]{14}$/);
+
+                                    let disco1 = new RegExp(/^6011[0-9]{12}[0-9]*$/);
+                                    let disco2 = new RegExp(/^62[24568][0-9]{13}[0-9]*$/);
+                                    let disco3 = new RegExp(/^6[45][0-9]{14}[0-9]*$/);
+
+                                    let diners = new RegExp(/^3[0689][0-9]{12}[0-9]*$/);
+                                    let jcb = new RegExp(/^35[0-9]{14}[0-9]*$/);
+
+                                    let dankort = new RegExp(/^(5019)[0-9]*$/);
+                                    let hipercard = new RegExp(/^(38[0-9]{17}|60[0-9]{14})$/);
+                                    let visaelectron = new RegExp(/^(4026|417500|4405|4508|4844|4913|4917)[0-9]*$/);
+                                    let elo = new RegExp(/^(401178|401179|431274|438935|451416|457393|457631|457632|504175|627780|636297|636368|(506699|5067[0-6]\d|50677[0-8])|(50900\d|5090[1-9]\d|509[1-9]\d{2})|65003[1-3]|(65003[5-9]|65004\d|65005[0-1])|(65040[5-9]|6504[1-3]\d)|(65048[5-9]|65049\d|6505[0-2]\d|65053[0-8])|(65054[1-9]|6505[5-8]\d|65059[0-8])|(65070\d|65071[0-8])|65072[0-7]|(6509[0-9])|(65165[2-9]|6516[6-7]\d)|(65500\d|65501\d)|(65502[1-9]|6550[3-4]\d|65505[0-8]))[0-9]{10,12}/);
+                                    let aura = new RegExp(/^50[0-9]{14,17}$/);
+                                    let maestro = new RegExp(/^(5018|5020|5038|5612|5893|6304|6759|6761|6762|6763|0604|6390)[0-9]*$/);
+
+                                    if (maestro.test(card)) {
+                                        selected_card_type_is = "042";
+                                    }
+
+                                    if (aura.test(card)) {
+                                        selected_card_type_is = "051";
+                                    }
+
+                                    if (elo.test(card)) {
+                                        selected_card_type_is = "054";
+                                    }
+
+                                    if (visaelectron.test(card)) {
+                                        selected_card_type_is = "001";
+                                    }
+
+                                    if (dankort.test(card)) {
+                                        selected_card_type_is = "034";
+                                    }
+
+                                    if (hipercard.test(card)) {
+                                        selected_card_type_is = "050";
+                                    }
+
+                                    if (visa.test(card)) {
+                                        selected_card_type_is = "001";
+                                    } else {
+                                    }
+
+                                    if (amex.test(card)) {
+                                        selected_card_type_is = "003";
+                                    }
+
+                                    if (mastercard.test(card) || mastercard2.test(card)) {
+                                        selected_card_type_is = "002";
+                                    }
+
+                                    if (disco1.test(card) || disco2.test(card) || disco3.test(card)) {
+                                        selected_card_type_is = "004";
+                                    }
+
+                                    if (diners.test(card)) {
+                                        selected_card_type_is = "005";
+                                    }
+
+                                    if (jcb.test(card)) {
+                                        selected_card_type_is = "007";
+                                    }
+
+                                    if (cup1.test(card) || cup2.test(card)) {
+                                        selected_card_type_is = "062";
+                                    }
+
+
+                                    $('#moodleform4').find('input[name="card_type"]').val(selected_card_type_is);
+
+                                }
+
+                                function set_first_name4() {
+                                    $('#moodleform4').find('input[name="bill_to_forename"]').val($('#moodleform4').find('input[name="first_name"]').val());
+                                    $('#moodleform4').find('input[name="name"]').val($('#moodleform4').find('input[name="first_name"]').val() + " " + $('#moodleform4').find('input[name="last_name"]').val());
+                                }
+
+                                function set_last_name4() {
+                                    $('#moodleform4').find('input[name="bill_to_surname"]').val($('#moodleform4').find('input[name="last_name"]').val());
+
+                                    $('#moodleform4').find('input[name="name"]').val($('#moodleform4').find('input[name="first_name"]').val() + " " + $('#moodleform4').find('input[name="last_name"]').val());
+
+                                }
+
+
+
+                                $("#moodleform4").submit(function (e) {
+                                    e.preventDefault();
+                                    //Show-Hide elements
+                                    $('#card_page').show();
+                                    $('#CardForm').hide();
+                                    $('#option_buttons').show();
+
+                                    var formData = {
+                                        name: $('#moodleform4').find('input[name="name"]').val(),
+                                        cardNumber: $('#moodleform4').find('input[name="card_number"]').val(),
+                                        serviceID: $('#moodleform4').find('input[name="service_id"]').val(),
+                                        currency: $('#moodleform4').find('input[name="currency"]').val(),
+                                        amount: $('#moodleform4').find('input[name="amount"]').val(),
+                                        merchantTrxRef: $('#moodleform4').find('input[name="bill_ref"]').val(),
+                                        invoiceNumber: $('#moodleform4').find('input[name="reference_number"]').val(),
+                                        paymentGatewayID: $('#moodleform4').find('input[name="payment_gateway_id"]').val()
+                                    };
+
+                                    $.ajax({
+                                        url: "https://pesaflow.ecitizen.go.ke/PaymentAPI/Wrappers/Cybersource4/velocity.php",
+                                        data: formData,
+                                        cache: false,
+                                        method: "POST",
+                                        type: "POST"
+                                    }).done(function (data) {
+                                        console.log("Res : " + data);
+                                        if (data == 1) {
+                                            setStatus4('If your Payment Completed Successfully Click <strong> \'Proceed\' </strong> . In Case Your Payment Failed You Can Click \'Try Again\' ');
+
+                                            $("#moodleform4").submit()
+                                        } else {
+                                            $("#CardStatus").html("<p class='alert alert-warning m0'  style='padding:20px;  border-radius:5px;  border: 1px solid'> Payment Failed. Retry or for assistance email : support@pesaflow.com </p>");
+                                            $("#CardStatus").show();
+
+                                            $('#modal').modal('toggle');
+
+                                        }
+                                    });
+
+
+                                    return false; //I put it here as a fallback
+                                });
+                            </script>
+                            <div id="pesaflow" class="panel panel-default">
+                                <div class="panel-heading" onclick="ecitizen_b()">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" class="collapsed" data-parent="#accordion"
+                                            href="#collapseFour">
+                                            <div class="rdio rdio-default">
+                                                <input type="radio" id="ecitizen_b" name="radio">
+                                                <label for="radioDefault"
+                                                    style="margin-bottom:0 !important;">E-Agent</label>
+                                            </div>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseFour" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <!--<img class="media-object thumbnail pull-left" src="images/merchants/ecitizen.jpg" alt="" style="margin-right:10px;">-->
+                                        <div class="clearfix"></div>
+                                        <div id="loginStatus">
+                                            <p class="alert alert-success m0"
+                                                style="padding:20px;  border-radius:5px;  border: 1px solid">To Pay your
+                                                bill (KES 650) via E-Agent. Enter the agents Credentials Below then
+                                                Click the 'Complete' button below.</p>
+                                        </div>
+                                        <div id="loginForm2" style="display: none;">
+
+                                            <button class="btn btn-success"
+                                                onclick="pay('https://pesaflow.ecitizen.go.ke/WalletAPI/index.php', 'X8VJM3', '650', 'https://brs.ecitizen.go.ke/payments/X8VJM3/callback/success', 'https://pesaflow.ecitizen.go.ke/PaymentAPI/Gateway.php')">Make
+                                                Payment</button>
+
+                                        </div>
+                                        <div id="loginForm">
+                                            <input type="email" id="email" placeholder="Email Address"
+                                                class="form-control mb10 mt10" name="name">
+                                            <input type="password" id="password" placeholder="Enter Password"
+                                                class="form-control" name="email">
+                                            <button class="btn btn-success"
+                                                onclick="eCitizenSignin('https://pesaflow.ecitizen.go.ke/WalletAPI/index.php','6', '650')">Complete</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="cash" class="panel panel-default">
+                                <div class="panel-heading" onclick="cash_b()">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" class="collapsed" data-parent="#accordion"
+                                            href="#collapseSeven">
+                                            <div class="rdio rdio-default">
+                                                <input type="radio" id="cash_b" id="radioDefault" name="radio">
+                                                <label for="radioDefault" style="margin-bottom:0 !important;">KCB
+                                                    Cash</label>
+                                            </div>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseSeven" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <!--<img class="media-object thumbnail pull-left" src="images/merchants/airtel.jpg" alt="" style="margin-right:10px; width:65px;">-->
+                                        <div class="clearfix"></div>
+                                        <div id="CashStatus">
+                                            <p class="alert alert-success m0"
+                                                style="padding:20px; color:000; border-radius:5px; background:fff; border: 1px solid 428bca">
+                                                To Pay your bill (KES 650) via Bank Cash Deposit. Follow the Steps
+                                                Below. <button class="btn" onclick="print_b()">Print
+                                                    Instructions</button></p>
+                                        </div>
+
+                                        <div id="dvContainer">
+                                            <ul class="mt10">
+                                                <li>Service: OFFICIAL SEARCH ("CR12")</li>
+                                                <li>Application No: X8VJM3</li>
+                                            </ul>
+
+                                            <hr>
+
+                                            <ol class="mt10">
+                                                <li>Visit KCB Branch</li>
+                                                <li>Ask to make E-Citizen cash payment</li>
+                                                <li>Bill Reference Number: <span
+                                                        style="font-size:12px; font-weight: bold">KBLFQCU</span></li>
+                                                <li>Amount Ksh. KES 650</li>
+                                                <li>Once you have made the deposit. Click complete</li>
+                                            </ol>
+
+                                            <hr>
+
+                                            <ol class="mt10">
+                                                <li>iBank</li>
+                                                <li>Go to KCB Online banking</li>
+                                                <li>Payments</li>
+                                                <li>Government payments</li>
+                                                <li>E citizen collections</li>
+                                                <li>Enter the Bill Reference Number: <span
+                                                        style="font-size:12px; font-weight: bold">KBLFQCU</span></li>
+                                                <li>Submit</li>
+                                                <li>Get token and insert.</li>
+                                                <li>Complete the transaction.</li>
+                                                <li>Once you have made the deposit. Click complete</li>
+                                            </ol>
+                                        </div>
+                                        <button class="btn btn-success" onclick="PayMpesa()">Complete</button>
+                                        <!--<button class="btn" onclick="print_b()">Print</button>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="rtgs" class="panel panel-default">
+                                <div class="panel-heading" onclick="rtgs_b()">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" class="collapsed" data-parent="#accordion"
+                                            href="#collapseNine">
+                                            <div class="rdio rdio-default">
+                                                <input type="radio" id="rtgs_b" id="radioDefault" name="radio">
+                                                <label for="radioDefault" style="margin-bottom:0 !important;">KCB
+                                                    RTGS</label>
+                                            </div>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseNine" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <!--<img class="media-object thumbnail pull-left" src="images/merchants/airtel.jpg" alt="" style="margin-right:10px; width:65px;">-->
+                                        <div class="clearfix"></div>
+                                        <div id="RTGSStatus">
+                                            <p class="alert alert-success m0"
+                                                style="padding:20px; color:000; border-radius:5px; background:fff; border: 1px solid 428bca">
+                                                To Pay your bill (KES 650.00) via RTGS. USE the Steps Below. <button
+                                                    class="btn" onclick="print_rtgs_b()">Print Instructions</button></p>
+                                        </div>
+                                        <div id="dvContainerRTGS">
+                                            <ul class="mt10">
+                                                <li>Service: OFFICIAL SEARCH ("CR12")</li>
+                                                <li>Application No: X8VJM3</li>
+                                            </ul>
+
+                                            <div class="clearfix"></div>
+                                            <p class="alert alert-warning m0"
+                                                style="padding:20px; color:000; border-radius:5px; background:fff; border: 1px solid 428bca">
+                                                <strong>Please note that eCitizen does not accept EFT Payments.</strong>
+                                            </p>
+                                            <div class="clearfix"></div>
+
+                                            <hr>
+
+                                            <ol class="mt10">
+                                                <li>Bank: KCB</li>
+                                                <li>Account Name: ECITIZEN COLLECTION ACCOUNT</li>
+                                                <li>Account Number: 1311863427</li>
+                                                <li>Bill Reference Number(Narration): <span
+                                                        style="font-size:12px; font-weight: bold">KBLFQCU</span></li>
+                                                <li>Amount KES 650.00</li>
+
+                                            </ol>
+                                        </div>
+                                        <button class="btn btn-success" onclick="PayRTGS()">Complete</button>
+                                        <!--<button class="btn" onclick="print_b()">Print</button>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="coop" class="panel panel-default">
+                                <div class="panel-heading" onclick="coop_b()">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" class="collapsed" data-parent="#accordion"
+                                            href="#collapseFourty1">
+                                            <div class="rdio rdio-default">
+                                                <input type="radio" id="coop_b" id="radioDefault" name="radio">
+                                                <label for="radioDefault"
+                                                    style="margin-bottom:0 !important;">Co-operative Bank</label>
+                                            </div>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseFourty1" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <!--<img class="media-object thumbnail pull-left" src="images/merchants/airtel.jpg" alt="" style="margin-right:10px; width:65px;">-->
+                                        <div class="clearfix"></div>
+                                        <div id="CoopStatus">
+                                            <p class="alert alert-success m0"
+                                                style="padding:20px; color:000; border-radius:5px; background:fff; border: 1px solid 428bca">
+                                                To Pay your bill (KES 650.00) via Co-operative Bank. Follow the Steps
+                                                Below. <button class="btn" onclick="print_coop_b()">Print
+                                                    Instructions</button></p>
+                                        </div>
+
+                                        <div id="dvContainer2Coop">
+                                            <ul class="mt10">
+                                                <li>Service: OFFICIAL SEARCH ("CR12")</li>
+                                                <li>Application No: X8VJM3</li>
+                                            </ul>
+
+                                            <p><b>McoopCash App/Web</b></p>
+                                            <ol>
+                                                <li>Log in to <b>Mco-opCash App</b> or <b>Web</b> or <b>USSD</b></li>
+                                                <li>Select <b>Bills Menu</b></li>
+                                                <li>Select <b>eCitizen</b></li>
+                                                <li>Enter Reference Number: <b>KBLFQCU</b></li>
+                                                <li><b>Submit</b> payment.</li>
+                                            </ol>
+                                            <p class="mb-0">Once you complete your payment, click <b>Complete</b> below.
+                                            </p>
+
+                                            <hr>
+                                            <p><b>Coop Online</b></p>
+                                            <ol>
+                                                <li>Log in to <b>Coop Online</b></li>
+                                                <li>Select <b>Payments > Statutory Payments</b></li>
+                                                <li>Select institution type as <b>eCitizen</b></li>
+                                                <li>Enter Reference Number: <b>KBLFQCU</b></li>
+                                                <li><b>Submit</b> payment.</li>
+                                            </ol>
+                                            <p class="mb-0">Once you complete your payment, click <b>Complete</b> below.
+                                            </p>
+
+                                            <hr>
+                                            <p><b>Coop Branch</b></p>
+                                            <ol>
+                                                <li>Visit <b>Cooperative Bank Branch</b></li>
+                                                <li>Ask to make <b>eCitizen Cash Payment</b></li>
+                                                <li>Provide eCitizen Reference Number: <b>KBLFQCU</b></li>
+                                                <li>Amount: <b>KES 650.00</b></li>
+                                                <li>Teller will process your payment and give you a transaction receipt
+                                                </li>
+                                            </ol>
+                                            <p class="mb-0">Once you complete your payment, click <b>Complete</b> below.
+                                            </p>
+
+                                            <hr>
+                                            <p><b>Coop Kwa Jirani</b></p>
+                                            <ol>
+                                                <li>Visit <b>Coop Kwa Jirani Agent</b></li>
+                                                <li>Ask to make <b>eCitizen Cash Payment</b></li>
+                                                <li>Provide eCitizen Reference Number: <b>KBLFQCU</b></li>
+                                                <li>Amount: <b>KES 650.00</b></li>
+                                                <li>Agent will process your payment and give you a transaction receipt
+                                                </li>
+                                            </ol>
+                                            <p class="mb-0">Once you complete your payment, click <b>Complete</b> below.
+                                            </p>
+                                        </div>
+                                        <button class="btn btn-success"
+                                            onclick="PayCoop('https://pesaflow.ecitizen.go.ke/PaymentAPI/Gateway.php', '42', 'KBLFQCU', 'X8VJM3', '650.00', 'https://brs.ecitizen.go.ke/payments/X8VJM3/callback/success')">Complete</button>
+                                        <!--<button class="btn" onclick="print_b()">Print</button>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="absa" class="panel panel-default">
+                                <div class="panel-heading" onclick="absa_b()">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" class="collapsed" data-parent="#accordion"
+                                            href="#collapseFourty3">
+                                            <div class="rdio rdio-default">
+                                                <input type="radio" id="absa_b" id="radioDefault" name="radio">
+                                                <label for="radioDefault" style="margin-bottom:0 !important;">Absa
+                                                    Bank</label>
+                                            </div>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseFourty3" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <!--<img class="media-object thumbnail pull-left" src="images/merchants/airtel.jpg" alt="" style="margin-right:10px; width:65px;">-->
+                                        <div class="clearfix"></div>
+                                        <div id="AbsaStatus">
+                                            <p class="alert alert-success m0"
+                                                style="padding:20px; color:000; border-radius:5px; background:fff; border: 1px solid 428bca">
+                                                To Pay your bill (KES 650.00) via Absa Bank. Follow the Steps Below.
+                                                <button class="btn" onclick="print_absa_b()">Print Instructions</button>
+                                            </p>
+                                        </div>
+
+                                        <div id="dvContainer2Absa">
+                                            <ul class="mt10">
+                                                <li>Service: OFFICIAL SEARCH ("CR12")</li>
+                                                <li>Application No: X8VJM3</li>
+                                            </ul>
+
+                                            <p><b>Absa USSD Code *224#</b></p>
+                                            <ol>
+                                                <li>Dial *224#</li>
+                                                <li>Select Pay Bills</li>
+                                                <li>Select Make One-Time Payment</li>
+                                                <li>Select eCitizen</li>
+                                                <li>Enter the eCitizen Ref Number</li>
+                                                <li>The system automatically validates the amount to be paid</li>
+                                                <li>Confirm and complete the payment</li>
+                                            </ol>
+
+                                            <p><b>Absa Mobile App</b></p>
+                                            <ol>
+                                                <li>On the App Homepage, select the eCitizen menu</li>
+                                                <li>Enter the Reference Number from the eCitizen portal</li>
+                                                <li>The system automatically validates the amount to be paid</li>
+                                                <li>Select the Absa account from which to pay</li>
+                                                <li>Accept the T&Cs</li>
+                                                <li>Click on Pay Now</li>
+                                                <li>You will receive a One Time Pin (OTP) from Absa Bank</li>
+                                                <li>Enter the OTP to complete the transaction</li>
+                                                <li>You will receive a payment confirmation notification from the bank
+                                                </li>
+                                                <li>On the eCitizen Page, refresh the page to update the payment</li>
+                                            </ol>
+
+
+                                            <p><b>Absa Internet Banking</b></p>
+                                            <ol>
+                                                <li>Login to https://online.absabank.co.ke/air/</li>
+                                                <li>Select eCitizen on the right-hand menu</li>
+                                                <li>Under Biller, click the drop-down and select Biller</li>
+                                                <li>Enter the eCitizen Reference Number</li>
+                                                <li>Confirm and complete the payment</li>
+                                                <li>You will receive a payment confirmation notification from the bank
+                                                </li>
+                                            </ol>
+
+                                            <p><b>Absa Online Payment</b></p>
+                                            <ol>
+                                                <li>Login to Absa Access Online</li>
+                                                <li>Launch Statutory Payments widget > Initiate Payment Instruction</li>
+                                                <li>Under Biller select eCitizen</li>
+                                                <li>Enter eCitizen Reference Number: : <b>KBLFQCU</b> (Amount: KES
+                                                    650.00)</li>
+                                                <li>Confirm amount and complete the payment.</li>
+                                            </ol>
+
+                                            <p><b>Absa Branch</b></p>
+                                            <ol>
+                                                <li>Visit any Absa Bank Branch </li>
+                                                <li>Request to make eCitizen payment</b></li>
+                                                <li>Provide eCitizen reference number: <b>KBLFQCU</b> (Amount: KES
+                                                    650.00)</li>
+                                                <li>Teller will process the payment and issue a receipt to customer.
+                                                </li>
+                                            </ol>
+
+                                            <p class="mb-0">Once you complete your payment, click <b>Complete</b> below.
+                                            </p>
+
+
+                                        </div>
+                                        <button class="btn btn-success"
+                                            onclick="PayAbsa('https://pesaflow.ecitizen.go.ke/PaymentAPI/Gateway.php', '42', 'KBLFQCU', 'X8VJM3', '650.00', 'https://brs.ecitizen.go.ke/payments/X8VJM3/callback/success')">Complete</button>
+                                        <!--<button class="btn" onclick="print_b()">Print</button>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="stanbic" class="panel panel-default">
+                                <div class="panel-heading" onclick="stanbic_b()">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" class="collapsed" data-parent="#accordion"
+                                            href="#collapseFifty3">
+                                            <div class="rdio rdio-default">
+                                                <input type="radio" id="stanbic_b" id="radioDefault" name="radio">
+                                                <label for="radioDefault" style="margin-bottom:0 !important;">Stanbic
+                                                    Bank</label>
+                                            </div>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseFifty3" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <!--<img class="media-object thumbnail pull-left" src="images/merchants/airtel.jpg" alt="" style="margin-right:10px; width:65px;">-->
+                                        <div class="clearfix"></div>
+                                        <div id="StanbicStatus">
+                                            <p class="alert alert-success m0"
+                                                style="padding:20px; color:000; border-radius:5px; background:fff; border: 1px solid 428bca">
+                                                To Pay your bill (KES 650.00) via Stanbic Bank. Follow the Steps Below.
+                                                <button class="btn" onclick="print_stanbic_b_b()">Print
+                                                    Instructions</button></p>
+                                        </div>
+
+                                        <div id="dvContainer2Stanbic">
+                                            <ul class="mt10">
+                                                <li>Service: OFFICIAL SEARCH ("CR12")</li>
+                                                <li>Application No: X8VJM3</li>
+                                            </ul>
+
+                                            <p><b>Open Banking</b></p>
+                                            <ol>
+                                                <li>Visit any Stanbic Branch</li>
+                                                <li>Ask to make eCitizen cash payment.</li>
+                                                <li>Provide eCitizen Reference Number : <b>KBLFQCU</b></li>
+                                                <li>Provide amount to be paid : (KES 650.00)</li>
+                                                <li>Once you have made the deposit. Click complete below.</li>
+
+                                            </ol>
+
+                                            <p><b>Swift Payments- RTGS from other banks or Telegraphic Transfers
+                                                    (TT)</b></p>
+
+                                            <ul>
+                                                <li><b>Account Name:</b> The National Treasury eCitizen Collection
+                                                    Account</li>
+                                                <li><b>Bank Name:</b> Stanbic Bank Kenya Limited</li>
+                                                <li><b>KES Account Number:</b> 0100012673919</li>
+                                                <li><b>Bank Sort Code:</b> 31000</li>
+                                                <li><b>Swift Code:</b> SBICKENX</li>
+                                                <li>In the payment narration/ beneficiary reference field, specify the
+                                                    Bill Reference <b>KBLFQCU</b>.</li>
+                                            </ul>
+
+
+
+                                            <ul>
+                                                <li>Inter Account Transfers Through Stanbic Business Online or Internet
+                                                    Banking</li>
+                                                <li>Account Name: The National Treasury eCitizen Collection Account</li>
+                                                <li><b>KES Account Number:</b> 0100012673919</li>
+                                                <li>In the payment narration/Beneficiary reference field, specify the
+                                                    Bill Reference <b>KBLFQCU</b></li>
+                                            </ul>
+
+                                            <p class="mb-0">Once you complete your payment, click <b>Complete</b> below.
+                                            </p>
+
+
+                                        </div>
+                                        <button class="btn btn-success"
+                                            onclick="PayStanbic('https://pesaflow.ecitizen.go.ke/PaymentAPI/Gateway.php', '42', 'KBLFQCU', 'X8VJM3', '650.00', 'https://brs.ecitizen.go.ke/payments/X8VJM3/callback/success')">Complete</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="nbk" class="panel panel-default">
+                                <div class="panel-heading" onclick="nbk_b()">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" class="collapsed" data-parent="#accordion"
+                                            href="#collapseFourty2">
+                                            <div class="rdio rdio-default">
+                                                <input type="radio" id="nbk_b" id="radioDefault" name="radio">
+                                                <label for="radioDefault" style="margin-bottom:0 !important;">National
+                                                    Bank of Kenya</label>
+                                            </div>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseFourty2" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <!--<img class="media-object thumbnail pull-left" src="images/merchants/airtel.jpg" alt="" style="margin-right:10px; width:65px;">-->
+                                        <div class="clearfix"></div>
+                                        <div id="NbkStatus">
+                                            <p class="alert alert-success m0"
+                                                style="padding:20px; color:000; border-radius:5px; background:fff; border: 1px solid 428bca">
+                                                To Pay your bill (KES 650.00) via NBK. Follow the Steps Below. <button
+                                                    class="btn" onclick="print_nbk_b()">Print Instructions</button></p>
+                                        </div>
+
+                                        <div id="dvContainer2Nbk">
+                                            <ul class="mt10">
+                                                <li>Service: OFFICIAL SEARCH ("CR12")</li>
+                                                <li>Application No: X8VJM3</li>
+                                            </ul>
+
+                                            <ol>
+                                                <li>Visit <b>NBK Branch</b></li>
+                                                <li>Ask to make <b>eCitizen Cash Payment</b></li>
+                                                <li>Provide eCitizen Reference Number: <b>KBLFQCU</b></li>
+                                                <li>Amount: <b>KES 650.00</b></li>
+                                            </ol>
+                                            <p class="mb-0">Once you complete your payment, click <b>Complete</b> below.
+                                            </p>
+                                        </div>
+                                        <button class="btn btn-success"
+                                            onclick="PayNbk('https://pesaflow.ecitizen.go.ke/PaymentAPI/Gateway.php', '42', 'KBLFQCU', 'X8VJM3', '650.00', 'https://brs.ecitizen.go.ke/payments/X8VJM3/callback/success')">Complete</button>
+                                        <!--<button class="btn" onclick="print_b()">Print</button>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="iandm" class="panel panel-default">
+                                <div class="panel-heading" onclick="iandm_b()">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" class="collapsed" data-parent="#accordion"
+                                            href="#collapseFifty31">
+                                            <div class="rdio rdio-default">
+                                                <input type="radio" id="iandm_b" id="radioDefault" name="radio">
+                                                <label for="radioDefault" style="margin-bottom:0 !important;">I&M
+                                                    Bank</label>
+                                            </div>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseFifty31" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <!--<img class="media-object thumbnail pull-left" src="images/merchants/airtel.jpg" alt="" style="margin-right:10px; width:65px;">-->
+                                        <div class="clearfix"></div>
+                                        <div id="iandmStatus">
+                                            <p class="alert alert-success m0"
+                                                style="padding:20px; color:000; border-radius:5px; background:fff; border: 1px solid 428bca">
+                                                To Pay your bill (KES 650.00) via I&M Bank. Follow the Steps Below.
+                                                <button class="btn" onclick="print_im_b()">Print Instructions</button>
+                                            </p>
+                                        </div>
+
+                                        <div id="dvContainer2IandM">
+                                            <ul class="mt10">
+                                                <li>Service: OFFICIAL SEARCH ("CR12")</li>
+                                                <li>Application No: X8VJM3</li>
+                                            </ul>
+
+                                            <p><b>Branch Payment</b></p>
+                                            <ol>
+                                                <li>Visit I&M BANK Branch</li>
+                                                <li>Ask to make eCitizen cash payment.</li>
+                                                <li>Provide eCitizen Reference Number : <b>KBLFQCU</b></li>
+                                                <li>Provide amount to be paid : (KES 650.00)</li>
+                                                <li>Teller will process the payment and issue a receipt.</li>
+
+                                            </ol>
+
+
+                                            <p><b>I&M OTG PERSONAL</b></p>
+                                            <ol>
+                                                <li>Login to your personal account on OTG Personal APP.</li>
+                                                <li>Go to pay Utilities.</li>
+                                                <li>Select debit account.</li>
+                                                <li>Select E-Citizen from the Biller dropdown menu.</li>
+                                                <li>Input the bill reference number (<b>KBLFQCU</b>) on biller account
+                                                    number.</li>
+                                                <li>Select currency and input the payment amount. (KES 650.00)</li>
+                                                <li>Schedule payments if necessary.</li>
+                                                <li>Proceed to “Next”. Review and confirm the entered details before
+                                                    submitting.</li>
+                                            </ol>
+
+
+                                            <p class="mb-0">Once you complete your payment, click <b>Complete</b> below.
+                                            </p>
+
+
+                                        </div>
+                                        <button class="btn btn-success"
+                                            onclick="PayIandM('https://pesaflow.ecitizen.go.ke/PaymentAPI/Gateway.php', '42', 'KBLFQCU', 'X8VJM3', '650.00', 'https://brs.ecitizen.go.ke/payments/X8VJM3/callback/success')">Complete</button>
+                                        <!--<button class="btn" onclick="print_b()">Print</button>-->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="jambo" class="panel panel-default">
+                                <div class="panel-heading" onclick="jambo_b()">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" class="collapsed" data-parent="#accordion"
+                                            href="#collapseFifty1">
+                                            <div class="rdio rdio-default">
+                                                <input type="radio" id="absa_b" id="radioDefault" name="radio">
+                                                <label for="radioDefault"
+                                                    style="margin-bottom:0 !important;">Jambopay</label>
+                                            </div>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseFifty1" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <!--<img class="media-object thumbnail pull-left" src="images/merchants/airtel.jpg" alt="" style="margin-right:10px; width:65px;">-->
+                                        <div class="clearfix"></div>
+                                        <div id="JamboStatus">
+                                            <p class="alert alert-success m0"
+                                                style="padding:20px; color:000; border-radius:5px; background:fff; border: 1px solid 428bca">
+                                                To Pay your bill (KES 650.00) via Jambopay. Follow the Steps Below.
+                                                <button class="btn" onclick="print_jambo_b()">Print
+                                                    Instructions</button></p>
+                                        </div>
+
+                                        <div id="dvContainer2Jambo">
+                                            <ul class="mt10">
+                                                <li>Service: OFFICIAL SEARCH ("CR12")</li>
+                                                <li>Application No: X8VJM3</li>
+                                            </ul>
+
+                                            <p><b>Dial USSD Code - *575#</b></p>
+                                            <ol>
+                                                <li>Create a wallet account</li>
+                                                <li>Select eCitizen</li>
+                                                <li>Enter Bill Reference Number : <b>KBLFQCU</b></li>
+                                                <li>Enter the Amount to Pay (KES 650.00)</li>
+                                                <li>Enter wallet pin and Submit</li>
+                                            </ol>
+
+                                            <p><b>Or Click the link below for business payments</b></p>
+                                            <ol>
+                                                <li>Login to <a href="https://ecitizen.jambopay.com"
+                                                        target="_blank">ecitizen.jambopay.com </a></li>
+                                                <li>On the side menu, select eCitizen</li>
+                                                <li>Enter Bill Reference Number : <b>KBLFQCU</b></li>
+                                                <li>Enter the Amount to Pay (KES 650.00)</li>
+                                                <li>Enter OTP Code sent to your phone number/email</li>
+                                                <li>Submit Payment</li>
+                                                <li>Notification of the successful payment will be displayed.</li>
+
+                                            </ol>
+
+                                            <p class="mb-0">Once you complete your payment, click <b>Complete</b> below.
+                                            </p>
+
+
+                                        </div>
+                                        <button class="btn btn-success"
+                                            onclick="PayJambo('https://pesaflow.ecitizen.go.ke/PaymentAPI/Gateway.php', '42', 'KBLFQCU', 'X8VJM3', '650.00', 'https://brs.ecitizen.go.ke/payments/X8VJM3/callback/success')">Complete</button>
+                                        <!--<button class="btn" onclick="print_b()">Print</button>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="consolidated" class="panel panel-default">
+                                <div class="panel-heading" onclick="consolidated_b()">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" class="collapsed" data-parent="#accordion"
+                                            href="#collapseFifty2">
+                                            <div class="rdio rdio-default">
+                                                <input type="radio" id="consolidated_b" id="radioDefault" name="radio">
+                                                <label for="radioDefault"
+                                                    style="margin-bottom:0 !important;">Consolidated Bank</label>
+                                            </div>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseFifty2" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <!--<img class="media-object thumbnail pull-left" src="images/merchants/airtel.jpg" alt="" style="margin-right:10px; width:65px;">-->
+                                        <div class="clearfix"></div>
+                                        <div id="ConsolidatedStatus">
+                                            <p class="alert alert-success m0"
+                                                style="padding:20px; color:000; border-radius:5px; background:fff; border: 1px solid 428bca">
+                                                To Pay your bill (KES 650.00) via Consolidated Bank. Follow the Steps
+                                                Below. <button class="btn" onclick="print_consolidated_b()">Print
+                                                    Instructions</button></p>
+                                        </div>
+
+                                        <div id="dvContainer2Consolidated">
+                                            <ul class="mt10">
+                                                <li>Service: OFFICIAL SEARCH ("CR12")</li>
+                                                <li>Application No: X8VJM3</li>
+                                            </ul>
+
+
+                                            <p><b>Payment via Mobile Banking - USSD</b></p>
+                                            <ol>
+                                                <li>Dial *262#</li>
+                                                <li>Select Option 7 – eCitizen Payments</li>
+                                                <li>Enter eCitizen reference number: <b>KBLFQCU</b></li>
+                                                <li>Enter Amount to be paid (KES 650.00)</li>
+                                                <li>Once you complete your payment, click <b>Complete</b> below.</li>
+                                            </ol>
+
+                                            <p><b>Payment via Mobile Banking – MyConso App</b></p>
+                                            <ol>
+                                                <li>Login to MyConso App</li>
+                                                <li>Select eCitizen Payment icon</li>
+                                                <li>Enter eCitizen reference number: <b>KBLFQCU</b></li>
+                                                <li>Enter Amount to be paid (KES 650.00)</li>
+                                                <li>Once you complete your payment, click <b>Complete</b> below.</li>
+                                            </ol>
+
+                                            <p><b>Payment via Internet Banking</b></p>
+                                            <ol>
+                                                <li>Login to Internet Banking</li>
+                                                <li>Select Bills Payments Menu</li>
+                                                <li>Select eCitizen Payment sub Menu</li>
+                                                <li>Enter eCitizen reference number: <b>KBLFQCU</b></li>
+                                                <li>Enter Amount to be paid (KES 650.00)</li>
+                                                <li>Once you complete your payment, click <b>Complete</b> below.</li>
+                                            </ol>
+
+                                            <p><b>Cash Payments at the Branch:</b></p>
+                                            <ol>
+                                                <li>Visit any Consolidated Bank branch</li>
+                                                <li>Request to pay for eCitizen</li>
+                                                <li>Provide eCitizen Reference Number: : <b>KBLFQCU</b></li>
+                                                <li>Provide Amount to be paid (KES 650.00)</li>
+                                                <li>Teller will process the payment and issue a receipt.</li>
+                                                <li>Once you complete your payment, click <b>Complete</b> below.</li>
+                                            </ol>
+
+                                            <p class="mb-0">Once you complete your payment, click <b>Complete</b> below.
+                                            </p>
+
+
+                                        </div>
+                                        <button class="btn btn-success"
+                                            onclick="PayConsolidated('https://pesaflow.ecitizen.go.ke/PaymentAPI/Gateway.php', '42', 'KBLFQCU', 'X8VJM3', '650.00', 'https://brs.ecitizen.go.ke/payments/X8VJM3/callback/success')">Complete</button>
+                                        <!--<button class="btn" onclick="print_b()">Print</button>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="dtb" class="panel panel-default">
+                                <div class="panel-heading" onclick="dtb_b()">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" class="collapsed" data-parent="#accordion"
+                                            href="#collapseFifty5">
+                                            <div class="rdio rdio-default">
+                                                <input type="radio" id="dtb_b" id="radioDefault" name="radio">
+                                                <label for="radioDefault" style="margin-bottom:0 !important;">Diamond
+                                                    Trust Bank (DTB)</label>
+                                            </div>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseFifty5" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <!--<img class="media-object thumbnail pull-left" src="images/merchants/airtel.jpg" alt="" style="margin-right:10px; width:65px;">-->
+                                        <div class="clearfix"></div>
+                                        <div id="DtbStatus">
+                                            <p class="alert alert-success m0"
+                                                style="padding:20px; color:000; border-radius:5px; background:fff; border: 1px solid 428bca">
+                                                To Pay your bill (KES 650.00) via DTB Bank. Follow the Steps Below.
+                                                <button class="btn" onclick="print_dtb_b()">Print Instructions</button>
+                                            </p>
+                                        </div>
+
+                                        <div id="dvContainer2Dtb">
+                                            <ul class="mt10">
+                                                <li>Service: OFFICIAL SEARCH ("CR12")</li>
+                                                <li>Application No: X8VJM3</li>
+                                            </ul>
+
+                                            <p><b>Pay Via USSD</b></p>
+                                            <ol>
+                                                <li>Select Pay Bill</li>
+                                                <li>Select E-Citizen</li>
+                                                <li>Enter Invoice Number : <b>KBLFQCU</b></li>
+                                                <li>Enter Amount : (KES 650.00)</li>
+                                                <li>Confirm Payment Details.</li>
+                                                <li>Enter Pin to authorize the payment.</li>
+                                                <li>Click Complete on eCitizen when done.</li>
+                                            </ol>
+
+                                            <p><b>Pay Via M24/7</b></p>
+                                            <ol>
+                                                <li>Select Pay Bill</li>
+                                                <li>Select E-Citizen</li>
+                                                <li>Enter Invoice Number : <b>KBLFQCU</b></li>
+                                                <li>Enter Amount : (KES 650.00)</li>
+                                                <li>Confirm Payment Details.</li>
+                                                <li>Enter Pin to authorize the payment.</li>
+                                                <li>Click Complete on eCitizen when done.</li>
+                                            </ol>
+
+                                            <p><b>Branch Payment - DTB Customer</b></p>
+                                            <ol>
+                                                <li>Visit any DTB branch and ask to make E-Citizen payment. Provide the
+                                                    following</li>
+                                                <li>Select E-Citizen</li>
+                                                <li>Provide Invoice Number : <b>KBLFQCU</b></li>
+                                                <li>Provide Account Number</li>
+                                                <li>Present Cash Amount : (KES 650.00)</li>
+                                                <li>Teller will process the transaction and will issue a receipt</li>
+                                                <li>Complete the transaction on the E-citizen portal. Click Complete
+                                                </li>
+                                            </ol>
+
+                                            <p><b>Branch Payment - Non DTB Customer</b></p>
+                                            <ol>
+                                                <li>Visit any DTB branch and ask to make E-Citizen payment. Provide the
+                                                    following</li>
+                                                <li>Select E-Citizen</li>
+                                                <li>Provide Invoice Number : <b>KBLFQCU</b></li>
+                                                <li>Provide Account Number</li>
+                                                <li>Present Cash Amount : (KES 650.00)</li>
+                                                <li>Teller will process the transaction and will issue a receipt</li>
+                                                <li>Complete the transaction on the E-citizen portal. Click Complete
+                                                </li>
+                                            </ol>
+
+                                            <p class="mb-0">Once you complete your payment, click <b>Complete</b> below.
+                                            </p>
+
+
+                                        </div>
+                                        <button class="btn btn-success"
+                                            onclick="PayDtb('https://pesaflow.ecitizen.go.ke/PaymentAPI/Gateway.php', '42', 'KBLFQCU', 'X8VJM3', '650.00', 'https://brs.ecitizen.go.ke/payments/X8VJM3/callback/success')">Complete</button>
+                                        <!--<button class="btn" onclick="print_b()">Print</button>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="ncba" class="panel panel-default">
+                                <div class="panel-heading" onclick="ncba_b()">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" class="collapsed" data-parent="#accordion"
+                                            href="#collapseFifty6">
+                                            <div class="rdio rdio-default">
+                                                <input type="radio" id="ncba_b" id="radioDefault" name="radio">
+                                                <label for="radioDefault"
+                                                    style="margin-bottom:0 !important;">NCBA</label>
+                                            </div>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseFifty6" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <div class="clearfix"></div>
+                                        <div id="ncbaStatus">
+                                            <p class="alert alert-success m0"
+                                                style="padding:20px; color:000; border-radius:5px; background:fff; border: 1px solid 428bca">
+                                                To Pay your bill (KES 650.00) via NCBA Bank. Follow the Steps Below.
+                                                <button class="btn" onclick="print_ncba_b()">Print Instructions</button>
+                                            </p>
+                                        </div>
+
+                                        <div id="dvContainer2ncba">
+                                            <ul class="mt10">
+                                                <li>Service: OFFICIAL SEARCH ("CR12")</li>
+                                                <li>Application No: X8VJM3</li>
+                                            </ul>
+
+                                            <p><b>NCBA Now</b></p>
+                                            <ol>
+                                                <li>Select Pay Bill</li>
+                                                <li>Log in to NCBA Now App</li>
+                                                <li>Select eCitizen</li>
+                                                <li>Enter Reference Number : <b>KBLFQCU</b></li>
+                                                <li>Enter Amount : (KES 650.00)</li>
+                                                <li>Click on Validate.</li>
+                                                <li>Click pay and confirm transaction.</li>
+                                                <li>Click Complete on eCitizen when done.</li>
+                                            </ol>
+
+                                            <p><b>NCBA Online Banking Channel</b></p>
+                                            <ol>
+                                                <li>Log in to NCBA Online banking channel</li>
+                                                <li>Select Transfer Money > Bill Payment</li>
+                                                <li>On the drop down select eCitizen</li>
+                                                <li>Enter Reference Number : <b>KBLFQCU</b></li>
+                                                <li>Select Currency > Amount</li>
+                                                <li>Validate and process the transaction.</li>
+                                                <li>Click Complete on eCitizen when done.</li>
+                                            </ol>
+
+
+                                            <p><b>NCBA Branch</b></p>
+                                            <ol>
+                                                <li>Ask to make eCitizen Payment</li>
+                                                <li>Provide eCitizen Reference Number : <b>KBLFQCU</b></li>
+                                                <li>Amount : (KES 650.00)</li>
+                                                <li>Teller will process your payment and give you a transaction receipt.
+                                                </li>
+                                                <li>Click Complete on eCitizen when done.</li>
+                                            </ol>
+
+                                            <p class="mb-0">Once you complete your payment, click <b>Complete</b> below.
+                                            </p>
+
+
+                                        </div>
+                                        <button class="btn btn-success"
+                                            onclick="Payncba('https://pesaflow.ecitizen.go.ke/PaymentAPI/Gateway.php', '42', 'KBLFQCU', 'X8VJM3', '650.00', 'https://brs.ecitizen.go.ke/payments/X8VJM3/callback/success')">Complete</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="family" class="panel panel-default">
+                                <div class="panel-heading" onclick="family_b()">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" class="collapsed" data-parent="#accordion"
+                                            href="#collapseFifty7">
+                                            <div class="rdio rdio-default">
+                                                <input type="radio" id="family_b" id="radioDefault" name="radio">
+                                                <label for="radioDefault" style="margin-bottom:0 !important;">Family
+                                                    Bank</label>
+                                            </div>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseFifty7" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <div class="clearfix"></div>
+                                        <div id="familyStatus">
+                                            <p class="alert alert-success m0"
+                                                style="padding:20px; color:000; border-radius:5px; background:fff; border: 1px solid 428bca">
+                                                To Pay your bill (KES 650.00) via Family Bank. Follow the Steps Below.
+                                                <button class="btn" onclick="print_family_b()">Print
+                                                    Instructions</button></p>
+                                        </div>
+
+                                        <div id="dvContainer2family">
+                                            <ul class="mt10">
+                                                <li>Service: OFFICIAL SEARCH ("CR12")</li>
+                                                <li>Application No: X8VJM3</li>
+                                            </ul>
+
+                                            <p><b>Any Family Bank branch (Over the Counter)</b></p>
+                                            <ol>
+                                                <li>Select Pay Bill</li>
+                                                <li>Visit any Family Bank Branch</li>
+                                                <li>Ask to make eCitizen payment</li>
+                                                <li>Provide eCitizen Reference Number : <b>KBLFQCU</b></li>
+                                                <li>Present cash amount : (KES 650.00)</li>
+                                                <li>Teller will process payment and issue receipt</li>
+                                            </ol>
+
+                                            <p><b>Pesapap - Mobile App</b></p>
+                                            <ol>
+                                                <li>Log in to Pesapap</li>
+                                                <li>Click on My bills, Bills Tab</li>
+                                                <li>Click on Other Bills</li>
+                                                <li>From the drop down, select the provider (eCitizen)</b></li>
+                                                <li>Enter eCitizen Reference Number : <b>KBLFQCU</b></li>
+                                                <li>Select Account.</li>
+                                                <li>Click on Pay.</li>
+                                                <li>Enter amount : (KES 650.00)</li>
+                                                <li>A Password screen will popup, input the password to finish the
+                                                    transaction.</li>
+                                            </ol>
+
+
+                                            <p><b>Family Bank Agency</b></p>
+                                            <ol>
+                                                <li>Visit any Family Bank Agent</li>
+                                                <li>Ask to make eCitizen payment</li>
+                                                <li>Provide eCitizen Reference Number : <b>KBLFQCU</b></li>
+                                                <li>Provide Phone Number for Payment Notification</li>
+                                                <li>Present cash amount : (KES 650.00)</li>
+                                                <li>Agent will process payment and provide a receipt.</li>
+                                            </ol>
+
+                                            <p class="mb-0">Once you complete your payment, click <b>Complete</b> below.
+                                            </p>
+
+
+                                        </div>
+                                        <button class="btn btn-success"
+                                            onclick="Payfamily('https://pesaflow.ecitizen.go.ke/PaymentAPI/Gateway.php', '42', 'KBLFQCU', 'X8VJM3', '650.00', 'https://brs.ecitizen.go.ke/payments/X8VJM3/callback/success')">Complete</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="pesawise" class="panel panel-default">
+                                <div class="panel-heading" onclick="pesawise_b()">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" class="collapsed" data-parent="#accordion"
+                                            href="#collapseFifty8">
+                                            <div class="rdio rdio-default">
+                                                <input type="radio" id="pesawise_b" id="radioDefault" name="radio">
+                                                <label for="radioDefault"
+                                                    style="margin-bottom:0 !important;">Pesawise</label>
+                                            </div>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseFifty8" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <div class="clearfix"></div>
+                                        <div id="pesawiseStatus">
+                                            <p class="alert alert-success m0"
+                                                style="padding:20px; color:000; border-radius:5px; background:fff; border: 1px solid 428bca">
+                                                To Pay your bill (KES 650.00) via pesawise Bank. Follow the Steps Below.
+                                                <button class="btn" onclick="print_pesawise_b()">Print
+                                                    Instructions</button></p>
+                                        </div>
+
+                                        <div id="dvContainer2pesawise">
+                                            <ul class="mt10">
+                                                <li>Service: OFFICIAL SEARCH ("CR12")</li>
+                                                <li>Application No: X8VJM3</li>
+                                            </ul>
+
+                                            <p><b>Pesawise e-Wallet Payments</b></p>
+                                            <ol>
+                                                <li>Login to <a href="https://app.pesawise.com" target="_blank">Pesawise
+                                                        Platform</a></li>
+                                                <li>On the side menu, select Marketplace</li>
+                                                <li>Select the Account for payment</li>
+                                                <li>Enter eCitizen Reference Number : <b>KBLFQCU</b></li>
+                                                <li>Enter amount : (KES 650.00)</li>
+                                                <li>Enter OTP Code sent to your phone number/email</li>
+                                                <li>Submit Payment</li>
+                                            </ol>
+
+                                            <p><b>Pesawise - Mobile App</b></p>
+                                            <ol>
+                                                <li>Login to Pesawise Mobile App</li>
+                                                <li>At the bottom, select Payments</li>
+                                                <li>On the top right, select Billers</li>
+                                                <li>Select the Account for payment</li>
+                                                <li>Enter eCitizen Reference Number : <b>KBLFQCU</b></li>
+                                                <li>Enter amount : (KES 650.00)</li>
+                                                <li>Enter OTP Code sent to your phone number/email</li>
+                                                <li>Submit Payment</li>
+                                            </ol>
+
+
+                                            <p class="mb-0">Once you complete your payment, click <b>Complete</b> below.
+                                            </p>
+
+
+                                        </div>
+                                        <button class="btn btn-success"
+                                            onclick="Paypesawise('https://pesaflow.ecitizen.go.ke/PaymentAPI/Gateway.php', '42', 'KBLFQCU', 'X8VJM3', '650.00', 'https://brs.ecitizen.go.ke/payments/X8VJM3/callback/success')">Complete</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="postapay" class="panel panel-default">
+                                <div class="panel-heading" onclick="postapay_b()">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" class="collapsed" data-parent="#accordion"
+                                            href="#collapseFifty9">
+                                            <div class="rdio rdio-default">
+                                                <input type="radio" id="postapay_b" id="radioDefault" name="radio">
+                                                <label for="radioDefault"
+                                                    style="margin-bottom:0 !important;">postapay</label>
+                                            </div>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseFifty9" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <div class="clearfix"></div>
+                                        <div id="postapayStatus">
+                                            <p class="alert alert-success m0"
+                                                style="padding:20px; color:000; border-radius:5px; background:fff; border: 1px solid 428bca">
+                                                To Pay your bill (KES 650.00) via PostaPay. Follow the Steps Below.
+                                                <button class="btn" onclick="print_postapay_b()">Print
+                                                    Instructions</button></p>
+                                        </div>
+
+                                        <div id="dvContainer2postapay">
+                                            <ul class="mt10">
+                                                <li>Service: OFFICIAL SEARCH ("CR12")</li>
+                                                <li>Application No: X8VJM3</li>
+                                            </ul>
+
+
+                                            <p><b>Using USSD:</b></p>
+                                            <ol>
+                                                <li>Dial the USSD Code: Dial *336*20# on your mobile phone.</li>
+                                                <li>Select eCitizen Services: Choose eCitizen option 7 from the menu.
+                                                </li>
+                                                <li>Enter the provided reference number : <b>KBLFQCU</b>.</li>
+                                                <li>Confirm the Payment: Review the payment details and confirm the
+                                                    transaction.</li>
+                                                <li>Enter Your PIN: Input your PostaPay PIN to authorize the payment.
+                                                </li>
+                                                <li>Receive Confirmation: You will receive a confirmation message that
+                                                    your payment has been successfully processed.</li>
+                                            </ol>
+
+
+
+                                            <p><b>Using the PostaPay App:</b></p>
+                                            <ol>
+                                                <li>Download and Install the PostaPay App from Play store for Android
+                                                    and Appstore for Ios.</li>
+                                                <li>Log In: Open the app and log in using your credentials.</li>
+                                                <li>Select the Payment Option: Navigate to the e-citizen icon</li>
+                                                <li>Choose eCitizen: Input Your Account Number: Enter the provided
+                                                    reference number : <b>KBLFQCU</b></li>
+                                                <li>Confirm Payment: Review your payment details and confirm.</li>
+                                                <li>Enter Your PIN: Use your PostaPay PIN to authorize the transaction.
+                                                </li>
+                                                <li>Receive Confirmation: A confirmation message will be sent to you
+                                                    once the payment is successful.</li>
+                                            </ol>
+
+
+
+                                            <p class="mb-0">Once you complete your payment, click <b>Complete</b> below.
+                                            </p>
+
+
+                                        </div>
+                                        <button class="btn btn-success"
+                                            onclick="Paypostapay('https://pesaflow.ecitizen.go.ke/PaymentAPI/Gateway.php', '42', 'KBLFQCU', 'X8VJM3', '650.00', 'https://brs.ecitizen.go.ke/payments/X8VJM3/callback/success')">Complete</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="SBM" class="panel panel-default">
+                                <div class="panel-heading" onclick="SBM_b()">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" class="collapsed" data-parent="#accordion"
+                                            href="#collapseSixty">
+                                            <div class="rdio rdio-default">
+                                                <input type="radio" id="SBM_b" id="radioDefault" name="radio">
+                                                <label for="radioDefault"
+                                                    style="margin-bottom:0 !important;">SBM</label>
+                                            </div>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseSixty" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <div class="clearfix"></div>
+                                        <div id="SBMStatus">
+                                            <p class="alert alert-success m0"
+                                                style="padding:20px; color:000; border-radius:5px; background:fff; border: 1px solid 428bca">
+                                                To Pay your bill (KES 650.00) via SBM. Follow the Steps Below. <button
+                                                    class="btn" onclick="print_SBM_b()">Print Instructions</button></p>
+                                        </div>
+
+                                        <div id="dvContainer2SBM">
+                                            <ul class="mt10">
+                                                <li>Service: OFFICIAL SEARCH ("CR12")</li>
+                                                <li>Application No: X8VJM3</li>
+                                            </ul>
+
+
+
+                                            <p><b>SBM Bank Mfukoni Internet Banking:</b></p>
+                                            <ol>
+                                                <li>Log in to SBM Bank Mfukoni Internet Banking, Android, IOS or Huawei
+                                                    app</li>
+                                                <li>Select eCitizen under "Biller services"</li>
+                                                <li>Select transaction debit account from drop down list</li>
+                                                <li>Enter the provided reference number : <b>KBLFQCU</b>.</li>
+                                                <li>Select Currency from drop down list</li>
+                                                <li>Enter Amount: <b>KES 650.00</b></li>
+                                                <li>Enter Remark</li>
+                                                <li>Click on Proceed</li>
+                                                <li>Confirm transaction details, enter OTP and click submit to process
+                                                    transaction.</li>
+                                            </ol>
+
+
+                                            <p class="mb-0">Once you complete your payment, click <b>Complete</b> below.
+                                            </p>
+
+
+                                        </div>
+                                        <button class="btn btn-success"
+                                            onclick="PaySBM('https://pesaflow.ecitizen.go.ke/PaymentAPI/Gateway.php', '42', 'KBLFQCU', 'X8VJM3', '650.00', 'https://brs.ecitizen.go.ke/payments/X8VJM3/callback/success')">Complete</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="ECOBANK" class="panel panel-default">
+                                <div class="panel-heading" onclick="ECOBANK_b()">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" class="collapsed" data-parent="#accordion"
+                                            href="#collapseSixty1">
+                                            <div class="rdio rdio-default">
+                                                <input type="radio" id="ECOBANK_b" id="radioDefault" name="radio">
+                                                <label for="radioDefault"
+                                                    style="margin-bottom:0 !important;">ECOBANK</label>
+                                            </div>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseSixty1" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <div class="clearfix"></div>
+                                        <div id="ECOBANKStatus">
+                                            <p class="alert alert-success m0"
+                                                style="padding:20px; color:000; border-radius:5px; background:fff; border: 1px solid 428bca">
+                                                To Pay your bill (KES 650.00) via Ecobank. Follow the Steps Below.
+                                                <button class="btn" onclick="print_ECOBANK_b()">Print
+                                                    Instructions</button></p>
+                                        </div>
+
+                                        <div id="dvContainer2ECOBANK">
+                                            <ul class="mt10">
+                                                <li>Service: OFFICIAL SEARCH ("CR12")</li>
+                                                <li>Application No: X8VJM3</li>
+                                            </ul>
+
+                                            <p><b>Ecobank Branch:</b></p>
+                                            <ol>
+                                                <li>Visit Ecobank Branch</li>
+                                                <li>Ask to make E-Citizen cash payment</li>
+                                                <li>Provide bill reference number : <b>KBLFQCU</b>.</li>
+                                                <li>Select Currency from drop down list</li>
+                                                <li>Amount: <b>KES 650.00</b></li>
+                                                <li>Once you have made the deposit. Click complete below</li>
+
+                                            </ol>
+
+
+
+
+                                        </div>
+                                        <button class="btn btn-success"
+                                            onclick="PayECOBANK('https://pesaflow.ecitizen.go.ke/PaymentAPI/Gateway.php', '42', 'KBLFQCU', 'X8VJM3', '650.00', 'https://brs.ecitizen.go.ke/payments/X8VJM3/callback/success')">Complete</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="SIDIAN" class="panel panel-default">
+                                <div class="panel-heading" onclick="SIDIAN_b()">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" class="collapsed" data-parent="#accordion"
+                                            href="#collapseSixty2">
+                                            <div class="rdio rdio-default">
+                                                <input type="radio" id="SIDIAN_b" id="radioDefault" name="radio">
+                                                <label for="radioDefault"
+                                                    style="margin-bottom:0 !important;">SIDIAN</label>
+                                            </div>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseSixty2" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <div class="clearfix"></div>
+                                        <div id="SIDIANStatus">
+                                            <p class="alert alert-success m0"
+                                                style="padding:20px; color:000; border-radius:5px; background:fff; border: 1px solid 428bca">
+                                                To Pay your bill (KES 650.00) via SIDIAN. Follow the Steps Below.
+                                                <button class="btn" onclick="print_SIDIAN_b()">Print
+                                                    Instructions</button></p>
+                                        </div>
+
+                                        <div id="dvContainer2SIDIAN">
+                                            <ul class="mt10">
+                                                <li>Service: OFFICIAL SEARCH ("CR12")</li>
+                                                <li>Application No: X8VJM3</li>
+                                            </ul>
+
+                                            <p><b>SIDIAN Branch:</b></p>
+                                            <ol>
+                                                <li>Visit SIDIAN Branch</li>
+                                                <li>Ask to make E-Citizen cash payment</li>
+                                                <li>Provide bill reference number : <b>KBLFQCU</b>.</li>
+                                                <li>Select Currency from drop down list</li>
+                                                <li>Amount: <b>KES 650.00</b></li>
+                                                <li>Once you have made the deposit. Click complete below</li>
+
+                                            </ol>
+
+
+
+
+                                        </div>
+                                        <button class="btn btn-success"
+                                            onclick="PaySIDIAN('https://pesaflow.ecitizen.go.ke/PaymentAPI/Gateway.php', '42', 'KBLFQCU', 'X8VJM3', '650.00', 'https://brs.ecitizen.go.ke/payments/X8VJM3/callback/success')">Complete</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--</div>-->
+                        </div>
+                    </div><!-- panel-body -->
+                </div><!-- panel -->
+            </div><!-- col-sm-7 -->
+
+            <div class="col-md-4 col-sm-5">
+
+
+
+                <div class="panel panel-dark panel-alt billing-information">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">Billing Details</h4>
+                    </div>
+                    <div class="panel-body" style="padding:0;">
+                        <div class="authorpanel" style="padding:0; border-top:0;">
+                            <div class="media" style="padding:0 20px;">
+                                <a href="#" class="pull-left">
+                                    <img style="width:80px;" alt="" src="images/profile-1.png"
+                                        class="media-object thumbnail">
+                                </a>
+                                <div class="media-body event-body">
+                                    <h4 class="subtitle" style="margin-bottom:0;">GODFREY GITAU NGURE </h4>
+                                    <h4 style="margin-top:2px;"><small>ID. No: 4917833</small></h4>
+                                    <h4 style="margin-top:2px;"><small>Email: bombardier.devs.master@gmail.com</small>
+                                    </h4>
+                                    <h4 style="margin-top:2px;"><small>Phone: +254756754595</small></h4>
+                                    <h4 style="margin-top:2px;"><small>Reference: X8VJM3</small></h4>
+                                    <!--<li style="padding-left:20px;"><a href="#">Reference: </a></li>-->
+                                </div>
+                            </div><!-- media -->
+                        </div>
+                        <h4 style="padding-left:20px; margin-top:20px;" class="subtitle mb5 mt10">Order Summary</h4>
+                        <ul class="nav nav-sr p0 m0">
+                            <li style="padding-left:20px; border-top: 1px solid #ddd;"><a href="">OFFICIAL SEARCH
+                                    ("CR12") <div class="pull-right pr10">KES 650.00</div></a></li>
+                            <!--<li style="padding-left:20px;"><a href="#">Application Fee: 650.00</a></li>-->
+                            <li id="chf" style="padding-left:20px; display:none "><a href="#">Card Handling Fee <div
+                                        class="pull-right pr10">KES 19.5</div></a></li>
+                            <li id="chfequity" style="padding-left:20px; display:none "><a href="#">Card Handling Fee
+                                    <div class="pull-right pr10">KES 22.75</div></a></li>
+                            <li id="chd" style="padding-left:20px; display:none "><a href="#">Transaction Fee <div
+                                        class="pull-right pr10"> 0.00</div></a></li>
+                            <li id="kcb" style="padding-left:20px; display:none "><a href="#">Bank Charges <div
+                                        class="pull-right pr10">KES 0.00</div></a></li>
+                            <li id="eagent" style="padding-left:20px; display:none "><a href="#">Transaction Charges
+                                    <div class="pull-right pr10">KES 0.00</div></a></li>
+
+                        </ul>
+                    </div>
+                    <div class="panel panel-warning panel-alt widget-today" style="margin-top:0; background:#f2f2f2;">
+                        <div class="panel-body">
+                            <h3 class="today pull-left">Total:</h3>
+                            <h3 id="ct" style="display: none" class="today pull-right">KES 669.5</h3>
+                            <h3 id="ctequity" style="display: none" class="today pull-right">KES 672.75</h3>
+                            <h3 id="nt" class="today pull-right">KES 650.00</h3>
+                            <h3 id="kcbt" style="display: none" class="today pull-right">KES 650</h3>
+                            <h3 id="eagentt" style="display: none" class="today pull-right">KES 650</h3>
+                        </div><!-- panel-body -->
+                    </div>
+                </div>
+                <div style="border:1px solid @f2f2f2; padding:0px"
+                    class="panel panel-dark panel-alt billing-information">
+                    <img src="images/need_help2.jpg" />
+                </div>
+            </div><!-- row -->
+
+
+
+
+
+
+
+    </section>
+
+
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="js/jquery-ui-1.10.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/modernizr.min.js"></script>
+    <script src="js/jquery.sparkline.min.js"></script>
+    <script src="js/toggles.min.js"></script>
+    <script src="js/retina.min.js"></script>
+    <script src="js/jquery.cookies.js"></script>
+    <script src="js/jquery.autogrow-textarea.js"></script>
+    <script src="js/bootstrap-timepicker.min.js"></script>
+    <script src="js/jquery.maskedinput.min.js"></script>
+    <script src="js/jquery.tagsinput.min.js"></script>
+    <script src="js/jquery.mousewheel.js"></script>
+    <script src="js/select2.min.js"></script>
+    <script src="js/dropzone.min.js"></script>
+    <script src="js/colorpicker.js"></script>
+    <script src="js/custom.js"></script>
+
+    <script>
+        jQuery(document).ready(function () {
+            //checkOptions();
+
+            "use strict";
+            // Tags Input
+            jQuery('#tags').tagsInput({ width: 'auto' });
+            // Select2
+            jQuery(".select2").select2({
+                width: '100%'
+            });
+            // Basic Form
+
+            // Textarea Autogrow
+            jQuery('#autoResizeTA').autogrow();
+            // Color Picker
+            if (jQuery('#colorpicker').length > 0) {
+                jQuery('#colorSelector').ColorPicker({
+                    onShow: function (colpkr) {
+                        jQuery(colpkr).fadeIn(500);
+                        return false;
+                    },
+                    onHide: function (colpkr) {
+                        jQuery(colpkr).fadeOut(500);
+                        return false;
+                    },
+                    onChange: function (hsb, hex, rgb) {
+                        jQuery('#colorSelector span').css('backgroundColor', '#' + hex);
+                        jQuery('#colorpicker').val('#' + hex);
+                    }
+                });
+            }
+
+            // Color Picker Flat Mode
+            jQuery('#colorpickerholder').ColorPicker({
+                flat: true,
+                onChange: function (hsb, hex, rgb) {
+                    jQuery('#colorpicker3').val('#' + hex);
+                }
+            });
+            // Date Picker
+            jQuery('#datepicker').datepicker();
+            jQuery('#datepicker-inline').datepicker();
+            jQuery('#datepicker-multiple').datepicker({
+                numberOfMonths: 3,
+                showButtonPanel: true
+            });
+            // Spinner
+            var spinner = jQuery('#spinner').spinner();
+            spinner.spinner('value', 0);
+            // Input Masks
+            jQuery("#date").mask("99/99/9999");
+            jQuery("#phone").mask("(999) 999-9999");
+            jQuery("#ssn").mask("999-99-9999");
+            // Time Picker
+            jQuery('#timepicker').timepicker({ defaultTIme: false });
+            jQuery('#timepicker2').timepicker({ showMeridian: false });
+            jQuery('#timepicker3').timepicker({ minuteStep: 15 });
+
+        });
+
+    </script>
+
+</body>
+
+</html>

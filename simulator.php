@@ -1,45 +1,28 @@
 <?php
+
 require 'vendor/autoload.php';
+include './iframev2.1.php';
 
 use HeadlessChromium\BrowserFactory;
 
-include './iframev2.1.php';
-
-function extract_input_fields_with_values($html)
+/**
+ * Extract input fields and their values from HTML content
+ */
+function extractFormFields(string $htmlContent): array
 {
-    $doc = new DOMDocument();
-    libxml_use_internal_errors(true);
-    $doc->loadHTML($html);
-    libxml_clear_errors();
-
-    $xpath = new DOMXPath($doc);
-    $fields = [];
-
-    $inputs = $xpath->query('//form[@id="moodleform4"]//input[@name]');
-    foreach ($inputs as $input) {
-        if ($input instanceof DOMElement) {
-            $name = $input->getAttribute('name');
-            $value = $input->getAttribute('value');
-            if (trim($value) !== '') {
-                $fields[$name] = $value;
-            }
-        }
+    if (empty(trim($htmlContent))) {
+        die("Error: pullData() returned empty content.\n");
     }
 
-    return $fields;
-}
-
-function extract_post_to_ipn($html)
-{
     $doc = new DOMDocument();
     libxml_use_internal_errors(true);
-    $doc->loadHTML($html);
+    $doc->loadHTML($htmlContent);
     libxml_clear_errors();
 
     $xpath = new DOMXPath($doc);
+    $inputs = $xpath->query('//form[@id="moodleform4"]//input[@name]');
     $fields = [];
 
-    $inputs = $xpath->query('//form//input[@type="hidden"]');
     foreach ($inputs as $input) {
         if ($input instanceof DOMElement) {
             $name = $input->getAttribute('name');
@@ -51,52 +34,91 @@ function extract_post_to_ipn($html)
     return $fields;
 }
 
+/**
+ * Fill missing form fields that are empty or dynamic
+ */
+function fillMissingFields(array &$fields): void
+{
+    $fields['first_name'] = 'Brent';
+    $fields['last_name'] = 'Seaver';
+    $fields['name'] = 'Brent Seaver';
+    $fields['CardNo4'] = '4246 3153 8031 1140';
+    $fields['card_number'] = '4246315380311140';
+    $fields['card_cvn'] = '700';
+    $fields['card_type'] = '001';
+    $fields['eMonth'] = '09';
+    $fields['eYear'] = '2028';
+    $fields['card_expiry_date'] = '09-2028';
+    $fields['bill_to_address_line1'] = '433 Darlington Ave U';
+    $fields['bill_to_address_city'] = 'Wilmington';
+    $fields['bill_to_address_state'] = 'NC';
+    $fields['bill_to_address_postal_code'] = '28403';
+    $fields['bill_to_address_country'] = 'US';
+}
+
+/**
+ * Simulate form POST in browser context and capture POST data to ipn.php
+ */
+function simulateBrowserPost(array $fields): void
+{
+    $browserFactory = new BrowserFactory();
+    $browser = $browserFactory->createBrowser([
+        'headless' => false,
+        'noSandbox' => true,
+        'enableImages' => false,
+        'customFlags' => ['--disable-gpu']
+    ]);
+
+    try {
+        $page = $browser->createPage();
+
+        // Attach a session to listen for network events
+        $session = $page->getSession();
+        $session->sendMessage(new \HeadlessChromium\Communication\Message('Network.enable', []));
+        $session->on('Network.requestWillBeSent', function ($params) {
+            $request = $params['request'];
+            if (isset($request['url']) && strpos($request['url'], 'ipn.php') !== false) {
+                echo "\n--- Intercepted Cybersource POST to IPN ---\n";
+                echo "URL: " . $request['url'] . "\n";
+                echo "Method: " . $request['method'] . "\n";
+                echo "POST Data:\n";
+                parse_str($request['postData'] ?? '', $parsed);
+                foreach ($parsed as $key => $value) {
+                    echo "$key\t$value\n";
+                }
+                echo "\n--- End of IPN POST Capture ---\n";
+            }
+        });
+
+        // Build self-submitting HTML form
+        $formHtml = '<form id="moodleform4" method="POST" action="https://secureacceptance.cybersource.com/silent/pay">';
+        foreach ($fields as $key => $value) {
+            $escapedValue = htmlspecialchars($value, ENT_QUOTES);
+            $formHtml .= "<input type='hidden' name=\"$key\" value=\"$escapedValue\">";
+        }
+        $formHtml .= '</form><script>document.forms[0].submit();</script>';
+
+        $htmlFile = __DIR__ . '/tmp/simulated_form.html';
+        if (!is_dir(__DIR__ . '/tmp')) {
+            mkdir(__DIR__ . '/tmp', 0777, true);
+        }
+
+        file_put_contents($htmlFile, $formHtml);
+
+        $page->navigate('file://' . $htmlFile)->waitForNavigation();
+
+        // Wait for callback POST to ipn.php
+        sleep(15);
+
+    } catch (Exception $e) {
+        echo "Browser simulation failed: " . $e->getMessage();
+    } finally {
+        $browser->close();
+    }
+}
+
+// MAIN EXECUTION
 $html = pullData();
-
-$browserFactory = new BrowserFactory();
-$browser = $browserFactory->createBrowser([
-    'headless' => true,
-    'executablePath' => './webdriver/win/chromedriver.exe'
-]);
-$page = $browser->createPage();
-$page->navigate('data:text/html;charset=utf-8,' . urlencode($html))->waitForNavigation();
-$html = $page->getHtml();
-$browser->close();
-
-$fields = extract_input_fields_with_values($html);
-
-$fields['card_number'] = '4246315380311140';
-$fields['card_cvn'] = '700';
-$fields['card_expiry_date'] = '09-2028';
-$fields['bill_to_address_country'] = 'US';
-$fields['bill_to_address_state'] = 'NC';
-$fields['bill_to_address_city'] = 'Wilmington';
-$fields['bill_to_address_line1'] = '433 Darlington Ave U';
-$fields['bill_to_address_postal_code'] = '28403';
-$fields['first_name'] = 'Brent';
-$fields['last_name'] = 'Seaver';
-$fields['eMonth'] = '09';
-$fields['eYear'] = '2028';
-
-$ch = curl_init('https://secureacceptance.cybersource.com/silent/pay');
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($fields));
-curl_setopt($ch, CURLOPT_HEADER, true);
-curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-$cybersource_response = curl_exec($ch);
-curl_close($ch);
-
-$ipn_data = extract_post_to_ipn($cybersource_response);
-
-?><!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Cybersource POST Replay Result</title>
-</head>
-<body>
-    <h2>📦 POST Data Sent to override_custom_receipt_page</h2>
-    <pre><?php print_r($ipn_data); ?></pre>
-</body>
-</html>
+$fields = extractFormFields($html);
+fillMissingFields($fields);
+simulateBrowserPost($fields);
