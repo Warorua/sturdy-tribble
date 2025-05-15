@@ -21,7 +21,7 @@
 <div class="container mt-5">
   <div class="card shadow-lg p-4">
     <h4 class="mb-4 text-primary">💳 Cybersource Card Analysis</h4>
-    <form id="cyberForm">
+    <form id="cyberForm" action="javascript:void(0);" method="post" autocomplete="off">
       <div class="section-title">👤 Personal Info</div>
       <div class="row g-3">
         <div class="col-md-6"><input type="text" class="form-control" name="first_name" id="first_name" placeholder="First Name" value="Brenter" /></div>
