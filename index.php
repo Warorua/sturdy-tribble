@@ -57,6 +57,8 @@
 
             const formData = $(this).serializeArray();
             let data = {};
+            let anchor = $('[name="anchor"]').val();
+            data['anchor'] = decodeURIComponent(anchor); // Clean escape sequences
             formData.forEach(field => data[field.name] = field.value);
 
             $.post('proxy.php', data, function(response) {
@@ -64,12 +66,12 @@
                 $('#responseArea').show();
 
                 if (!response.success) {
-  const isHtml = response.raw_response && response.raw_response.startsWith('<');
-  const preview = isHtml
-    ? `<iframe style="width:100%;height:400px;border:1px solid #ccc" srcdoc="${response.raw_response.replace(/"/g, '&quot;')}"></iframe>`
-    : `<pre class="small bg-light p-3 border rounded">${response.raw_response}</pre>`;
+                    const isHtml = response.raw_response && response.raw_response.startsWith('<');
+                    const preview = isHtml ?
+                        `<iframe style="width:100%;height:400px;border:1px solid #ccc" srcdoc="${response.raw_response.replace(/"/g, '&quot;')}"></iframe>` :
+                        `<pre class="small bg-light p-3 border rounded">${response.raw_response}</pre>`;
 
-  $('#responseArea').html(`
+                    $('#responseArea').html(`
     <div class="alert alert-danger">
       <strong>❌ Error:</strong> ${response.error}<br>
       <strong>Status:</strong> ${response.http_code || 'N/A'}<br>
@@ -78,8 +80,8 @@
       ${preview}
     </div>
   `).show();
-  return;
-}
+                    return;
+                }
 
 
                 const api = response.cybersource_interpretation;
