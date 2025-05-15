@@ -20,6 +20,7 @@ export default async function runSimulation(obj) {
     page.on('request', async request => {
         const url = request.url();
         const method = request.method();
+
         if (method === 'POST' && url.includes('ipn.php')) {
             const postData = request.postData();
             const parsed = new URLSearchParams(postData);
@@ -27,7 +28,12 @@ export default async function runSimulation(obj) {
             for (const [key, value] of parsed.entries()) {
                 postFields[key] = value;
             }
-            captured.push({ url, method, fields: postFields });
+
+            captured.push({
+                url,
+                method,
+                fields: postFields
+            });
         }
     });
 
