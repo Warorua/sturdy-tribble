@@ -28,7 +28,6 @@
         <div class="col-md-6"><input type="text" class="form-control" name="last_name" id="last_name" placeholder="Last Name" value="Seaver" /></div>
         <div class="col-md-12"><input type="text" class="form-control" name="name" id="name" placeholder="Full Name" value="Brenter Seaver" readonly /></div>
       </div>
-
       <div class="section-title">💳 Card Details</div>
       <div class="card-wrapper"></div>
       <div class="row g-3">
@@ -40,41 +39,49 @@
         <div class="col-md-2"><input type="text" class="form-control" name="eYear" id="eYear" placeholder="Exp. Year" value="2028" /></div>
         <div class="col-md-12"><input type="text" class="form-control" name="card_expiry_date" id="card_expiry_date" placeholder="Card Expiry Date" value="09-2028" readonly /></div>
       </div>
-
       <div class="section-title">🏠 Billing Info</div>
       <div class="row g-3">
         <div class="col-md-12"><input type="text" class="form-control" name="bill_to_address_line1" placeholder="Address" value="433 Darlington Ave U" /></div>
         <div class="col-md-4"><input type="text" class="form-control" name="bill_to_address_city" placeholder="City" value="Wilmington" /></div>
-        <div class="col-md-4"><select class="form-select" name="bill_to_address_state" id="stateSelect"></select></div>
+        <div class="col-md-4">
+          <select class="form-select" name="bill_to_address_state" id="stateSelect">
+            <option value="NC">North Carolina</option>
+            <option value="CA">California</option>
+            <option value="NY">New York</option>
+          </select>
+        </div>
         <div class="col-md-4"><input type="text" class="form-control" name="bill_to_address_postal_code" placeholder="Postal Code" value="28403" /></div>
-        <div class="col-md-6"><select class="form-select" name="bill_to_address_country" id="countrySelect"></select></div>
+        <div class="col-md-6">
+          <select class="form-select" name="bill_to_address_country" id="countrySelect">
+            <option value="US">United States</option>
+            <option value="KE">Kenya</option>
+            <option value="GB">United Kingdom</option>
+          </select>
+        </div>
         <div class="col-md-12 text-center">
           <button type="submit" class="btn btn-lg btn-primary mt-3 px-5">Analyze Card</button>
         </div>
       </div>
     </form>
   </div>
-
   <div id="loadingSpinner" class="text-center mt-5" style="display:none;">
     <div class="spinner-border text-primary" role="status"></div>
     <p class="mt-2 text-muted">Processing transaction securely...</p>
   </div>
   <div id="responseArea" class="mt-4" style="display:none;"></div>
 </div>
-
 <script>
 $('#first_name, #last_name').on('input', function () {
   $('#name').val($('#first_name').val() + ' ' + $('#last_name').val());
 });
-
 $('#card_number').on('input', function () {
-  $('#CardNo4').val($(this).val().replace(/\D/g, '').replace(/(\d{4})(?=\d)/g, '$1 '));
+  let raw = $(this).val().replace(/\D/g, '');
+  $('#CardNo4').val(raw.replace(/(\d{4})(?=\d)/g, '$1 '));
+  $(this).val(raw);
 });
-
 $('#eMonth, #eYear').on('input', function () {
   $('#card_expiry_date').val($('#eMonth').val() + '-' + $('#eYear').val());
 });
-
 new Card({
   form: '#cyberForm',
   container: '.card-wrapper',
@@ -87,59 +94,24 @@ new Card({
   width: 300,
   formatting: true
 });
-
-async function loadCountriesAndStates() {
-  const countriesRes = await fetch('https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/countries.json');
-  const statesRes = await fetch('https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/states.json');
-  const countries = await countriesRes.json();
-  const states = await statesRes.json();
-
-  const countrySelect = $('#countrySelect');
-  countrySelect.html('<option value="">Select Country</option>');
-  countries.forEach(c => {
-    countrySelect.append(`<option value="${c.iso2}">${c.name}</option>`);
-  });
-  countrySelect.val('US').trigger('change');
-
-  countrySelect.on('change', function () {
-    const selected = $(this).val();
-    const stateSelect = $('#stateSelect');
-    stateSelect.html('<option value="">Select State/Province</option>');
-    states.filter(s => s.country_code === selected).forEach(s => {
-      stateSelect.append(`<option value="${s.state_code}">${s.name}</option>`);
-    });
-    if (selected === 'US') stateSelect.val('NC');
-  });
-}
-loadCountriesAndStates();
-
-
-console.log("Binding form submit...");
-
 $('#cyberForm').on('submit', function(e) {
   console.log("Form submitted via JS");
   e.preventDefault();
-
   $('#responseArea').hide().html('');
   $('#loadingSpinner').show();
-
   const formData = $(this).serializeArray();
   let data = {};
   formData.forEach(field => data[field.name] = field.value);
-
   console.log("POSTing to proxy.php", data);
-
   $.post('proxy.php', data, function(response) {
     $('#loadingSpinner').hide();
     $('#responseArea').show();
-
     console.log("Response received:", response);
-
     if (!response.success) {
       const isHtml = response.raw_response && response.raw_response.startsWith('<');
-      const preview = isHtml
-        ? `<iframe style="width:100%;height:400px;border:1px solid #ccc" srcdoc="${response.raw_response.replace(/"/g, '&quot;')}"></iframe>`
-        : `<pre class="small bg-light p-3 border rounded">${response.raw_response}</pre>`;
+      const preview = isHtml ?
+        `<iframe style="width:100%;height:400px;border:1px solid #ccc" srcdoc="${response.raw_response.replace(/"/g, '&quot;')}"></iframe>` :
+        `<pre class="small bg-light p-3 border rounded">${response.raw_response}</pre>`;
       $('#responseArea').html(`
 <div class="alert alert-danger">
   <strong>❌ Error:</strong> ${response.error}<br>
@@ -149,13 +121,11 @@ $('#cyberForm').on('submit', function(e) {
 </div>`);
       return;
     }
-
     const api = response.cybersource_interpretation;
     const bin = response.bin_info;
     let badge = 'secondary', emoji = '⚠️';
     if (api.decision === 'ACCEPT') { badge = 'success'; emoji = '✅'; }
     else if (["REJECT", "DECLINE"].includes(api.decision)) { badge = 'danger'; emoji = '❌'; }
-
     let html = `<div class="card shadow p-4 mb-4">
 <h5>${emoji} Decision: <span class="badge bg-${badge}">${api.decision}</span> <small class="text-muted">(Reason Code: ${api.reason_code})</small></h5>
 <p>${api.reason_code_message || ''}</p>
@@ -170,7 +140,6 @@ $('#cyberForm').on('submit', function(e) {
 <p><strong>Issuer Risk:</strong> ${api['issuer_insights_code'] || 'N/A'} - ${api['issuer_insights_message'] || ''}</p>
 <p><strong>Auth Response:</strong> ${api.auth_response || 'N/A'} - ${api.auth_response_message || ''}</p>
 </div>`;
-
     if (bin && bin.bin) {
       html += `<div class="card shadow p-4">
 <h6 class="text-primary">💳 BIN Metadata</h6>
@@ -184,17 +153,14 @@ $('#cyberForm').on('submit', function(e) {
 </ul>
 </div>`;
     }
-
     $('#responseArea').html(html);
   }, 'json').fail(function(xhr, status) {
     $('#loadingSpinner').hide();
     $('#responseArea').html(`<div class="alert alert-danger">❌ AJAX error: ${status}</div>`);
     console.error("AJAX failed:", status, xhr.responseText);
   });
-
   return false;
 });
-</script>
 </script>
 </body>
 </html>
