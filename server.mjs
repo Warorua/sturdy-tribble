@@ -1,9 +1,8 @@
 import express from 'express';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000; // THIS IS REQUIRED FOR RENDER
 
-// Unified route for both `/` and `/run-simulate`
 app.get(['/', '/run-simulate'], async (req, res) => {
     const obj = req.query.obj;
 
@@ -19,4 +18,8 @@ app.get(['/', '/run-simulate'], async (req, res) => {
         console.error(error);
         res.status(500).json({ success: false, error: error.message });
     }
+});
+
+app.listen(PORT, () => {
+    console.log(`✅ Server is listening on port ${PORT}`);
 });
