@@ -7,7 +7,19 @@ export default async function runSimulation(obj) {
     const response = await fetch(apiUrl);
     const fields = await response.json();
 
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({
+        headless: 'new',
+        executablePath: puppeteer.executablePath(),
+        args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-gpu',
+            '--no-zygote',
+            '--single-process'
+        ]
+    });
+
     const page = await browser.newPage();
 
     const captured = [];
