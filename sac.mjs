@@ -12,18 +12,19 @@ export default async function runSimulation(obj) {
     const browser = await puppeteer.launch({
         headless: 'new',
         executablePath: path.join(
-          os.homedir(),
-          '.cache/puppeteer/chrome/linux-1108766/chrome-linux/chrome'
+            os.homedir(),
+            '.cache/puppeteer/chrome/linux-1108766/chrome-linux64/chrome' // <-- Correct path
         ),
         args: [
-          '--no-sandbox',
-          '--disable-setuid-sandbox',
-          '--disable-dev-shm-usage',
-          '--disable-gpu',
-          '--no-zygote',
-          '--single-process'
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-gpu',
+            '--no-zygote',
+            '--single-process'
         ]
-      });
+    });
+    
     
 
     const page = await browser.newPage();
