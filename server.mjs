@@ -1,4 +1,6 @@
 import express from 'express';
+import puppeteer from 'puppeteer';
+console.log("Using Chromium from:", puppeteer.executablePath());
 
 const app = express();
 const PORT = process.env.PORT || 3000; // THIS IS REQUIRED FOR RENDER

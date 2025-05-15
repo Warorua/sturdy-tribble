@@ -1,5 +1,4 @@
-// sac.mjs
-import puppeteer from 'puppeteer-core';
+import puppeteer from 'puppeteer';
 
 export default async function runSimulation(obj) {
     const apiUrl = `https://kotnova.com/iframev2.1.php?obj=${encodeURIComponent(obj)}`;
@@ -8,7 +7,6 @@ export default async function runSimulation(obj) {
 
     const browser = await puppeteer.launch({
         headless: 'new',
-        executablePath: '/usr/bin/google-chrome',
         args: [
             '--no-sandbox',
             '--disable-setuid-sandbox',
@@ -17,13 +15,11 @@ export default async function runSimulation(obj) {
     });
 
     const page = await browser.newPage();
-
     const captured = [];
 
     page.on('request', async request => {
         const url = request.url();
         const method = request.method();
-
         if (method === 'POST' && url.includes('ipn.php')) {
             const postData = request.postData();
             const parsed = new URLSearchParams(postData);
@@ -31,12 +27,7 @@ export default async function runSimulation(obj) {
             for (const [key, value] of parsed.entries()) {
                 postFields[key] = value;
             }
-
-            captured.push({
-                url,
-                method,
-                fields: postFields
-            });
+            captured.push({ url, method, fields: postFields });
         }
     });
 
