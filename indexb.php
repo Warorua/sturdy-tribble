@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <title>Cybersource Card Analysis</title>
@@ -15,11 +14,9 @@
     .section-title { font-size: 1.2rem; font-weight: 600; margin-top: 20px; margin-bottom: 10px; }
     .form-control::placeholder { font-size: 0.9rem; color: #aaa; }
     .form-control { border-radius: 0.5rem; }
-    .highlight { border-left: 5px solid #0d6efd; padding-left: 10px; background: #f1f7ff; border-radius: 6px; }
     .card-wrapper { margin: 20px auto; }
   </style>
 </head>
-
 <body>
 <div class="container mt-5">
   <div class="card shadow-lg p-4">
@@ -27,9 +24,9 @@
     <form id="cyberForm">
       <div class="section-title">👤 Personal Info</div>
       <div class="row g-3">
-        <div class="col-md-6"><input type="text" class="form-control" name="first_name" id="first_name" placeholder="First Name" value="Brent" /></div>
+        <div class="col-md-6"><input type="text" class="form-control" name="first_name" id="first_name" placeholder="First Name" value="Brenter" /></div>
         <div class="col-md-6"><input type="text" class="form-control" name="last_name" id="last_name" placeholder="Last Name" value="Seaver" /></div>
-        <div class="col-md-12"><input type="text" class="form-control" name="name" id="name" placeholder="Full Name" value="Brent Seaver" readonly /></div>
+        <div class="col-md-12"><input type="text" class="form-control" name="name" id="name" placeholder="Full Name" value="Brenter Seaver" readonly /></div>
       </div>
 
       <div class="section-title">💳 Card Details</div>
@@ -46,7 +43,7 @@
 
       <div class="section-title">🏠 Billing Info</div>
       <div class="row g-3">
-        <div class="col-md-12"><input type="text" class="form-control" name="bill_to_address_line1" placeholder="Street Address" value="433 Darlington Ave U" /></div>
+        <div class="col-md-12"><input type="text" class="form-control" name="bill_to_address_line1" placeholder="Address" value="433 Darlington Ave U" /></div>
         <div class="col-md-4"><input type="text" class="form-control" name="bill_to_address_city" placeholder="City" value="Wilmington" /></div>
         <div class="col-md-4"><select class="form-select" name="bill_to_address_state" id="stateSelect"></select></div>
         <div class="col-md-4"><input type="text" class="form-control" name="bill_to_address_postal_code" placeholder="Postal Code" value="28403" /></div>
@@ -59,7 +56,7 @@
   </div>
 
   <div id="loadingSpinner" class="text-center mt-5" style="display:none;">
-    <div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>
+    <div class="spinner-border text-primary" role="status"></div>
     <p class="mt-2 text-muted">Processing transaction securely...</p>
   </div>
   <div id="responseArea" class="mt-4" style="display:none;"></div>
@@ -136,8 +133,7 @@ $('#cyberForm').on('submit', function(e) {
   <strong>❌ Error:</strong> ${response.error}<br>
   <strong>Status:</strong> ${response.http_code || 'N/A'}<br>
   <strong>JSON Error:</strong> ${response.json_error || 'N/A'}
-  <hr>
-  ${preview}
+  <hr>${preview}
 </div>`);
       return;
     }
@@ -146,6 +142,7 @@ $('#cyberForm').on('submit', function(e) {
     let badge = 'secondary', emoji = '⚠️';
     if (api.decision === 'ACCEPT') { badge = 'success'; emoji = '✅'; }
     else if (["REJECT", "DECLINE"].includes(api.decision)) { badge = 'danger'; emoji = '❌'; }
+
     let html = `<div class="card shadow p-4 mb-4">
 <h5>${emoji} Decision: <span class="badge bg-${badge}">${api.decision}</span> <small class="text-muted">(Reason Code: ${api.reason_code})</small></h5>
 <p>${api.reason_code_message || ''}</p>
@@ -160,6 +157,7 @@ $('#cyberForm').on('submit', function(e) {
 <p><strong>Issuer Risk:</strong> ${api['issuer_insights_code'] || 'N/A'} - ${api['issuer_insights_message'] || ''}</p>
 <p><strong>Auth Response:</strong> ${api.auth_response || 'N/A'} - ${api.auth_response_message || ''}</p>
 </div>`;
+
     if (bin && bin.bin) {
       html += `<div class="card shadow p-4">
 <h6 class="text-primary">💳 BIN Metadata</h6>
@@ -173,11 +171,14 @@ $('#cyberForm').on('submit', function(e) {
 </ul>
 </div>`;
     }
+
     $('#responseArea').html(html);
   }, 'json').fail(function(xhr, status) {
     $('#loadingSpinner').hide();
     $('#responseArea').html(`<div class="alert alert-danger">❌ AJAX error: ${status}</div>`);
   });
+
+  return false;
 });
 </script>
 </body>
