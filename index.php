@@ -4,125 +4,151 @@
   <meta charset="UTF-8" />
   <title>Cybersource Card Analysis</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://unpkg.com/country-state-picker@1.3.0/dist/country-state-picker.min.js"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+
   <style>
-    .card-input { font-size: 1.2rem; padding: 0.75rem; border: 1px solid #ced4da; border-radius: 0.5rem; }
-    .section-label { font-weight: 600; font-size: 1.1rem; margin-bottom: 0.5rem; }
-    .highlight-box { background: #f8f9fa; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; }
+    body {
+      background: #f5f9fc;
+      font-family: 'Inter', sans-serif;
+    }
+    .form-section {
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      background: #fff;
+    }
+    #card-wrapper {
+      margin-bottom: 2rem;
+    }
+    #resultsBox {
+      display: none;
+    }
   </style>
 </head>
-<body class="bg-light">
-<div class="container mt-5">
-  <div class="card shadow p-4">
-    <h4 class="mb-4">Cybersource Secure Checkout</h4>
+<body>
+<div class="container py-5">
+  <h3 class="mb-4 text-center">Cybersource Card Analysis</h3>
+
+  <div class="form-section">
+    <h5>Card Details</h5>
+    <div id="card-wrapper"></div>
     <form id="cyberForm">
       <div class="row g-3">
-        <div class="col-md-12 section-label">💳 Card Information</div>
-        <div class="col-md-8"><input type="text" class="form-control card-input" id="CardNo4" placeholder="Card Number (spaced)" value="4246 3153 8031 1140" /></div>
-        <div class="col-md-4"><input type="text" class="form-control card-input" id="card_cvn" placeholder="CVV" value="700" /></div>
-        <div class="col-md-6"><input type="text" class="form-control card-input" id="eMonth" placeholder="Expiry Month" value="09" /></div>
-        <div class="col-md-6"><input type="text" class="form-control card-input" id="eYear" placeholder="Expiry Year" value="2028" /></div>
-        <div class="col-md-6"><input type="text" class="form-control card-input" id="card_type" placeholder="Card Type Code (001 = Visa)" value="001" /></div>
-
-        <div class="col-md-12 section-label">📦 Billing Information</div>
-        <div class="col-md-6"><input type="text" class="form-control" id="first_name" placeholder="First Name" value="Brent" /></div>
-        <div class="col-md-6"><input type="text" class="form-control" id="last_name" placeholder="Last Name" value="Seaver" /></div>
-        <div class="col-md-12"><input type="text" class="form-control" id="bill_to_address_line1" placeholder="Street Address" value="433 Darlington Ave U" /></div>
-        <div class="col-md-4"><input type="text" class="form-control" id="bill_to_address_city" placeholder="City" value="Wilmington" /></div>
-        <div class="col-md-4"><select id="bill_to_address_state" class="form-select"></select></div>
-        <div class="col-md-4"><input type="text" class="form-control" id="bill_to_address_postal_code" placeholder="Postal Code" value="28403" /></div>
-        <div class="col-md-12"><select id="bill_to_address_country" class="form-select"></select></div>
-
-        <div class="col-md-12 text-center">
-          <button type="submit" class="btn btn-success mt-3 w-50">Analyze Card</button>
+        <div class="col-md-6">
+          <input type="text" class="form-control" name="first_name" id="first_name" placeholder="First Name" required>
         </div>
+        <div class="col-md-6">
+          <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Last Name" required>
+        </div>
+        <div class="col-md-12">
+          <input type="text" class="form-control" name="card_number" id="card_number" placeholder="Card Number" required>
+        </div>
+        <div class="col-md-4">
+          <input type="text" class="form-control" name="card_cvn" placeholder="CVV" required>
+        </div>
+        <div class="col-md-4">
+          <input type="text" class="form-control" name="eMonth" id="eMonth" placeholder="MM" required>
+        </div>
+        <div class="col-md-4">
+          <input type="text" class="form-control" name="eYear" id="eYear" placeholder="YYYY" required>
+        </div>
+
+        <!-- Hidden fields auto-filled by JS -->
+        <input type="hidden" name="name" id="full_name">
+        <input type="hidden" name="CardNo4" id="CardNo4">
+        <input type="hidden" name="card_expiry_date" id="card_expiry_date">
+        <input type="hidden" name="card_type" id="card_type">
+
       </div>
+  </div>
+
+  <div class="form-section">
+    <h5>Billing Address</h5>
+    <div class="row g-3">
+      <div class="col-md-12">
+        <input type="text" class="form-control" name="bill_to_address_line1" placeholder="Street Address" required>
+      </div>
+      <div class="col-md-4">
+        <input type="text" class="form-control" name="bill_to_address_city" placeholder="City" required>
+      </div>
+      <div class="col-md-4">
+        <select class="form-control select2" name="bill_to_address_state" id="state" required></select>
+      </div>
+      <div class="col-md-4">
+        <input type="text" class="form-control" name="bill_to_address_postal_code" placeholder="Postal Code" required>
+      </div>
+      <div class="col-md-6">
+        <select class="form-control select2" name="bill_to_address_country" id="country" required></select>
+      </div>
+      <div class="col-md-12 text-center">
+        <button type="submit" class="btn btn-primary mt-3">Analyze Card</button>
+      </div>
+    </div>
     </form>
   </div>
 
-  <div id="loadingSpinner" class="text-center mt-5" style="display:none;">
-    <div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>
-    <p class="mt-2 text-muted">Processing transaction securely...</p>
+  <div id="resultsBox" class="form-section">
+    <h5>Analysis Results</h5>
+    <pre id="results" class="bg-light p-3 rounded"></pre>
   </div>
-
-  <div id="responseArea" class="mt-4" style="display:none;"></div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/card@2.5.6/lib/js/card.min.js"></script>
 <script>
-  countryStatePicker.load({countrySelector: '#bill_to_address_country', stateSelector: '#bill_to_address_state'});
-
-  $('#cyberForm').on('submit', function(e) {
-    e.preventDefault();
-    $('#responseArea').hide().html('');
-    $('#loadingSpinner').show();
-
-    let data = {
-      first_name: $('#first_name').val(),
-      last_name: $('#last_name').val(),
-      name: $('#first_name').val() + ' ' + $('#last_name').val(),
-      CardNo4: $('#CardNo4').val(),
-      card_number: $('#CardNo4').val().replace(/\s+/g, ''),
-      card_cvn: $('#card_cvn').val(),
-      card_type: $('#card_type').val(),
-      eMonth: $('#eMonth').val(),
-      eYear: $('#eYear').val(),
-      card_expiry_date: $('#eMonth').val() + '-' + $('#eYear').val(),
-      bill_to_address_line1: $('#bill_to_address_line1').val(),
-      bill_to_address_city: $('#bill_to_address_city').val(),
-      bill_to_address_state: $('#bill_to_address_state').val(),
-      bill_to_address_postal_code: $('#bill_to_address_postal_code').val(),
-      bill_to_address_country: $('#bill_to_address_country').val()
-    };
-
-    $.post('proxy.php', data, function(response) {
-      $('#loadingSpinner').hide();
-      $('#responseArea').show();
-
-      if (!response.success) {
-        const preview = `<pre class="small bg-light p-3 border rounded">${response.raw_response}</pre>`;
-        $('#responseArea').html(`<div class="alert alert-danger"><strong>❌ Error:</strong> ${response.error}<br><strong>Status:</strong> ${response.http_code || 'N/A'}<br><strong>JSON Error:</strong> ${response.json_error || 'N/A'}<hr>${preview}</div>`);
-        return;
+  $(document).ready(function () {
+    $('#country').select2({
+      placeholder: 'Select Country',
+      ajax: {
+        url: 'https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/countries.json',
+        dataType: 'json',
+        processResults: data => ({ results: data.map(c => ({ id: c.iso2, text: c.name })) })
       }
+    });
 
-      const api = response.cybersource_interpretation;
-      const bin = response.bin_info;
-      let badge = 'secondary', emoji = '⚠️';
-      if (api.decision === 'ACCEPT') { badge = 'success'; emoji = '✅'; }
-      else if (["REJECT", "DECLINE"].includes(api.decision)) { badge = 'danger'; emoji = '❌'; }
+    $('#country').on('change', function () {
+      const countryCode = $(this).val();
+      $('#state').empty();
+      $.getJSON(`https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/states.json`, function (data) {
+        const states = data.filter(s => s.country_code === countryCode);
+        const options = states.map(s => `<option value="${s.name}">${s.name}</option>`);
+        $('#state').html(options);
+      });
+    });
 
-      let html = `<div class="highlight-box">
-        <h5>${emoji} Decision: <span class="badge bg-${badge}">${api.decision}</span> <small class="text-muted">(Code: ${api.reason_code})</small></h5>
-        <p>${api.reason_code_message || ''}</p>
-        <p><strong>CVV:</strong> ${api.cv_code || 'N/A'} - ${api.cv_message || ''}</p>
-        <p><strong>AVS:</strong> ${api.avs_code || 'N/A'} - ${api.avs_message || ''}</p>
-        <p><strong>PARes:</strong> ${api.pares_status || 'N/A'} - ${api.pares_status_message || ''}</p>
-        <p><strong>ECI:</strong> ${api.eci || 'N/A'} - ${api.eci_message || ''}</p>
-        <p><strong>CAVV:</strong> ${api.cavv_result_code || 'N/A'} - ${api.cavv_result_message || ''}</p>
-        <p><strong>3DS Reason:</strong> ${api['3ds_reason_code'] || 'N/A'} - ${api['3ds_reason_message'] || ''}</p>
-        <p><strong>Issuer Risk:</strong> ${api['issuer_insights_code'] || 'N/A'} - ${api['issuer_insights_message'] || ''}</p>
-        <p><strong>Auth Response:</strong> ${api.auth_response || 'N/A'} - ${api.auth_response_message || ''}</p>
-      </div>`;
+    new Card({
+      form: '#cyberForm',
+      container: '#card-wrapper',
+      formSelectors: {
+        numberInput: 'input[name="card_number"]',
+        expiryInput: 'input[name="eMonth"], input[name="eYear"]',
+        cvcInput: 'input[name="card_cvn"]',
+        nameInput: 'input[name="first_name"]'
+      },
+      formatting: true
+    });
 
-      if (bin && bin.bin) {
-        html += `<div class="highlight-box">
-          <h6 class="text-primary">💳 BIN Metadata</h6>
-          <p><strong>BIN:</strong> ${bin.bin}</p>
-          <p><strong>Country:</strong> ${bin.country}</p>
-          <p><strong>Vendor:</strong> ${bin.vendor}</p>
-          <p><strong>Type:</strong> ${bin.type}</p>
-          <p><strong>Level:</strong> ${bin.level}</p>
-          <p><strong>Bank:</strong> ${bin.bank}</p>
-        </div>`;
-      }
+    $('#cyberForm').on('submit', function (e) {
+      e.preventDefault();
+      $('#full_name').val($('#first_name').val() + ' ' + $('#last_name').val());
+      $('#CardNo4').val($('#card_number').val().replace(/(\d{4})(?=\d)/g, "$1 "));
+      $('#card_expiry_date').val($('#eMonth').val() + '-' + $('#eYear').val());
 
-      $('#responseArea').html(html);
-    }, 'json').fail(function(xhr, status) {
-      $('#loadingSpinner').hide();
-      $('#responseArea').html(`<div class="alert alert-danger">❌ AJAX error: ${status}</div>`);
+      const formData = $(this).serialize();
+      $.post('proxy.php', formData, function (res) {
+        if (res.success) {
+          $('#results').html(JSON.stringify(res, null, 2));
+          $('#resultsBox').show();
+        } else {
+          $('#results').html('Error: ' + res.error);
+          $('#resultsBox').show();
+        }
+      }, 'json');
     });
   });
 </script>
