@@ -18,7 +18,17 @@ if ($error) {
 }
 
 $parsed = json_decode($response, true);
-$fields = $parsed['intercepted'][0]['fields'] ?? [];
+$parsed = json_decode($response, true);
+if (!isset($parsed['intercepted'][0]['fields'])) {
+    echo json_encode([
+        'success' => false,
+        'error' => 'Malformed response from Cybersource proxy',
+        'raw_response' => $response
+    ]);
+    exit;
+}
+$fields = $parsed['intercepted'][0]['fields'];
+
 
 if (!$fields) {
     echo json_encode(['success' => false, 'error' => 'Malformed response from Cybersource proxy']);
