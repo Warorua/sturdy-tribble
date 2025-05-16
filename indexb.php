@@ -76,57 +76,59 @@
             <form id="cyberForm" action="javascript:void(0);" method="post" autocomplete="off">
                 <div class="section-title">👤 Personal Info</div>
                 <div class="row mb-3">
-                    <div class="col-md-6"><input type="text" class="form-control braintree-control" name="first_name" id="first_name" placeholder="First Name" value="Brenter" /></div>
-                    <div class="col-md-6"><input type="text" class="form-control braintree-control" name="last_name" id="last_name" placeholder="Last Name" value="Seaver" /></div>
-                    <div class="col-md-12"><input type="text" class="form-control braintree-control" name="name" id="name" placeholder="Full Name" value="Brenter Seaver" readonly /></div>
+                    <div class="col-md-6 mb-3"><input type="text" class="form-control braintree-control" name="first_name" id="first_name" placeholder="First Name" value="Brenter" /></div>
+                    <div class="col-md-6 mb-3"><input type="text" class="form-control braintree-control" name="last_name" id="last_name" placeholder="Last Name" value="Seaver" /></div>
+                    <div class="col-md-12 mb-3"><input type="text" class="form-control braintree-control" name="name" id="name" placeholder="Full Name" value="Brenter Seaver" readonly /></div>
                 </div>
                 <div class="section-title">💳 Card Details</div>
                 <div class="card-wrapper visually-hidden"></div>
-                
+
                 <div id="card-type-indicator">
                     <img id="card-type-icon" src="" alt="" />
                     <span id="card-type-name" class="text-muted"></span>
                 </div>
-                
 
-                    <div class="mb-3"><input type="number" class="form-control braintree-control" name="card_number" id="card_number" placeholder="Raw Card Number" value="4246315380311140" /></div>
-                    <div class="mb-3"><input type="number" class="form-control braintree-control" name="card_cvn" id="card_cvn" placeholder="CVN" value="700" /></div>
-                    <div class="mb-3"><input type="number" class="form-control braintree-control" name="eMonth" id="eMonth" min="1" max="12" placeholder="Exp. Month" /></div>
-                    <div class="mb-3"><input type="number" class="form-control braintree-control" name="eYear" id="eYear" min="1900" max="2099" placeholder="Exp. Year" placeholder="YYYY" /></div>
 
-                
+                <div class="mb-3"><input type="number" class="form-control braintree-control" name="card_number" id="card_number" placeholder="Raw Card Number" value="4246315380311140" /></div>
+                <div class="mb-3"><input type="number" class="form-control braintree-control" name="card_cvn" id="card_cvn" placeholder="CVN" value="700" /></div>
+                <div class="mb-3"><input type="number" class="form-control braintree-control" name="eMonth" id="eMonth" min="1" max="12" placeholder="Exp. Month" /></div>
+                <div class="mb-3"><input type="number" class="form-control braintree-control" name="eYear" id="eYear" min="1900" max="2099" placeholder="Exp. Year" placeholder="YYYY" /></div>
+
+
                 <div class="section-title">🏠 Billing Info</div>
                 <div class="row mb-3">
-                    <div class="col-md-12"><input type="text" class="form-control" name="bill_to_address_line1" placeholder="Address" value="433 Darlington Ave U" /></div>
-                    <div class="col-md-6">
+                    <div class="col-md-12 mb-3"><input type="text" class="form-control" name="bill_to_address_line1" placeholder="Address" value="433 Darlington Ave U" /></div>
+                    <div class="col-md-6 mb-3">
                         <select class="form-select" name="bill_to_address_country" id="countrySelect">
                             <option value="">Select Country</option>
                         </select>
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-6 mb-3">
                         <select class="form-select" name="bill_to_address_state" id="stateSelect">
                             <option value="">Select State/Province</option>
                         </select>
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-6 mb-3">
                         <input type="text" class="form-control" name="bill_to_address_postal_code" placeholder="Postal Code" value="28403" />
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-6 mb-3">
                         <select class="form-select" name="bill_to_address_city" id="citySelect">
                             <option value="">Select City</option>
                         </select>
                     </div>
 
                     <div class="col-md-12 text-center">
-                        <button type="submit" class="btn btn-lg btn-primary mt-3 px-5">Analyze Card</button>
+                        <div id="bin-details" class="alert alert-secondary"><em>Waiting for BIN...</em></div>
                     </div>
 
                     <div class="col-md-12 text-center">
-                        <div id="bin-details" class="alert alert-secondary"><em>Waiting for BIN...</em></div>
+                        <button type="submit" class="btn btn-lg btn-primary mt-3 px-5">Analyze Card</button>
                     </div>
+
+
                 </div>
             </form>
         </div>
@@ -137,7 +139,6 @@
         <div id="responseArea" class="mt-4" style="display:none;"></div>
     </div>
     <script>
-      
         $('#cyberForm').on('submit', function(e) {
             console.log("Form submitted via JS");
             e.preventDefault();
