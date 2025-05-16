@@ -62,9 +62,9 @@
                 <div class="section-title">🏠 Billing Info</div>
                 <div class="row g-3">
                     <div class="col-md-12"><input type="text" class="form-control" name="bill_to_address_line1" placeholder="Address" value="433 Darlington Ave U" /></div>
-                    <div class="col-md-4">
-                        <select class="form-select" name="bill_to_address_city" id="citySelect">
-                            <option value="">Select City</option>
+                    <div class="col-md-6">
+                        <select class="form-select" name="bill_to_address_country" id="countrySelect">
+                            <option value="">Select Country</option>
                         </select>
                     </div>
 
@@ -78,9 +78,9 @@
                         <input type="text" class="form-control" name="bill_to_address_postal_code" placeholder="Postal Code" value="28403" />
                     </div>
 
-                    <div class="col-md-6">
-                        <select class="form-select" name="bill_to_address_country" id="countrySelect">
-                            <option value="">Select Country</option>
+                    <div class="col-md-4">
+                        <select class="form-select" name="bill_to_address_city" id="citySelect">
+                            <option value="">Select City</option>
                         </select>
                     </div>
 
@@ -194,42 +194,42 @@
             return false;
         });
     </script>
-    <script src="scripts/countries_states_cities.json" type="application/json" id="geo-data"></script>
     <script>
-        $(document).ready(function() {
-            const rawJson = document.getElementById('geo-data').textContent;
-            const geoData = JSON.parse(rawJson);
+        fetch('scripts/countries_states_cities.json')
+            .then(res => res.json())
+            .then(data => {
+                const countries = data;
 
-            const countries = geoData.countries;
-            const states = geoData.states;
-            const cities = geoData.cities;
-
-            countries.forEach(c => {
-                $('#countrySelect').append(`<option value="${c.iso2}">${c.name}</option>`);
-            });
-
-            $('#countrySelect').on('change', function() {
-                const countryCode = $(this).val();
-                const filteredStates = states.filter(s => s.country_code === countryCode);
-                $('#stateSelect').html('<option value="">Select State/Province</option>');
-                filteredStates.forEach(s => {
-                    $('#stateSelect').append(`<option value="${s.state_code}">${s.name}</option>`);
-                }).trigger('change');
-            });
-
-            $('#stateSelect').on('change', function() {
-                const countryCode = $('#countrySelect').val();
-                const stateCode = $(this).val();
-                const filteredCities = cities.filter(c =>
-                    c.country_code === countryCode && c.state_code === stateCode
-                );
-                $('#citySelect').html('<option value="">Select City</option>');
-                filteredCities.forEach(city => {
-                    $('#citySelect').append(`<option value="${city.name}">${city.name}</option>`);
+                countries.forEach(c => {
+                    $('#countrySelect').append(`<option value="${c.iso2}">${c.name}</option>`);
                 });
+
+                $('#countrySelect').on('change', function() {
+                    const selectedCountry = countries.find(c => c.iso2 === $(this).val());
+                    $('#stateSelect').html('<option value="">Select State/Province</option>');
+                    $('#citySelect').html('<option value="">Select City</option>');
+
+                    if (!selectedCountry || !selectedCountry.states) return;
+
+                    selectedCountry.states.forEach(s => {
+                        $('#stateSelect').append(`<option value="${s.state_code}">${s.name}</option>`);
+                    });
+
+                    $('#stateSelect').off('change').on('change', function() {
+                        const selectedState = selectedCountry.states.find(s => s.state_code === $(this).val());
+                        $('#citySelect').html('<option value="">Select City</option>');
+                        if (!selectedState || !selectedState.cities) return;
+                        selectedState.cities.forEach(city => {
+                            $('#citySelect').append(`<option value="${city.name}">${city.name}</option>`);
+                        });
+                    });
+                });
+            })
+            .catch(err => {
+                console.error("Error loading geo JSON:", err);
             });
-        });
     </script>
+
 
 </body>
 
