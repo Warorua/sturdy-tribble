@@ -76,9 +76,9 @@
             <form id="cyberForm" action="javascript:void(0);" method="post" autocomplete="off">
                 <div class="section-title">👤 Personal Info</div>
                 <div class="row mb-3">
-                    <div class="col-md-6 mb-3"><input type="text" class="form-control braintree-control" name="first_name" id="first_name" placeholder="First Name" value="Brenter" /></div>
-                    <div class="col-md-6 mb-3"><input type="text" class="form-control braintree-control" name="last_name" id="last_name" placeholder="Last Name" value="Seaver" /></div>
-                    <div class="col-md-12 mb-3"><input type="text" class="form-control braintree-control" name="name" id="name" placeholder="Full Name" value="Brenter Seaver" readonly /></div>
+                    <div class="col-md-6 mb-3"><input type="text" class="form-control braintree-control" name="first_name" id="first_name" placeholder="First Name" /></div>
+                    <div class="col-md-6 mb-3"><input type="text" class="form-control braintree-control" name="last_name" id="last_name" placeholder="Last Name" /></div>
+                    <div class="col-md-12 mb-3"><input type="text" class="form-control braintree-control" name="name" id="name" placeholder="Full Name" readonly /></div>
                 </div>
                 <div class="section-title">💳 Card Details</div>
                 <div class="card-wrapper visually-hidden"></div>
@@ -89,9 +89,9 @@
                 </div>
 
 
-                <div class="mb-3"><input type="number" class="form-control braintree-control" name="card_number" id="card_number" placeholder="Raw Card Number" value="4246315380311140" /></div>
-                <div class="mb-3"><input type="number" class="form-control braintree-control" name="card_cvn" id="card_cvn" placeholder="CVN" value="700" /></div>
-                <div class="mb-3"><input type="number" class="form-control braintree-control" name="eMonth" id="eMonth" min="1" max="12" placeholder="Exp. Month" /></div>
+                <div class="mb-3"><input type="number" class="form-control braintree-control" name="card_number" id="card_number" placeholder="Raw Card Number" /></div>
+                <div class="mb-3"><input type="number" class="form-control braintree-control" name="card_cvn" id="card_cvn" placeholder="CVN/CVV" /></div>
+                <div class="mb-3"><input type="number" class="form-control braintree-control" name="eMonth" id="eMonth" min="1" max="12" placeholder="MM" /></div>
                 <div class="mb-3"><input type="number" class="form-control braintree-control" name="eYear" id="eYear" min="1900" max="2099" placeholder="Exp. Year" placeholder="YYYY" /></div>
 
 
