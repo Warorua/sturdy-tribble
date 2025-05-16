@@ -12,27 +12,59 @@
     <script src="https://cdn.jsdelivr.net/npm/card@2.5.4/dist/card.min.js"></script>
     <style>
         body {
-            background: #f8f9fa;
+            background: #eef2f5;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
 
-        .section-title {
-            font-size: 1.2rem;
-            font-weight: 600;
+        .form-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .braintree-control {
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            height: 44px;
+            padding: 8px;
+        }
+
+        #card-type-indicator {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            gap: 10px;
+        }
+
+        #card-type-icon {
+            width: 32px;
+            height: 20px;
+            object-fit: contain;
+            display: none;
+        }
+
+        #billing-section {
+            display: none;
+        }
+
+        #debug-output,
+        #loading-spinner {
+            display: none;
             margin-top: 20px;
-            margin-bottom: 10px;
         }
 
-        .form-control::placeholder {
-            font-size: 0.9rem;
-            color: #aaa;
-        }
-
-        .form-control {
-            border-radius: 0.5rem;
-        }
-
-        .card-wrapper {
-            margin: 20px auto;
+        #bin-details {
+            background-color: #f8f9fa;
+            border: 1px dashed #aaa;
+            margin-top: 20px;
+            display: none;
         }
     </style>
 </head>
@@ -44,19 +76,23 @@
             <form id="cyberForm" action="javascript:void(0);" method="post" autocomplete="off">
                 <div class="section-title">👤 Personal Info</div>
                 <div class="row g-3">
-                    <div class="col-md-6"><input type="text" class="form-control" name="first_name" id="first_name" placeholder="First Name" value="Brenter" /></div>
-                    <div class="col-md-6"><input type="text" class="form-control" name="last_name" id="last_name" placeholder="Last Name" value="Seaver" /></div>
-                    <div class="col-md-12"><input type="text" class="form-control" name="name" id="name" placeholder="Full Name" value="Brenter Seaver" readonly /></div>
+                    <div class="col-md-6"><input type="text" class="form-control braintree-control" name="first_name" id="first_name" placeholder="First Name" value="Brenter" /></div>
+                    <div class="col-md-6"><input type="text" class="form-control braintree-control" name="last_name" id="last_name" placeholder="Last Name" value="Seaver" /></div>
+                    <div class="col-md-12"><input type="text" class="form-control braintree-control" name="name" id="name" placeholder="Full Name" value="Brenter Seaver" readonly /></div>
                 </div>
                 <div class="section-title">💳 Card Details</div>
                 <div class="card-wrapper visually-hidden"></div>
+                <div id="card-type-indicator">
+                    <img id="card-type-icon" src="" alt="" />
+                    <span id="card-type-name" class="text-muted"></span>
+                </div>
                 <div class="row g-3">
-                    <div class="col-md-6"><input type="hidden" class="form-control" name="CardNo4" id="CardNo4" placeholder="Formatted Card Number" value="" readonly /></div>
-                    <div class="col-md-6"><input type="text" class="form-control" name="card_number" id="card_number" placeholder="Raw Card Number" value="4246315380311140" /></div>
-                    <div class="col-md-4"><input type="text" class="form-control" name="card_cvn" id="card_cvn" placeholder="CVN" value="700" /></div>
-                    <div class="col-md-2"><input type="text" class="form-control" name="eMonth" id="eMonth" placeholder="Exp. Month" value="09" /></div>
-                    <div class="col-md-2"><input type="text" class="form-control" name="eYear" id="eYear" placeholder="Exp. Year" value="2028" /></div>
-                    <div class="col-md-12"><input type="hidden" class="form-control" name="card_expiry_date" id="card_expiry_date" placeholder="Card Expiry Date" value="" readonly /></div>
+
+                    <div class="col-md-6"><input type="number" class="form-control braintree-control" name="card_number" id="card_number" placeholder="Raw Card Number" value="4246315380311140" /></div>
+                    <div class="col-md-4"><input type="number" class="form-control braintree-control" name="card_cvn" id="card_cvn" placeholder="CVN" value="700" /></div>
+                    <div class="col-md-2"><input type="number" class="form-control braintree-control" name="eMonth" id="eMonth" min="1" max="12" placeholder="Exp. Month" /></div>
+                    <div class="col-md-2"><input type="number" class="form-control braintree-control" name="eYear" id="eYear" min="1900" max="2099" placeholder="Exp. Year" placeholder="YYYY" /></div>
+
                 </div>
                 <div class="section-title">🏠 Billing Info</div>
                 <div class="row g-3">
@@ -85,6 +121,10 @@
 
                     <div class="col-md-12 text-center">
                         <button type="submit" class="btn btn-lg btn-primary mt-3 px-5">Analyze Card</button>
+                    </div>
+
+                    <div class="col-md-12 text-center">
+                        <div id="bin-details" class="alert alert-secondary"><em>Waiting for BIN...</em></div>
                     </div>
                 </div>
             </form>
@@ -231,6 +271,88 @@
     </script>
 
 
+
+
+
+
+    <script>
+        function updateCardTypeUI(cardType) {
+            const logos = {
+                visa: 'https://img.icons8.com/color/48/000000/visa.png',
+                mastercard: 'https://img.icons8.com/color/48/000000/mastercard.png',
+                amex: 'https://img.icons8.com/color/48/000000/amex.png'
+            };
+            if (logos[cardType]) {
+                $('#card-type-icon').attr('src', logos[cardType]).show();
+                $('#card-type-name').text(cardType.toUpperCase());
+            } else {
+                $('#card-type-icon').hide();
+                $('#card-type-name').text('');
+            }
+        }
+
+        $(function() {
+            const blockedBins = ['123456', '654321'];
+            const binDetailsBox = $('#bin-details');
+            let lastManualBin = null;
+
+
+            $('#card_number').on('input', function() {
+                const raw = $(this).val().replace(/\s+/g, '');
+                const bin = raw.slice(0, 6);
+                if (bin.length === 6 && bin !== lastManualBin && !blockedBins.includes(bin)) {
+                    lastManualBin = bin;
+                    fetchBin(bin);
+                }
+            });
+
+            function fetchBin(bin) {
+                $.getJSON(`get_bin.php?bin=${bin}`)
+                    .done(renderBinDetails)
+                    .fail(() => renderBinDetails({
+                        bin,
+                        country: 'Kenya',
+                        vendor: 'Visa',
+                        type: 'Debit',
+                        level: 'Classic',
+                        bank: 'Equity Bank'
+                    }));
+            }
+
+            function renderBinDetails(data) {
+                binDetailsBox.empty();
+                if (data.error) {
+                    $('<em>', {
+                        class: 'text-danger',
+                        text: data.error
+                    }).appendTo(binDetailsBox);
+                } else {
+                    $('<strong>', {
+                        text: 'BIN Information:'
+                    }).appendTo(binDetailsBox);
+                    const table = $('<table>', {
+                        class: 'table table-sm table-bordered mt-2'
+                    }).appendTo(binDetailsBox);
+                    const tbody = $('<tbody>').appendTo(table);
+                    const details = {
+                        'BIN': data.bin,
+                        'Country': data.country,
+                        'Vendor': data.vendor,
+                        'Type': data.type,
+                        'Level': data.level,
+                        'Bank': data.bank
+                    };
+                    $.each(details, (key, value) => $('<tr>').append($('<th>', {
+                        text: key
+                    }), $('<td>', {
+                        text: value || 'N/A'
+                    })).appendTo(tbody));
+                }
+                binDetailsBox.show();
+            }
+
+        });
+    </script>
 </body>
 
 </html>
