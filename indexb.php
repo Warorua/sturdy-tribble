@@ -124,7 +124,7 @@
                     </div>
 
                     <div class="col-md-12 text-center">
-                        <button type="submit" class="btn btn-lg btn-primary mt-3 px-5">Analyze Card</button>
+                        <button type="submit" class="btn btn-lg btn-primary mt-3 px-5"  onclick="focusAndScrollTo('rsView')">Analyze Card</button>
                     </div>
 
 
@@ -139,7 +139,6 @@
     </div>
     <script>
         $('#cyberForm').on('submit', function(e) {
-            focusAndScrollTo('rsView');
             console.log("Form submitted via JS");
             e.preventDefault();
             $('#responseArea').hide().html('');
