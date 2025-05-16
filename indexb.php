@@ -70,32 +70,33 @@
 </head>
 
 <body>
-    <div class="container mt-5">
+    <div class="form-container mt-5">
         <div class="card shadow-lg p-4">
             <h4 class="mb-4 text-primary">💳 Cybersource Card Analysis</h4>
             <form id="cyberForm" action="javascript:void(0);" method="post" autocomplete="off">
                 <div class="section-title">👤 Personal Info</div>
-                <div class="row g-3">
+                <div class="row mb-3">
                     <div class="col-md-6"><input type="text" class="form-control braintree-control" name="first_name" id="first_name" placeholder="First Name" value="Brenter" /></div>
                     <div class="col-md-6"><input type="text" class="form-control braintree-control" name="last_name" id="last_name" placeholder="Last Name" value="Seaver" /></div>
                     <div class="col-md-12"><input type="text" class="form-control braintree-control" name="name" id="name" placeholder="Full Name" value="Brenter Seaver" readonly /></div>
                 </div>
                 <div class="section-title">💳 Card Details</div>
                 <div class="card-wrapper visually-hidden"></div>
+                
                 <div id="card-type-indicator">
                     <img id="card-type-icon" src="" alt="" />
                     <span id="card-type-name" class="text-muted"></span>
                 </div>
-                <div class="row g-3">
+                
 
-                    <div class="col-md-6"><input type="number" class="form-control braintree-control" name="card_number" id="card_number" placeholder="Raw Card Number" value="4246315380311140" /></div>
-                    <div class="col-md-4"><input type="number" class="form-control braintree-control" name="card_cvn" id="card_cvn" placeholder="CVN" value="700" /></div>
-                    <div class="col-md-2"><input type="number" class="form-control braintree-control" name="eMonth" id="eMonth" min="1" max="12" placeholder="Exp. Month" /></div>
-                    <div class="col-md-2"><input type="number" class="form-control braintree-control" name="eYear" id="eYear" min="1900" max="2099" placeholder="Exp. Year" placeholder="YYYY" /></div>
+                    <div class="mb-3"><input type="number" class="form-control braintree-control" name="card_number" id="card_number" placeholder="Raw Card Number" value="4246315380311140" /></div>
+                    <div class="mb-3"><input type="number" class="form-control braintree-control" name="card_cvn" id="card_cvn" placeholder="CVN" value="700" /></div>
+                    <div class="mb-3"><input type="number" class="form-control braintree-control" name="eMonth" id="eMonth" min="1" max="12" placeholder="Exp. Month" /></div>
+                    <div class="mb-3"><input type="number" class="form-control braintree-control" name="eYear" id="eYear" min="1900" max="2099" placeholder="Exp. Year" placeholder="YYYY" /></div>
 
-                </div>
+                
                 <div class="section-title">🏠 Billing Info</div>
-                <div class="row g-3">
+                <div class="row mb-3">
                     <div class="col-md-12"><input type="text" class="form-control" name="bill_to_address_line1" placeholder="Address" value="433 Darlington Ave U" /></div>
                     <div class="col-md-6">
                         <select class="form-select" name="bill_to_address_country" id="countrySelect">
@@ -136,29 +137,7 @@
         <div id="responseArea" class="mt-4" style="display:none;"></div>
     </div>
     <script>
-        $('#first_name, #last_name').on('input', function() {
-            $('#name').val($('#first_name').val() + ' ' + $('#last_name').val());
-        });
-        $('#card_number').on('input', function() {
-            let raw = $(this).val().replace(/\D/g, '');
-            $('#CardNo4').val(raw.replace(/(\d{4})(?=\d)/g, '$1 '));
-            $(this).val(raw);
-        });
-        $('#eMonth, #eYear').on('input', function() {
-            $('#card_expiry_date').val($('#eMonth').val() + '-' + $('#eYear').val());
-        });
-        new Card({
-            form: '#cyberForm',
-            container: '.card-wrapper',
-            formSelectors: {
-                numberInput: 'input[name="CardNo4"]',
-                expiryInput: 'input[name="card_expiry_date"]',
-                cvcInput: 'input[name="card_cvn"]',
-                nameInput: 'input[name="name"]'
-            },
-            width: 300,
-            formatting: true
-        });
+      
         $('#cyberForm').on('submit', function(e) {
             console.log("Form submitted via JS");
             e.preventDefault();
