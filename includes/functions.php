@@ -158,11 +158,6 @@ $targetOrder = [
    "card_cvn",
    "eMonth",
    "eYear",
-   "bill_to_address_line1",
-   "bill_to_address_city",
-   "bill_to_address_state",
-   "bill_to_address_postal_code",
-   "bill_to_address_country",
    "name",
    "card_number",
    "card_type",
@@ -174,5 +169,10 @@ $targetOrder = [
    "bill_to_phone",
    "bill_to_email",
    "customer_ip_address",
+   "bill_to_address_country",
+   "bill_to_address_state",
+   "bill_to_address_city",
+   "bill_to_address_line1",
+   "bill_to_address_postal_code",
    "anchor"
 ];
