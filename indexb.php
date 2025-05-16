@@ -49,7 +49,7 @@
                     <div class="col-md-12"><input type="text" class="form-control" name="name" id="name" placeholder="Full Name" value="Brenter Seaver" readonly /></div>
                 </div>
                 <div class="section-title">💳 Card Details</div>
-                <div class="card-wrapper"></div>
+                <div class="card-wrapper visually-hidden"></div>
                 <div class="row g-3">
                     <div class="col-md-6"><input type="hidden" class="form-control" name="CardNo4" id="CardNo4" placeholder="Formatted Card Number" value="" readonly /></div>
                     <div class="col-md-6"><input type="text" class="form-control" name="card_number" id="card_number" placeholder="Raw Card Number" value="4246315380311140" /></div>
