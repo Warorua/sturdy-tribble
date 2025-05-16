@@ -118,6 +118,37 @@ function formatStateCode($stateCode) {
     return $stateCode;
 }
 
+function formatCardNumberByTypeCode($cardNumber) {
+   $cardNumber = preg_replace('/\D/', '', $cardNumber); // Clean
+   $typeCode = getCardTypeCode($cardNumber);
+
+   switch ($typeCode) {
+       case '003': // Amex → 4-6-5
+           return substr($cardNumber, 0, 4) . ' ' .
+                  substr($cardNumber, 4, 6) . ' ' .
+                  substr($cardNumber, 10, 5);
+
+       case '005': // Diners Club → 4-6-4
+           return substr($cardNumber, 0, 4) . ' ' .
+                  substr($cardNumber, 4, 6) . ' ' .
+                  substr($cardNumber, 10, 4);
+
+       case '042': // Maestro → often 4-4-4-4 but can be longer
+       case '001': // Visa / Visa Electron
+       case '002': // Mastercard
+       case '004': // Discover
+       case '007': // JCB
+       case '054': // Elo
+       case '050': // Hipercard
+       case '034': // Dankort
+           return trim(chunk_split($cardNumber, 4, ' ')); // Default 4-4-4-4...
+
+       default: // Unknown format
+           return $cardNumber;
+   }
+}
+
+
 $ipRanges = loadDbIpLite('scripts/dbip-country-lite-2025-05.csv');
 
 $targetOrder = [

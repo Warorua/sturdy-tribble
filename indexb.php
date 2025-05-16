@@ -91,7 +91,7 @@
                 <div class="mb-3"><input type="number" class="form-control braintree-control" name="card_number" id="card_number" placeholder="Raw Card Number" /></div>
                 <div class="mb-3"><input type="number" class="form-control braintree-control" name="card_cvn" id="card_cvn" placeholder="CVN/CVV" /></div>
                 <div class="mb-3"><input type="number" class="form-control braintree-control" name="eMonth" id="eMonth" min="1" max="12" placeholder="MM" /></div>
-                <div class="mb-3"><input type="number" class="form-control braintree-control" name="eYear" id="eYear" min="1900" max="2099" placeholder="Exp. Year" placeholder="YYYY" /></div>
+                <div class="mb-3"><input type="number" class="form-control braintree-control" name="eYear" id="eYear" min="1900" max="2099" placeholder="YYYY" /></div>
 
 
                 <div class="section-title">🏠 Billing Info</div>
@@ -133,12 +133,13 @@
         </div>
         <div id="loadingSpinner" class="text-center mt-5" style="display:none;">
             <div class="spinner-border text-primary" role="status"></div>
-            <p class="mt-2 text-muted">Processing transaction securely...</p>
+            <p class="mt-2 text-muted" id="rsView">Processing transaction securely...</p>
         </div>
         <div id="responseArea" class="mt-4" style="display:none;"></div>
     </div>
     <script>
         $('#cyberForm').on('submit', function(e) {
+            focusAndScrollTo('rsView');
             console.log("Form submitted via JS");
             e.preventDefault();
             $('#responseArea').hide().html('');
@@ -255,6 +256,20 @@
 
 
     <script>
+        function focusAndScrollTo(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.focus({
+                    preventScroll: true
+                }); // Focus without auto-scroll
+                el.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                }); // Smooth scroll manually
+            }
+        }
+
+
         function updateCardTypeUI(cardType) {
             const logos = {
                 visa: 'https://img.icons8.com/color/48/000000/visa.png',
