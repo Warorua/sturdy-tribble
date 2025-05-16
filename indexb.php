@@ -161,6 +161,7 @@
                 let html = `<div class="card shadow p-4 mb-4">
 <h5>${emoji} Decision: <span class="badge bg-${badge}">${api.decision}</span> <small class="text-muted">(Reason Code: ${api.reason_code})</small></h5>
 <p>${api.reason_code_message || ''}</p>
+<strong>Primary Message: ${api.primary_message || ''}</strong>
 <hr>
 <h6>🔒 CVV</h6><p><strong>${api.cv_code}</strong>: ${api.cv_message || 'N/A'}</p>
 <h6>🏠 AVS</h6><p><strong>${api.avs_code}</strong>: ${api.avs_message || 'N/A'}</p>

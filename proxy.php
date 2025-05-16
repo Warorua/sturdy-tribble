@@ -62,7 +62,7 @@ include 'cybersrc.php';
 $interpreted = json_decode(ob_get_clean(), true);
 
 // Get BIN info
-$bin = substr(preg_replace('/\\D/', '', $fields['card_number'] ?? ''), 0, 6);
+$bin = substr(preg_replace('/\\D/', '', $data['card_number'] ?? ''), 0, 6);
 $binData = [];
 if ($bin) {
     $binUrl = 'https://payment.tsavo.site/get_bin.php?bin=' . urlencode($bin);

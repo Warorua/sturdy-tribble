@@ -198,6 +198,7 @@ $output['decision'] = $data['decision'] ?? null;
 $output['reason_code'] = $data['reason_code'] ?? null;
 $output['reason_code_message'] = $reasonCodeMap[$data['reason_code']] ?? "Unknown reason code.";
 $output['transaction_id'] = $data['transaction_id'] ?? null;
+$output['primary_message'] = $data['message'] ?? "No Primary Message Given.";
 
 if (isset($data['requestID'])) {
     $output['request_id'] = $data['requestID'];
