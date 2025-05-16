@@ -20,4 +20,5 @@ curl_setopt_array($curl, array(
 $response = curl_exec($curl);
 
 curl_close($curl);
+$response = str_replace('src="','src="https://pesaflow.ecitizen.go.ke/PaymentAPI/',$response);
 echo $response;
