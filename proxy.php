@@ -36,7 +36,7 @@ if (json_last_error() !== JSON_ERROR_NONE || !isset($parsed['intercepted'][0]['f
         'json_error' => json_last_error_msg(),
         'http_code' => $httpCode,
         //'raw_response' => 'Hidden',
-        'raw_response' => $json,
+        'raw_response' => $json.' - '.$response,
         //'raw_response' => $response
     ]);
     exit;
