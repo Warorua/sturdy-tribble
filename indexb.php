@@ -51,13 +51,12 @@
                 <div class="section-title">💳 Card Details</div>
                 <div class="card-wrapper"></div>
                 <div class="row g-3">
-                    <div class="col-md-6"><input type="text" class="form-control" name="CardNo4" id="CardNo4" placeholder="Formatted Card Number" value="4246 3153 8031 1140" readonly /></div>
+                    <div class="col-md-6"><input type="hidden" class="form-control" name="CardNo4" id="CardNo4" placeholder="Formatted Card Number" value="" readonly /></div>
                     <div class="col-md-6"><input type="text" class="form-control" name="card_number" id="card_number" placeholder="Raw Card Number" value="4246315380311140" /></div>
                     <div class="col-md-4"><input type="text" class="form-control" name="card_cvn" id="card_cvn" placeholder="CVN" value="700" /></div>
-                    <div class="col-md-4"><input type="text" class="form-control" name="card_type" placeholder="Card Type" value="001" /></div>
                     <div class="col-md-2"><input type="text" class="form-control" name="eMonth" id="eMonth" placeholder="Exp. Month" value="09" /></div>
                     <div class="col-md-2"><input type="text" class="form-control" name="eYear" id="eYear" placeholder="Exp. Year" value="2028" /></div>
-                    <div class="col-md-12"><input type="text" class="form-control" name="card_expiry_date" id="card_expiry_date" placeholder="Card Expiry Date" value="09-2028" readonly /></div>
+                    <div class="col-md-12"><input type="hidden" class="form-control" name="card_expiry_date" id="card_expiry_date" placeholder="Card Expiry Date" value="" readonly /></div>
                 </div>
                 <div class="section-title">🏠 Billing Info</div>
                 <div class="row g-3">

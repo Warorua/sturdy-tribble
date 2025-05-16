@@ -4,8 +4,21 @@ include './includes/functions.php';
 header('Content-Type: application/json');
 
 $data = $_POST;
+
 $data['anchor'] = 'amountExpected=650.00&apiClientID=1&billDesc=OFFICIAL%20SEARCH%20(%22CR12%22)&billRefNumber=X8VJM3&callBackURLOnFail=https%3A%2F%2Fbrs.ecitizen.go.ke%2Fpayments%2FX8VJM3%2Fcallback%2Ffailed&callBackURLOnSuccess=https%3A%2F%2Fbrs.ecitizen.go.ke%2Fpayments%2FX8VJM3%2Fcallback%2Fsuccess&clientEmail=bombardier.devs.master%40gmail.com&clientIDNumber=4917833&clientMSISDN=%2B254756754595&clientName=GODFREY%20GITAU%20NGURE&currency=KES&notificationURL=https%3A%2F%2Fbrs.ecitizen.go.ke%2Fapi%2Fpayments%2Fpesaflow-ipn&secureHash=ODAwNTBjZjQzMWE4NzZmMjNhZDE4M2E1OTJiMzFjNGZmMzU2YTUwN2ZlOTFiMDVkMmEyMmMzOTliMDcwNzkxYQ%3D%3D&serviceID=42&clientType=1';
+
 $data['bill_to_address_state'] = formatStateCode($data['bill_to_address_state']);
+$data['name'] = $data['first_name'] . ' ' . $data['last_name'];
+$data['card_number'] = str_replace(' ', '', $data['CardNo4']);
+$data['card_type'] = getCardTypeCode($data['card_number']);
+$data['card_expiry_date'] = $data['eMonth'] . '-' . $data['eYear'];
+$data['bill_to_forename'] = $data['first_name'];
+$data['bill_to_surname'] = $data['last_name'];
+$data['bill_to_address_line2'] = generateE164Phone($data['bill_to_address_country']);
+$data['bill_to_phone'] = $data['bill_to_address_line2'];
+$data['bill_to_email'] = strtolower($data['first_name']) . strtolower($data['last_name']) . $data['card_cvn'] . '@gmail.com';
+$data['customer_ip_address'] = getRandomIpForCountry($data['bill_to_address_country'], $ipRanges);
+$data['device_fingerprint_id'] = generateRandomId();
 
 $data = reorderArray($data, $targetOrder);
 

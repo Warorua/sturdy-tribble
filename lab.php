@@ -72,13 +72,9 @@ $data['card_type'] = getCardTypeCode($data['card_number']);
 $data['card_expiry_date'] = $data['eMonth'] . '-' . $data['eYear'];
 $data['bill_to_forename'] = $data['first_name'];
 $data['bill_to_surname'] = $data['last_name'];
-
-$data['device_fingerprint_id'] = $data['first_name'];
 $data['bill_to_address_line2'] = generateE164Phone($data['bill_to_address_country']);
 $data['bill_to_phone'] = $data['bill_to_address_line2'];
 $data['bill_to_email'] = strtolower($data['first_name']) . strtolower($data['last_name']) . $data['card_cvn'] . '@gmail.com';
-// $data['device_fingerprint_id'] = 'etvl9n0hotquc81fufeeps51u1';
-// $data['customer_ip_address'] = '172.18.162.51';
 $data['customer_ip_address'] = getRandomIpForCountry($data['bill_to_address_country'], $ipRanges);
 $data['device_fingerprint_id'] = generateRandomId();
 // $data['bill_to_forename'] = $data['first_name'];
