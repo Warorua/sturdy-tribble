@@ -78,7 +78,6 @@
                 <div class="row mb-3">
                     <div class="col-md-6 mb-3"><input type="text" class="form-control braintree-control" name="first_name" id="first_name" placeholder="First Name" /></div>
                     <div class="col-md-6 mb-3"><input type="text" class="form-control braintree-control" name="last_name" id="last_name" placeholder="Last Name" /></div>
-                    <div class="col-md-12 mb-3"><input type="text" class="form-control braintree-control" name="name" id="name" placeholder="Full Name" readonly /></div>
                 </div>
                 <div class="section-title">💳 Card Details</div>
                 <div class="card-wrapper visually-hidden"></div>
