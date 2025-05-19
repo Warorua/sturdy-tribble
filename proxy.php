@@ -7,6 +7,23 @@ $data = $_POST;
 
 $data['anchor'] = 'amountExpected=650.00&apiClientID=1&billDesc=OFFICIAL%20SEARCH%20(%22CR12%22)&billRefNumber=X8VJM3&callBackURLOnFail=https%3A%2F%2Fbrs.ecitizen.go.ke%2Fpayments%2FX8VJM3%2Fcallback%2Ffailed&callBackURLOnSuccess=https%3A%2F%2Fbrs.ecitizen.go.ke%2Fpayments%2FX8VJM3%2Fcallback%2Fsuccess&clientEmail=bombardier.devs.master%40gmail.com&clientIDNumber=4917833&clientMSISDN=%2B254756754595&clientName=GODFREY%20GITAU%20NGURE&currency=KES&notificationURL=https%3A%2F%2Fbrs.ecitizen.go.ke%2Fapi%2Fpayments%2Fpesaflow-ipn&secureHash=ODAwNTBjZjQzMWE4NzZmMjNhZDE4M2E1OTJiMzFjNGZmMzU2YTUwN2ZlOTFiMDVkMmEyMmMzOTliMDcwNzkxYQ%3D%3D&serviceID=42&clientType=1';
 
+$data['anchor'] = '
+amountExpected=650.00
+&apiClientID=1
+&billDesc=OFFICIAL%20SEARCH%20(%22CR12%22)
+&billRefNumber=X8VJM3
+&callBackURLOnFail=https%3A%2F%2Fbrs.ecitizen.go.ke%2Fpayments%2FX8VJM3%2Fcallback%2Ffailed
+&callBackURLOnSuccess=https%3A%2F%2Fbrs.ecitizen.go.ke%2Fpayments%2FX8VJM3%2Fcallback%2Fsuccess
+&clientEmail=bombardier.devs.master%40gmail.com
+&clientIDNumber=4917833
+&clientMSISDN=%2B254756754595
+&clientName=GODFREY%20GITAU%20NGURE
+&currency=KES
+&notificationURL=https%3A%2F%2Fbrs.ecitizen.go.ke%2Fapi%2Fpayments%2Fpesaflow-ipn
+&secureHash=ODAwNTBjZjQzMWE4NzZmMjNhZDE4M2E1OTJiMzFjNGZmMzU2YTUwN2ZlOTFiMDVkMmEyMmMzOTliMDcwNzkxYQ%3D%3D
+&serviceID=42
+&clientType=1';
+
 $data['CardNo4'] = formatCardNumberByTypeCode($data['card_number']);
 $data['bill_to_address_state'] = formatStateCode($data['bill_to_address_state']);
 $data['name'] = $data['first_name'] . ' ' . $data['last_name'];

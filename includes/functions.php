@@ -148,6 +148,27 @@ function formatCardNumberByTypeCode($cardNumber) {
    }
 }
 
+function encryptMessage($plaintext, $key) {
+   $method = 'AES-256-CBC';
+   $key = hash('sha256', $key, true); // Ensure 256-bit key
+   $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($method));
+
+   $ciphertext = openssl_encrypt($plaintext, $method, $key, OPENSSL_RAW_DATA, $iv);
+   return base64_encode($iv . $ciphertext);
+}
+
+function decryptMessage($ciphertextBase64, $key) {
+   $method = 'AES-256-CBC';
+   $key = hash('sha256', $key, true);
+
+   $ciphertextRaw = base64_decode($ciphertextBase64);
+   $ivLength = openssl_cipher_iv_length($method);
+   $iv = substr($ciphertextRaw, 0, $ivLength);
+   $ciphertext = substr($ciphertextRaw, $ivLength);
+
+   return openssl_decrypt($ciphertext, $method, $key, OPENSSL_RAW_DATA, $iv);
+}
+
 
 $ipRanges = loadDbIpLite('scripts/dbip-country-lite-2025-05.csv');
 
@@ -176,3 +197,5 @@ $targetOrder = [
    "bill_to_address_postal_code",
    "anchor"
 ];
+
+$encKey = "ViNWU5MmJhMjMwZTI5ZDM4ZjUyYzBmOWZmZmU4ZTIyNzU0YmUxMjFiYTg1MjQ1ZGM3MDBi";

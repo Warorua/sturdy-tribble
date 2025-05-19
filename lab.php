@@ -55,7 +55,7 @@ $data = [];
 $data['first_name'] = 'Karin';
 $data['last_name'] = 'Bryant';
 $data['CardNo4'] = '4037 8401 1554 6713';
-$data['card_cvn'] = '700';
+$data['card_cvn'] = '125';
 $data['eMonth'] = '05';
 $data['eYear'] = '2025';
 
@@ -65,6 +65,12 @@ $data['bill_to_address_state'] = 'NC';
 $data['bill_to_address_city'] = 'Wilmington';
 $data['bill_to_address_line1'] = '433 Darlington Ave U';
 $data['bill_to_address_postal_code'] = '26554';
+
+// $data['bill_to_address_line1'] = 'Nairobi';
+// $data['bill_to_address_city'] = 'Nairobi';
+// $data['bill_to_address_state'] = '030';
+// $data['bill_to_address_postal_code'] = '00100';
+// $data['bill_to_address_country'] = 'KE';
 
 $data['name'] = $data['first_name'] . ' ' . $data['last_name'];
 $data['card_number'] = str_replace(' ', '', $data['CardNo4']);
@@ -77,6 +83,8 @@ $data['bill_to_phone'] = $data['bill_to_address_line2'];
 $data['bill_to_email'] = strtolower($data['first_name']) . strtolower($data['last_name']) . $data['card_cvn'] . '@gmail.com';
 $data['customer_ip_address'] = getRandomIpForCountry($data['bill_to_address_country'], $ipRanges);
 $data['device_fingerprint_id'] = generateRandomId();
+
+$data['customer_ip_address'] = '0.0.0.0';
 // $data['bill_to_forename'] = $data['first_name'];
 // $data['bill_to_forename'] = $data['first_name'];
 // $data['bill_to_forename'] = $data['first_name'];
