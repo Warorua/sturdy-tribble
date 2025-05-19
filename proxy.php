@@ -71,9 +71,11 @@ $parsed = json_decode($response, true);
 
 // If not JSON, return raw content for debugging
 if (json_last_error() !== JSON_ERROR_NONE || !isset($parsed['intercepted'][0]['fields'])) {
+    $errMsg = "Full response is not valid JSON or expected format : " . $base64;
+    $logger->warning($errMsg);
     echo json_encode([
         'success' => false,
-        'error' => 'Full response is not valid JSON or expected format',
+        'error' => $errMsg,
         'json_error' => json_last_error_msg(),
         'http_code' => $httpCode,
         'raw_response' => $base64,
@@ -104,7 +106,8 @@ if ($bin) {
     }
     curl_close($ch);
 }
-
+$errMsg = "Information Capture : " . base64_encode($interpreted);
+$logger->info($errMsg);
 echo json_encode([
     'success' => true,
     'cybersource_interpretation' => $interpreted,

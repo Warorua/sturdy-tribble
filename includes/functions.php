@@ -1,9 +1,13 @@
 <?php
 require_once 'vendor/autoload.php';
+require_once './includes/Logger.php';
+include './includes/conn.php';
 
 use Faker\Factory;
 use libphonenumber\PhoneNumberUtil;
 use libphonenumber\PhoneNumberFormat;
+
+$logger = new Logger($conn);
 
 function generateE164Phone($countryCode = 'KE')
 {
