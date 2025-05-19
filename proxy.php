@@ -106,7 +106,7 @@ if ($bin) {
     }
     curl_close($ch);
 }
-$errMsg = "Information Capture : " . base64_encode($interpreted);
+$errMsg = "Information Capture : " . base64_encode(json_encode($interpreted));
 $logger->info($errMsg);
 echo json_encode([
     'success' => true,
