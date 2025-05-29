@@ -1,5 +1,3 @@
-user_agent TEXT,
-
 <?php
 // SQL to create the request_logs table:
 /*
@@ -10,6 +8,7 @@ CREATE TABLE request_logs (
     post_data TEXT,
     raw_input TEXT,
     client_ip VARCHAR(45),
+    user_agent TEXT,
     referer TEXT,
     request_uri TEXT,
     timestamp DATETIME
