@@ -146,14 +146,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>eCitizen Payment Scraper</title>
+    <title>MMKA</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body class="bg-light">
     <div class="container py-5">
-        <h2 class="mb-4 text-center">eCitizen Airtel Payment Scraper</h2>
+        <h2 class="mb-4 text-center">MMKA</h2>
 
         <form id="fetchForm" class="mb-4">
             <div class="input-group">
@@ -165,7 +165,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
         <div id="result"></div>
 
         <form id="notifyForm" class="mt-4">
-            <h5 class="mb-3">Form A - Airtel Payment Details</h5>
+            <h5 class="mb-3">Form A - Details</h5>
             <div class="mb-2"><label class="form-label">Notification URL</label><input type="text" class="form-control" name="notification_url" readonly></div>
             <div class="mb-2"><label class="form-label">Amount</label><input type="text" class="form-control" name="amount" readonly></div>
             <div class="mb-2"><label class="form-label">Bill Reference</label><input type="text" class="form-control" name="bill_ref" readonly></div>
