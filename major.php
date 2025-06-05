@@ -1,4 +1,10 @@
 <?php
+die("This file is not meant to be accessed directly.");
+// This file is part of MMKA (Mobile Money Kenya Application).
+// MMKA is a web application that allows users to interact with the eCitizen payment system.
+// It is designed to fetch invoice details and send notifications via MPESA.
+//
+// MMKA is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version
 function generateMpesaCode()
 {
     $alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
