@@ -1,39 +1,86 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['notification_submit'])) {
-    $notification_url = $_POST['notification_url'];
-    $amount = $_POST['amount'];
-    $bill_ref = $_POST['bill_ref'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
+    header('Content-Type: application/json');
+    $action = $_POST['ajax_action'];
 
-    $payload = [
-        "status" => "settled",
-        "secure_hash" => "MzA5YzdkODFmZTdiM2E2MmU0NDJjNzZkN2IxOTAxMzkxZjUzNTgyNTU0NjE1MDE3Y2FjNDVkYmUyNDE5ZTJjNA==",
-        "phone_number" => "254700000000",
-        "payment_reference" => [
-            [
+    if ($action === 'fetch_invoice') {
+        $code = trim($_POST['code']);
+        $fetch_url = "https://payments.ecitizen.go.ke/api/invoice/checkout/{$code}?callback_url=https://bomayangu.go.ke/payments";
+
+        $invoice_html = @file_get_contents($fetch_url);
+        if ($invoice_html !== false && preg_match('/<airtel-v3\s+([^>]+)>/i', $invoice_html, $match)) {
+            $attributes = [];
+            preg_match_all('/(\w+)="([^"]*)"/', $match[1], $pairs, PREG_SET_ORDER);
+            foreach ($pairs as $pair) {
+                $attributes[$pair[1]] = $pair[2];
+            }
+
+            $now = new DateTime("now", new DateTimeZone("Africa/Nairobi"));
+            $date_iso = $now->format(DateTime::ATOM);
+            $date_custom = $now->format("Y-m-d H:i:sP T e");
+
+            echo json_encode([
+                'status' => 'success',
+                'data' => [
+                    'amount' => $attributes['amount_net'] ?? '',
+                    'bill_ref' => $attributes['bill_ref'] ?? '',
+                    'invoice_no' => $attributes['invoice_no'] ?? '',
+                    'notification_url' => $attributes['notification_url'] ?? '',
+                    'date_iso' => $date_iso,
+                    'date_custom' => $date_custom
+                ]
+            ]);
+            exit;
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Failed to extract invoice details.']);
+            exit;
+        }
+    }
+
+    if ($action === 'send_notification') {
+        $notification_url = $_POST['notification_url'];
+        $amount = $_POST['amount'];
+        $bill_ref = $_POST['bill_ref'];
+
+        $now = new DateTime("now", new DateTimeZone("Africa/Nairobi"));
+        $payment_date_iso = $now->format(DateTime::ATOM);
+        $payment_date_custom = $now->format("Y-m-d H:i:sP T e");
+
+        $payload = [
+            "status" => "settled",
+            "secure_hash" => "MzA5YzdkODFmZTdiM2E2MmU0NDJjNzZkN2IxOTAxMzkxZjUzNTgyNTU0NjE1MDE3Y2FjNDVkYmUyNDE5ZTJjNA==",
+            "phone_number" => "254700000000",
+            "payment_reference" => [[
                 "payment_reference" => "",
-                "payment_date" => date(DATE_ATOM),
-                "inserted_at" => date(DATE_ATOM),
+                "payment_date" => $payment_date_iso,
+                "inserted_at" => $payment_date_iso,
                 "currency" => "KES",
                 "amount" => $amount
-            ]
-        ],
-        "payment_date" => date(DATE_ATOM),
-        "payment_channel" => "MPESA",
-        "last_payment_amount" => "0",
-        "invoice_number" => $bill_ref,
-        "invoice_amount" => $amount . ".00",
-        "currency" => "KES",
-        "client_invoice_ref" => $bill_ref,
-        "amount_paid" => $amount
-    ];
+            ]],
+            "payment_date" => $payment_date_custom,
+            "payment_channel" => "MPESA",
+            "last_payment_amount" => "0",
+            "invoice_number" => $bill_ref,
+            "invoice_amount" => $amount . ".00",
+            "currency" => "KES",
+            "client_invoice_ref" => $bill_ref,
+            "amount_paid" => $amount
+        ];
 
-    $ch = curl_init($notification_url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
-    $response = curl_exec($ch);
-    $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
+        $ch = curl_init($notification_url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
+        $response = curl_exec($ch);
+        $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        echo json_encode([
+            'status' => $http_status === 200 ? 'success' : 'error',
+            'message' => $response
+        ]);
+        exit;
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -43,81 +90,65 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['notification_submit']
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>eCitizen Payment Scraper</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        #loader { display: none; }
-        .hidden { display: none; }
-        .alert-box { margin-top: 20px; }
-    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body class="bg-light">
-    <div class="container py-5">
-        <h2 class="mb-4 text-center">eCitizen Airtel Payment Scraper</h2>
-        <form id="codeForm" class="mb-4">
-            <div class="input-group">
-                <input type="text" class="form-control" id="codeInput" placeholder="Enter Code Number" required>
-                <button class="btn btn-primary" type="submit">Fetch Invoice</button>
-            </div>
-        </form>
+<div class="container py-5">
+    <h2 class="mb-4 text-center">eCitizen Airtel Payment Scraper</h2>
 
-        <div id="loader" class="text-center mb-4">
-            <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
+    <form id="fetchForm" class="mb-4">
+        <div class="input-group">
+            <input type="text" class="form-control" name="code" placeholder="Enter Code Number" required>
+            <button type="submit" class="btn btn-primary">Fetch Invoice</button>
         </div>
+    </form>
 
-        <form id="formA" class="hidden" method="POST">
-            <h5 class="mb-3">Form A - Airtel Payment Details</h5>
-            <input type="hidden" name="notification_url">
-            <input type="hidden" name="amount">
-            <input type="hidden" name="bill_ref">
-            <input type="hidden" name="invoice_no">
-            <button type="submit" name="notification_submit" class="btn btn-success">Submit Notification</button>
-        </form>
+    <div id="result"></div>
 
-        <div id="result" class="alert-box">
-            <?php if (isset($http_status)): ?>
-                <div class="alert <?php echo $http_status === 200 ? 'alert-success' : 'alert-danger'; ?>">
-                    <strong><?php echo $http_status === 200 ? 'Success' : 'Failure'; ?>:</strong>
-                    <?php echo htmlspecialchars($response); ?>
-                </div>
-            <?php endif; ?>
-        </div>
-    </div>
+    <form id="notifyForm" class="mt-4 d-none">
+        <h5 class="mb-3">Form A - Airtel Payment Details</h5>
+        <input type="hidden" name="notification_url">
+        <input type="hidden" name="amount">
+        <input type="hidden" name="bill_ref">
+        <input type="hidden" name="invoice_no">
+        <input type="hidden" name="date_iso">
+        <input type="hidden" name="date_custom">
+        <button type="submit" class="btn btn-success">Submit Notification</button>
+    </form>
+</div>
 
-    <script>
-        document.getElementById('codeForm').addEventListener('submit', async function (e) {
+<script>
+    $(function () {
+        $('#fetchForm').on('submit', function (e) {
             e.preventDefault();
-            const code = document.getElementById('codeInput').value;
-            const url = `https://payments.ecitizen.go.ke/api/invoice/checkout/${code}?callback_url=https://bomayangu.go.ke/payments#`;
+            const code = $(this).find('input[name="code"]').val();
 
-            document.getElementById('loader').style.display = 'block';
-            document.getElementById('formA').classList.add('hidden');
-            document.getElementById('result').innerHTML = '';
-
-            const iframe = document.createElement('iframe');
-            iframe.style.display = 'none';
-            document.body.appendChild(iframe);
-            iframe.src = url;
-
-            iframe.onload = function () {
-                try {
-                    const airtel = iframe.contentDocument.querySelector('airtel-v3');
-                    if (!airtel) throw new Error('Element not found');
-
-                    document.querySelector('#formA [name=amount]').value = airtel.getAttribute('amount_net');
-                    document.querySelector('#formA [name=bill_ref]').value = airtel.getAttribute('bill_ref');
-                    document.querySelector('#formA [name=invoice_no]').value = airtel.getAttribute('invoice_no');
-                    document.querySelector('#formA [name=notification_url]').value = airtel.getAttribute('notification_url');
-
-                    document.getElementById('formA').classList.remove('hidden');
-                } catch (err) {
-                    document.getElementById('result').innerHTML = `<div class="alert alert-danger">Failed to extract data. Check if code is correct.</div>`;
-                } finally {
-                    document.getElementById('loader').style.display = 'none';
-                    document.body.removeChild(iframe);
+            $.post('', { ajax_action: 'fetch_invoice', code }, function (res) {
+                if (res.status === 'success') {
+                    const d = res.data;
+                    $('#notifyForm').removeClass('d-none');
+                    Object.entries(d).forEach(([k, v]) => {
+                        $('#notifyForm').find(`[name="${k}"]`).val(v);
+                    });
+                    $('#result').html('<div class="alert alert-success">Invoice data loaded successfully.</div>');
+                } else {
+                    $('#result').html(`<div class="alert alert-danger">${res.message}</div>`);
+                    $('#notifyForm').addClass('d-none');
                 }
-            };
+            }, 'json');
         });
-    </script>
+
+        $('#notifyForm').on('submit', function (e) {
+            e.preventDefault();
+            const formData = $(this).serializeArray();
+            const data = { ajax_action: 'send_notification' };
+            formData.forEach(item => data[item.name] = item.value);
+
+            $.post('', data, function (res) {
+                $('#result').html(`<div class="alert ${res.status === 'success' ? 'alert-success' : 'alert-danger'}">${res.message}</div>`);
+            }, 'json');
+        });
+    });
+</script>
 </body>
 </html>
