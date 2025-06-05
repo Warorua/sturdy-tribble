@@ -105,14 +105,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
 
     <div id="result"></div>
 
-    <form id="notifyForm" class="mt-4 d-none">
+    <form id="notifyForm" class="mt-4">
         <h5 class="mb-3">Form A - Airtel Payment Details</h5>
-        <input type="hidden" name="notification_url">
-        <input type="hidden" name="amount">
-        <input type="hidden" name="bill_ref">
-        <input type="hidden" name="invoice_no">
-        <input type="hidden" name="date_iso">
-        <input type="hidden" name="date_custom">
+        <div class="mb-2"><label class="form-label">Notification URL</label><input type="text" class="form-control" name="notification_url" readonly></div>
+        <div class="mb-2"><label class="form-label">Amount</label><input type="text" class="form-control" name="amount" readonly></div>
+        <div class="mb-2"><label class="form-label">Bill Reference</label><input type="text" class="form-control" name="bill_ref" readonly></div>
+        <div class="mb-2"><label class="form-label">Invoice Number</label><input type="text" class="form-control" name="invoice_no" readonly></div>
+        <div class="mb-2"><label class="form-label">Date ISO</label><input type="text" class="form-control" name="date_iso" readonly></div>
+        <div class="mb-2"><label class="form-label">Date Custom</label><input type="text" class="form-control" name="date_custom" readonly></div>
         <button type="submit" class="btn btn-success">Submit Notification</button>
     </form>
 </div>
