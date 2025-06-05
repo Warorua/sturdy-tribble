@@ -1,0 +1,22 @@
+{
+  "status": "settled",
+  "secure_hash": "ZDVkNDM0NmY3YjM2YzNhNGYyOTE3YmQxM2Q0MDNkN2MxNjYxNDM0ZjdjYTE1ODI2NGM1OTljYmY5ZmQ0ZGU0Nw==",
+  "phone_number": "254716912002",
+  "payment_reference": [
+    {
+      "payment_reference": "TEU2SFY8DE",
+      "payment_date": "2025-05-30T13:18:56Z",
+      "inserted_at": "2025-05-30T10:18:56",
+      "currency": "KES",
+      "amount": "50"
+    }
+  ],
+  "payment_date": "2025-05-30 16:18:56+03:00 EAT Africa/Nairobi",
+  "payment_channel": "MPESA",
+  "last_payment_amount": "50",
+  "invoice_number": "XEWMEREK",
+  "invoice_amount": "50.00",
+  "currency": "KES",
+  "client_invoice_ref": "2020250002375626",
+  "amount_paid": "50"
+}
