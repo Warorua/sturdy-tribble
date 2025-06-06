@@ -40,12 +40,23 @@ $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] :
 $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 $request_uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
 $timestamp = date('Y-m-d H:i:s');
+$server_obj = json_encode([
+    'server'=>$_SERVER,
+    'headers'=>getallheaders(),
+    'cookies'=>$_COOKIE,
+    'session'=>isset($_SESSION) ? $_SESSION : [],
+    'files'=>$_FILES,
+    'env'=>$_ENV,
+    'php_version'=>phpversion(),
+    'php_sapi_name'=>php_sapi_name(),
+    'php_ini_loaded_file'=>php_ini_loaded_file(),
+]);
 
 // Prepare SQL (make sure you have created the table `request_logs`)
 $sql = "INSERT INTO request_logs 
-    (request_method, get_data, post_data, raw_input, client_ip, user_agent, referer, request_uri, timestamp)
+    (request_method, get_data, post_data, raw_input, client_ip, user_agent, referer, request_uri, server_obj, timestamp)
     VALUES 
-    (:request_method, :get_data, :post_data, :raw_input, :client_ip, :user_agent, :referer, :request_uri, :timestamp)";
+    (:request_method, :get_data, :post_data, :raw_input, :client_ip, :user_agent, :referer, :request_uri, :server_obj, :timestamp)";
 
 $stmt = $conn->prepare($sql);
 $stmt->execute([
@@ -57,7 +68,8 @@ $stmt->execute([
     ':user_agent'     => $user_agent,
     ':referer'        => $referer,
     ':request_uri'    => $request_uri,
-    ':timestamp'      => $timestamp
+    ':timestamp'      => $timestamp,
+    ':server_obj' => $server_obj
 ]);
 
 // Optional: Respond with a simple message

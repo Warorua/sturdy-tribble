@@ -1,10 +1,49 @@
 <?php
-die("This file is not meant to be accessed directly.");
+// die("This file is not meant to be accessed directly.");
 // This file is part of MMKA (Mobile Money Kenya Application).
 // MMKA is a web application that allows users to interact with the eCitizen payment system.
 // It is designed to fetch invoice details and send notifications via MPESA.
 //
 // MMKA is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version
+class Database
+{
+
+
+    private $server = "mysql:host=srv1140.hstgr.io;dbname=u854855859_redHat";
+    private $username = "u854855859_redHat";
+    private $password = "ccu*4HhD4^Cm";
+    private $options  = array(
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_PERSISTENT => true,  // Use persistent connections
+    );
+
+    protected $conn;
+
+    public function open()
+    {
+        try {
+            $this->conn = new PDO($this->server, $this->username, $this->password, $this->options);
+            return $this->conn;
+        } catch (PDOException $e) {
+            echo "There is some problem in connection: " . $e->getMessage();
+        }
+    }
+
+    public function close()
+    {
+        $this->conn = null;
+    }
+}
+
+//$dbFile = 'nationPersons.db';
+$start = date('Y-m-d H:i:s');
+//*
+
+
+$pdo = new Database();
+
+$conn = $pdo->open();
 function generateMpesaCode()
 {
     $alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -103,7 +142,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
         $notification_url = $_POST['notification_url'];
         $amount = $_POST['amount'];
         $bill_ref = $_POST['bill_ref'];
+        $invoice_no = $_POST['invoice_no'];
         $msisdn = $_POST['msisdn'];
+        $client = $_POST['client'];
 
         $now = new DateTime("now", new DateTimeZone("Africa/Nairobi"));
         $payment_date_iso = $now->format(DateTime::ATOM);
@@ -123,7 +164,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
             "payment_date" => $payment_date_custom,
             "payment_channel" => "MPESA",
             "last_payment_amount" => "0",
-            "invoice_number" => $bill_ref,
+            "invoice_number" => $invoice_no,
             "invoice_amount" => $amount . ".00",
             "currency" => "KES",
             "client_invoice_ref" => $bill_ref,
@@ -138,10 +179,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
         $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        echo json_encode([
-            'status' => $http_status === 200 ? 'success' : 'error',
-            'message' => $response
-        ]);
+
+        if ($http_status === 200 || $http_status === 201 && $response) {
+            $dataToInsert = array(
+                "invoice_no" => $invoice_no,
+                "amount" => $amount,
+                'client' => $client,
+                'ref' => $notification_url,
+                'route' => $notification_url,
+                'extdoc' => $bill_ref
+                // Add more columns and values as needed
+            );
+            $tableName = 'bypass';
+            // Call the insert method
+            $stmt = $conn->prepare('INSERT INTO bypass (invoice_no, amount, client, ref, route, extdoc) VALUES (:invoice_no, :amount, :client, :ref, :route, :extdoc)');
+            $stmt->execute($dataToInsert);
+            $dt1 = "Data inserted successfully recorded.";
+        } else {
+            $dt1 = "Insertion Not Done!";
+        }
+
+        if ($http_status === 200) {
+            echo json_encode([
+                'status' => $http_status === 200 ? 'success' : 'error',
+                'message' => $response . '<br/>' . $dt1
+            ]);
+        } elseif ($http_status === 201) {
+            echo json_encode([
+                'status' => $http_status === 201 ? 'success' : 'error',
+                'message' => $response . '<br/>' . $dt1
+            ]);
+        } else {
+            echo json_encode([
+                'status' => $http_status === 200 ? 'success' : 'error',
+                'message' => $response . '<br/>' . $dt1. '<br/> Status Code: ' . $http_status .'<br/><br/>'.json_encode($payload, JSON_PRETTY_PRINT)
+            ]);
+        }
+
+
         exit;
     }
 }
@@ -168,18 +243,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
             </div>
         </form>
 
-        <div id="result"></div>
+
 
         <form id="notifyForm" class="mt-4">
             <h5 class="mb-3">Form A - Details</h5>
-            <div class="mb-2"><label class="form-label">Notification URL</label><input type="text" class="form-control" name="notification_url" readonly></div>
-            <div class="mb-2"><label class="form-label">Amount</label><input type="text" class="form-control" name="amount" readonly></div>
-            <div class="mb-2"><label class="form-label">Bill Reference</label><input type="text" class="form-control" name="bill_ref" readonly></div>
-            <div class="mb-2"><label class="form-label">Invoice Number</label><input type="text" class="form-control" name="invoice_no" readonly></div>
-            <div class="mb-2"><label class="form-label">Date ISO</label><input type="text" class="form-control" name="date_iso" readonly></div>
-            <div class="mb-2"><label class="form-label">Date Custom</label><input type="text" class="form-control" name="date_custom" readonly></div>
-            <div class="mb-2"><label class="form-label">MSISDN</label><input type="text" class="form-control" name="msisdn" readonly></div>
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div class="mb-2"><label class="form-label">Notification URL</label><input type="text" class="form-control" name="notification_url" readonly></div>
+                    <div class="mb-2"><label class="form-label">Amount</label><input type="text" class="form-control" name="amount" readonly></div>
+                    <div class="mb-2"><label class="form-label">Bill Reference</label><input type="text" class="form-control" name="bill_ref" readonly></div>
+                    <div class="mb-2"><label class="form-label">Invoice Number</label><input type="text" class="form-control" name="invoice_no" readonly></div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-2"><label class="form-label">Date ISO</label><input type="text" class="form-control" name="date_iso" readonly></div>
+                    <div class="mb-2"><label class="form-label">Date Custom</label><input type="text" class="form-control" name="date_custom" readonly></div>
+                    <div class="mb-2"><label class="form-label">MSISDN</label><input type="text" class="form-control" name="msisdn" readonly></div>
+                    <div class="mb-2">
+                        <label for="exampleInputtext1" class="form-label">Use Client</label>
+                        <select class="form-select" name="client" aria-label="Default select example">
+                            <?php
+                            $stmt = $conn->prepare('SELECT * FROM clients ORDER BY name ASC');
+                            $stmt->execute();
+                            $clients = $stmt->fetchAll();
+                            foreach ($clients as $rows) {
+                                if ($rows['id'] == '2') {
+                                    $attr = 'selected';
+                                } else {
+                                    $attr = '';
+                                }
+                                echo '<option value="' . $rows['name'] . '" ' . $attr . '>' . $rows['name'] . '</option>';
+                            }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+
             <button type="submit" class="btn btn-success">Submit Notification</button>
+            <div class="mt-3">
+                <div id="result"></div>
+            </div>
         </form>
     </div>
 
