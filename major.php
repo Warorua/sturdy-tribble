@@ -198,7 +198,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
 
             $payload = [
                 "status" => "settled",
-                "secure_hash" => "Mzriguj9ritgjosdjgFG6bBorkFQ9lr0NjE1MDE3Y2FjNDVkYm44Ag7kle5tDV23ZTJjNA==",
+                "secure_hash" => "NTk4NGE3NTIxNjk4OTg2MjhmMWZmMzU4NmU4NDBmYmVlYWVlYTMxN2E1MWMwYzg4MTU3YTBmN2Q0NGQ3ZjUyMA==",
                 "phone_number" => $msisdn,
                 "payment_reference" => [[
                     "payment_reference" => generateMpesaCode(),
