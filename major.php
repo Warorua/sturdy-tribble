@@ -98,13 +98,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
 
         $invoice_html = @file_get_contents($fetch_url);
 
-        if(!$invoice_html) {
-            echo json_encode(['status' => 'error', 'message' => 'Failed to fetch invoice 2']);
-            exit;
-        }else{
-           echo json_encode(['status' => 'error', 'message' => $invoice_html]);
-            exit; 
-        }
+        // if(!$invoice_html) {
+        //     echo json_encode(['status' => 'error', 'message' => 'Failed to fetch invoice 2']);
+        //     exit;
+        // }
 
         if ($invoice_html !== false && preg_match('/<mpesa-v2\s+([^>]+)>/i', $invoice_html, $match)) {
             $attributes = [];
