@@ -138,12 +138,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
             ]);
             exit;
         } else {
-            echo json_encode(['status' => 'error', 'message' => 'Failed to extract invoice details.']);
-            exit;
-        }
-    }
 
-    if ($action === 'send_notification') {
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://pesaflow.ecitizen.go.ke/PaymentAPI/getStatus.php?billRefNumber='.$code,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_HTTPHEADER => array(
+                    'Cookie: PHPSESSID=172.18.187.33:80~5jr4e98f92oan1930o269rpa70'
+                ),
+            ));
+
+            $response = curl_exec($curl);
+
+            curl_close($curl);
+
+            $oldInvoice = json_decode($response, true);
+            if ($oldInvoice && isset($oldInvoice['status']) && $oldInvoice['billRefNumber'] === $code) {
+                // Process the successful invoice details
+                $html = '<ul class="list-group list-group-flush">';
+                $html .= '<li class="list-group-item list-group-item-success"><strong>Status:</strong> ' . htmlspecialchars($oldInvoice['status'] ?? '') . '</li>';
+                $html .= '<li class="list-group-item list-group-item-success"><strong>Reference:</strong> ' . htmlspecialchars($oldInvoice['reference'] ?? '') . '</li>';
+                $html .= '<li class="list-group-item list-group-item-success"><strong>Service ID:</strong> ' . htmlspecialchars($oldInvoice['serviceID'] ?? '') . '</li>';
+                $html .= '<li class="list-group-item list-group-item-success"><strong>Amount:</strong> ' . htmlspecialchars($oldInvoice['amount'] ?? '') . '</li>';
+                $html .= '<li class="list-group-item list-group-item-success"><strong>Bill Ref Number:</strong> ' . htmlspecialchars($oldInvoice['billRefNumber'] ?? '') . '</li>';
+                $html .= '<li class="list-group-item list-group-item-success"><strong>Service:</strong> ' . htmlspecialchars($oldInvoice['service'] ?? '') . '</li>';
+                $html .= '<li class="list-group-item list-group-item-success"><strong>Account Number:</strong> ' . htmlspecialchars($oldInvoice['account_number'] ?? '') . '</li>';
+                $html .= '</ul>';
+
+                echo json_encode([
+                    'status' => 'error',
+                    'html' => $html
+                ]);
+                exit;
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Failed to extract invoice details.']);
+                exit;
+            }
+        }
+
+        if ($action === 'send_notification') {
         $notification_url = $_POST['notification_url'];
         $amount = $_POST['amount'];
         $bill_ref = $_POST['bill_ref'];
@@ -290,9 +330,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
 
             <button type="submit" class="btn btn-success">Submit Notification</button>
         </form>
-         <div class="mt-3">
-                <div id="result"></div>
-            </div>
+        <div class="mt-3">
+            <div id="result"></div>
+        </div>
     </div>
 
     <script>
