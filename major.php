@@ -163,6 +163,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
             if ($oldInvoice && isset($oldInvoice['status']) && $oldInvoice['billRefNumber'] === $code) {
                 // Process the successful invoice details
                 $html = '<ul class="list-group list-group-flush">';
+                $html .= '<li class="list-group-item list-group-item-success"><strong>---|OLD-SYSTEM|---</strong></li>';
                 $html .= '<li class="list-group-item list-group-item-success"><strong>Status:</strong> ' . htmlspecialchars($oldInvoice['status'] ?? '') . '</li>';
                 $html .= '<li class="list-group-item list-group-item-success"><strong>Reference:</strong> ' . htmlspecialchars($oldInvoice['reference'] ?? '') . '</li>';
                 $html .= '<li class="list-group-item list-group-item-success"><strong>Service ID:</strong> ' . htmlspecialchars($oldInvoice['serviceID'] ?? '') . '</li>';
