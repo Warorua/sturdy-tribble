@@ -289,10 +289,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
 
 
             <button type="submit" class="btn btn-success">Submit Notification</button>
-            <div class="mt-3">
+        </form>
+         <div class="mt-3">
                 <div id="result"></div>
             </div>
-        </form>
     </div>
 
     <script>
@@ -314,7 +314,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
                         $('#result').html('<div class="alert alert-success">Invoice data loaded successfully.</div>');
                     } else {
                         $('#result').html(`<div class="alert alert-danger">${res.message}</div>`);
-                        //$('#notifyForm').addClass('d-none');
+                        $('#notifyForm').addClass('d-none');
                     }
                 }, 'json');
             });
