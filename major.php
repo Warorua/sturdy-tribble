@@ -179,7 +179,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
                 ]);
                 exit;
             } else {
-                echo json_encode(['status' => 'error', 'message' => 'Failed to extract invoice details.']);
+                echo json_encode(['status' => 'error', 'message' => 'Failed to extract invoice details. Neither new nor old system returned valid data.']);
                 exit;
             }
         }
