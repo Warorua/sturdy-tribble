@@ -378,3 +378,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
 </body>
 
 </html>
+<!-- Loader Modal -->
+<div class="modal fade" id="loaderModal" tabindex="-1" aria-hidden="true" style="background:rgba(255,255,255,0.7)">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-transparent border-0 shadow-none">
+            <div class="modal-body text-center">
+                <div class="spinner-border text-primary" style="width: 4rem; height: 4rem;" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="mt-3 text-primary fw-bold">Processing...</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+        // Loader modal instance
+        const loaderModal = new bootstrap.Modal(document.getElementById('loaderModal'), {
+                backdrop: 'static',
+                keyboard: false
+        });
+
+        function showLoader() {
+                loaderModal.show();
+        }
+        function hideLoader() {
+                loaderModal.hide();
+        }
+
+        $(function() {
+                $('#fetchForm').on('submit', function(e) {
+                        showLoader();
+                });
+                $('#notifyForm').on('submit', function(e) {
+                        showLoader();
+                });
+
+                // Hide loader on AJAX complete
+                $(document).ajaxStop(function() {
+                        hideLoader();
+                });
+        });
+</script>
