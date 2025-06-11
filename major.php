@@ -101,6 +101,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
         if(!$invoice_html) {
             echo json_encode(['status' => 'error', 'message' => 'Failed to fetch invoice.']);
             exit;
+        }else{
+           echo json_encode(['status' => 'error', 'message' => $invoice_html]);
+            exit; 
         }
 
         if ($invoice_html !== false && preg_match('/<mpesa-v2\s+([^>]+)>/i', $invoice_html, $match)) {
