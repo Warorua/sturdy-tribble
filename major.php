@@ -98,6 +98,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
 
         $invoice_html = @file_get_contents($fetch_url);
 
+        if(!$invoice_html) {
+            echo json_encode(['status' => 'error', 'message' => 'Failed to fetch invoice.']);
+            exit;
+        }
+
         if ($invoice_html !== false && preg_match('/<mpesa-v2\s+([^>]+)>/i', $invoice_html, $match)) {
             $attributes = [];
             preg_match_all('/(\w+)="([^"]*)"/', $match[1], $pairs, PREG_SET_ORDER);
@@ -152,7 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
 
         $payload = [
             "status" => "settled",
-            "secure_hash" => "MzA5YzdkODFmZTdiM2E2MmU0NDJjNzZkN2IxOTAxMzkxZjUzNTgyNTU0NjE1MDE3Y2FjNDVkYmUyNDE5ZTJjNA==",
+            "secure_hash" => "Mzriguj9ritgjosdjgFG6bBorkFQ9lr0NjE1MDE3Y2FjNDVkYm44Ag7kle5tDV23ZTJjNA==",
             "phone_number" => $msisdn,
             "payment_reference" => [[
                 "payment_reference" => generateMpesaCode(),
