@@ -174,7 +174,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
 
                 echo json_encode([
                     'status' => 'error',
-                    'html' => $html
+                    'message' => $html
                 ]);
                 exit;
             } else {
