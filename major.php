@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
         $invoice_html = @file_get_contents($fetch_url);
 
         if(!$invoice_html) {
-            echo json_encode(['status' => 'error', 'message' => 'Failed to fetch invoice.']);
+            echo json_encode(['status' => 'error', 'message' => 'Failed to fetch invoice 2']);
             exit;
         }else{
            echo json_encode(['status' => 'error', 'message' => $invoice_html]);
