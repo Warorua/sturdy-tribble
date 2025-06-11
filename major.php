@@ -314,7 +314,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
                         $('#result').html('<div class="alert alert-success">Invoice data loaded successfully.</div>');
                     } else {
                         $('#result').html(`<div class="alert alert-danger">${res.message}</div>`);
-                        $('#notifyForm').addClass('d-none');
+                        //$('#notifyForm').addClass('d-none');
                     }
                 }, 'json');
             });
