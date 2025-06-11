@@ -142,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
-                CURLOPT_URL => 'https://pesaflow.ecitizen.go.ke/PaymentAPI/getStatus.php?billRefNumber='.$code,
+                CURLOPT_URL => 'https://pesaflow.ecitizen.go.ke/PaymentAPI/getStatus.php?billRefNumber=' . $code,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
@@ -184,87 +184,88 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
         }
 
         if ($action === 'send_notification') {
-        $notification_url = $_POST['notification_url'];
-        $amount = $_POST['amount'];
-        $bill_ref = $_POST['bill_ref'];
-        $invoice_no = $_POST['invoice_no'];
-        $msisdn = $_POST['msisdn'];
-        $client = $_POST['client'];
+            $notification_url = $_POST['notification_url'];
+            $amount = $_POST['amount'];
+            $bill_ref = $_POST['bill_ref'];
+            $invoice_no = $_POST['invoice_no'];
+            $msisdn = $_POST['msisdn'];
+            $client = $_POST['client'];
 
-        $now = new DateTime("now", new DateTimeZone("Africa/Nairobi"));
-        $payment_date_iso = $now->format(DateTime::ATOM);
-        $payment_date_custom = $now->format("Y-m-d H:i:sP T e");
+            $now = new DateTime("now", new DateTimeZone("Africa/Nairobi"));
+            $payment_date_iso = $now->format(DateTime::ATOM);
+            $payment_date_custom = $now->format("Y-m-d H:i:sP T e");
 
-        $payload = [
-            "status" => "settled",
-            "secure_hash" => "Mzriguj9ritgjosdjgFG6bBorkFQ9lr0NjE1MDE3Y2FjNDVkYm44Ag7kle5tDV23ZTJjNA==",
-            "phone_number" => $msisdn,
-            "payment_reference" => [[
-                "payment_reference" => generateMpesaCode(),
-                "payment_date" => $payment_date_iso,
-                "inserted_at" => $payment_date_iso,
+            $payload = [
+                "status" => "settled",
+                "secure_hash" => "Mzriguj9ritgjosdjgFG6bBorkFQ9lr0NjE1MDE3Y2FjNDVkYm44Ag7kle5tDV23ZTJjNA==",
+                "phone_number" => $msisdn,
+                "payment_reference" => [[
+                    "payment_reference" => generateMpesaCode(),
+                    "payment_date" => $payment_date_iso,
+                    "inserted_at" => $payment_date_iso,
+                    "currency" => "KES",
+                    "amount" => $amount
+                ]],
+                "payment_date" => $payment_date_custom,
+                "payment_channel" => "MPESA",
+                "last_payment_amount" => "0",
+                "invoice_number" => $invoice_no,
+                "invoice_amount" => $amount . ".00",
                 "currency" => "KES",
-                "amount" => $amount
-            ]],
-            "payment_date" => $payment_date_custom,
-            "payment_channel" => "MPESA",
-            "last_payment_amount" => "0",
-            "invoice_number" => $invoice_no,
-            "invoice_amount" => $amount . ".00",
-            "currency" => "KES",
-            "client_invoice_ref" => $bill_ref,
-            "amount_paid" => $amount
-        ];
+                "client_invoice_ref" => $bill_ref,
+                "amount_paid" => $amount
+            ];
 
-        $ch = curl_init($notification_url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-        $response = curl_exec($ch);
-        $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
+            $ch = curl_init($notification_url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+            $response = curl_exec($ch);
+            $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
 
 
-        if ($http_status === 200 || $http_status === 201 && $response) {
-            $dataToInsert = array(
-                "invoice_no" => $invoice_no,
-                "amount" => $amount,
-                'client' => $client,
-                'ref' => $notification_url,
-                'route' => $notification_url,
-                'extdoc' => $bill_ref
-                // Add more columns and values as needed
-            );
-            $tableName = 'bypass';
-            // Call the insert method
-            $stmt = $conn->prepare('INSERT INTO bypass (invoice_no, amount, client, ref, route, extdoc) VALUES (:invoice_no, :amount, :client, :ref, :route, :extdoc)');
-            $stmt->execute($dataToInsert);
-            $dt1 = "Data inserted successfully recorded.";
-        } else {
-            $dt1 = "Insertion Not Done!";
+            if ($http_status === 200 || $http_status === 201 && $response) {
+                $dataToInsert = array(
+                    "invoice_no" => $invoice_no,
+                    "amount" => $amount,
+                    'client' => $client,
+                    'ref' => $notification_url,
+                    'route' => $notification_url,
+                    'extdoc' => $bill_ref
+                    // Add more columns and values as needed
+                );
+                $tableName = 'bypass';
+                // Call the insert method
+                $stmt = $conn->prepare('INSERT INTO bypass (invoice_no, amount, client, ref, route, extdoc) VALUES (:invoice_no, :amount, :client, :ref, :route, :extdoc)');
+                $stmt->execute($dataToInsert);
+                $dt1 = "Data inserted successfully recorded.";
+            } else {
+                $dt1 = "Insertion Not Done!";
+            }
+
+            if ($http_status === 200) {
+                echo json_encode([
+                    'status' => $http_status === 200 ? 'success' : 'error',
+                    'message' => $response . '<br/>' . $dt1
+                ]);
+            } elseif ($http_status === 201) {
+                echo json_encode([
+                    'status' => $http_status === 201 ? 'success' : 'error',
+                    'message' => $response . '<br/>' . $dt1
+                ]);
+            } else {
+                echo json_encode([
+                    'status' => $http_status === 200 ? 'success' : 'error',
+                    'message' => $response . '<br/>' . $dt1 . '<br/> Status Code: ' . $http_status . '<br/><br/>' . json_encode($payload, JSON_PRETTY_PRINT)
+                ]);
+            }
+
+
+            exit;
         }
-
-        if ($http_status === 200) {
-            echo json_encode([
-                'status' => $http_status === 200 ? 'success' : 'error',
-                'message' => $response . '<br/>' . $dt1
-            ]);
-        } elseif ($http_status === 201) {
-            echo json_encode([
-                'status' => $http_status === 201 ? 'success' : 'error',
-                'message' => $response . '<br/>' . $dt1
-            ]);
-        } else {
-            echo json_encode([
-                'status' => $http_status === 200 ? 'success' : 'error',
-                'message' => $response . '<br/>' . $dt1 . '<br/> Status Code: ' . $http_status . '<br/><br/>' . json_encode($payload, JSON_PRETTY_PRINT)
-            ]);
-        }
-
-
-        exit;
     }
 }
 ?>
