@@ -137,7 +137,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
                 ]
             ]);
             exit;
-        } else {
+        } elseif ($invoice_html !== false && preg_match('/<tkash\s+([^>]+)>/i', $invoice_html, $match)) {
+            $attributes = [];
+            preg_match_all('/(\w+)="([^"]*)"/', $match[1], $pairs, PREG_SET_ORDER);
+            foreach ($pairs as $pair) {
+                $attributes[$pair[1]] = $pair[2];
+            }
+
+            $now = new DateTime("now", new DateTimeZone("Africa/Nairobi"));
+            $date_iso = $now->format(DateTime::ATOM);
+            $date_custom = $now->format("Y-m-d H:i:sP T e");
+
+            echo json_encode([
+                'status' => 'success',
+                'data' => [
+                    'amount' => $attributes['amount_net'] ?? '',
+                    'bill_ref' => $attributes['bill_ref'] ?? '',
+                    'invoice_no' => $attributes['invoice_no'] ?? '',
+                    'notification_url' => $attributes['notification_url'] ?? '',
+                    'msisdn' => $msisdn ?? '+254700000000',
+                    'date_iso' => $date_iso,
+                    'date_custom' => $date_custom
+                ]
+            ]);
+            exit;
+        }else {
 
             $curl = curl_init();
 
