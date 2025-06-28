@@ -1,44 +1,50 @@
 <?php
-$soapUrl = "http://www.scantech.ltd:8090/AndroidInterface.asmx/GetDataOfVehicle"; // asmx URL of WSDL
-$soapUser = "a";  //  username
-$soapPassword = "password"; // password
 
-// xml post structure
+// Target URL to forward to
+$target = $_GET['target'] ?? '';
 
-$xml_post_string = '
-                     
-<?xml version="1.0" encoding="utf-8"?>
-<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-  <soap:Body>
-    <GetDataOfVehicle xmlns="http://tempuri.org/">
-      <UserName>' . $soapUser . '</UserName>
-    </GetDataOfVehicle>
-  </soap:Body>
-</soap:Envelope>';   // data from the form, e.g. some ID number
+// Only allow POST relays
+if ($_SERVER['REQUEST_METHOD'] !== 'POST' || empty($target)) {
+    http_response_code(400);
+    echo json_encode(['error' => 'POST with ?target=https://target.domain/ipn.php required']);
+    exit;
+}
 
-$headers = array(
-    "Content-type: application/x-www-form-urlencoded;charset=\"utf-8\"",
-    "Accept: text/xml",
-    "Cache-Control: no-cache",
-    "Pragma: no-cache",
-    "SOAPAction: http://www.scantech.ltd:8090/AndroidInterface.asmx/GetDataOfVehicle",
-    "Content-length: " . strlen($xml_post_string),
-); //SOAPAction: your op URL
+// Get raw payload
+$body = file_get_contents('php://input');
 
-$url = $soapUrl;
+// Forward headers to mimic the original request
+$headers = [
+    'Content-Type: application/json',
+    'Accept-Encoding: gzip',
+    'X-Forwarded-Proto: https',
+    'X-Real-IP: 197.248.11.129',
+    'X-Real-Port: 45247',
+    'X-Forwarded-For: 197.248.11.129',
+    'X-Forwarded-Port: 443',
+    'X-Port: 443',
+    'X-LSCACHE: 1',
+    'User-Agent: hackney/1.20.1',
+    'Host: ' . parse_url($target, PHP_URL_HOST),
+    'Content-Length: ' . strlen($body)
+];
 
-// PHP cURL  for https connection with auth
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
-curl_setopt($ch, CURLOPT_URL, $url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//curl_setopt($ch, CURLOPT_USERPWD, $soapUser.":".$soapPassword); // username and password - declared at the top of the doc
-curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
-curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $xml_post_string); // the SOAP request
+// Send to target
+$ch = curl_init($target);
 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_TIMEOUT, 15);
 
-// converting
 $response = curl_exec($ch);
+$info = curl_getinfo($ch);
+$error = curl_error($ch);
 curl_close($ch);
+
+// Output what happened
+header('Content-Type: application/json');
+echo json_encode([
+    'http_code' => $info['http_code'],
+    'response' => $response,
+    'error' => $error
+]);
