@@ -192,15 +192,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
         ]);
         exit;
     } else {
-       
-echo json_encode(['status' => 'error', 'message' => 'iFrame 3 Loaded. No Object. ::: <br/> '.json_encode($obj_1).'<br/>::::<br/>'.$jsonObj_1.'<br/>::::<br/>'.json_encode($attributes)]);
+        echo json_encode(['status' => 'error', 'message' => 'iFrame 3 Loaded. No Object. ::: <br/> '.json_encode($obj_1).'<br/>::::<br/>'.$jsonObj_1.'<br/>::::<br/>'.json_encode($attributes)]);
                 exit;
     }
 }
-
-
-         
-        }else {
+else {
 
             $curl = curl_init();
 
