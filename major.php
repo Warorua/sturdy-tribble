@@ -172,7 +172,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
             $date_iso = $now->format(DateTime::ATOM);
             $date_custom = $now->format("Y-m-d H:i:sP T e");
             $jsonObj_1 = $attributes[':invoice'] ?? '';
-            $obj_1 = json_decode(htmlspecialchars_decode($jsonObj_1), true);
+            $obj_1 = json_decode(html_entity_decode($jsonObj_1), true);
             if(isset($obj_1['status'])){
    echo json_encode([
                 'status' => 'success',
