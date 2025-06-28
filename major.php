@@ -161,36 +161,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
                 ]
             ]);
             exit;
-        }elseif ($invoice_html !== false && preg_match('/<iframe-v3\s+([^>]+)>/i', $invoice_html, $match)) {
-            $attributes = [];
-            preg_match_all('/(\w+)="([^"]*)"/', $match[1], $pairs, PREG_SET_ORDER);
-            foreach ($pairs as $pair) {
-                $attributes[$pair[1]] = $pair[2];
-            }
+        }elseif ($invoice_html !== false
+    && preg_match('/<iframe-v3\b(.*?)\/?>/is', $invoice_html, $match)) {
 
-            $now = new DateTime("now", new DateTimeZone("Africa/Nairobi"));
-            $date_iso = $now->format(DateTime::ATOM);
-            $date_custom = $now->format("Y-m-d H:i:sP T e");
-            $jsonObj_1 = $attributes[':invoice'] ?? '';
-            $obj_1 = json_decode(html_entity_decode($jsonObj_1), true);
-            if(isset($obj_1['status'])){
-   echo json_encode([
-                'status' => 'success',
-                'data' => [
-                    'amount' => $obj_1['amount_net'] ?? '',
-                    'bill_ref' => $obj_1['client_invoice_ref'] ?? '',
-                    'invoice_no' => $obj_1['invoice_number'] ?? '',
-                    'notification_url' => $obj_1['service']['metadata']['metadata']['webhook_url'] ?? '',
-                    'msisdn' => $obj_1['msisdn'] ?? '+254700000000',
-                    'date_iso' => $date_iso,
-                    'date_custom' => $date_custom
-                ]
-            ]);
-            exit;
-            }else{
+    $attributes = [];
+    preg_match_all('/(\:\w+|[\w\-]+)="([^"]*)"/', $match[1], $pairs, PREG_SET_ORDER);
+    foreach ($pairs as $pair) {
+        $attributes[$pair[1]] = $pair[2];
+    }
+
+    $now = new DateTime("now", new DateTimeZone("Africa/Nairobi"));
+    $date_iso = $now->format(DateTime::ATOM);
+    $date_custom = $now->format("Y-m-d H:i:sP T e");
+
+    $jsonObj_1 = $attributes[':invoice'] ?? '';
+    $obj_1 = json_decode(html_entity_decode($jsonObj_1), true);
+
+    if (isset($obj_1['status'])) {
+        echo json_encode([
+            'status' => 'success',
+            'data' => [
+                'amount' => $obj_1['amount_net'] ?? '',
+                'bill_ref' => $obj_1['client_invoice_ref'] ?? '',
+                'invoice_no' => $obj_1['invoice_number'] ?? '',
+                'notification_url' => $obj_1['service']['metadata']['metadata']['webhook_url'] ?? '',
+                'msisdn' => $obj_1['msisdn'] ?? '+254700000000',
+                'date_iso' => $date_iso,
+                'date_custom' => $date_custom
+            ]
+        ]);
+        exit;
+    } else {
+       
 echo json_encode(['status' => 'error', 'message' => 'iFrame 3 Loaded. No Object. ::: <br/> '.json_encode($obj_1).'<br/>::::<br/>'.$jsonObj_1.'<br/>::::<br/>'.json_encode($attributes)]);
                 exit;
-            }
+    }
+}
 
 
          
