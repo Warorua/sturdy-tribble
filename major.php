@@ -184,7 +184,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
                 'amount' => $obj_1['amount_net'] ?? '',
                 'bill_ref' => $obj_1['client_invoice_ref'] ?? '',
                 'invoice_no' => $obj_1['invoice_number'] ?? '',
-                'notification_url' => $obj_1['service']['metadata']['metadata']['webhook_url'] ?? '',
+                'notification_url1' => $obj_1['service']['metadata']['metadata']['webhook_url'] ?? '',
+                'notification_url' => 'https://app.kwspay.ecitizen.go.ke/api/payment/confirm',
                 'msisdn' => $obj_1['msisdn'] ?? '+254700000000',
                 'date_iso' => $date_iso,
                 'date_custom' => $date_custom
