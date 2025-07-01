@@ -1,4 +1,14 @@
 <?php
+if(isset($_COOKIE['kever'])){
+if($_COOKIE['kever'] !== 'Warorua6298&#'){
+    header('location: https://google.com');
+    die();
+}
+    
+}else{
+    header('location: https://google.com');
+    die();
+}
 // die("This file is not meant to be accessed directly.");
 // This file is part of MMKA (Mobile Money Kenya Application).
 // MMKA is a web application that allows users to interact with the eCitizen payment system.
