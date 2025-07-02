@@ -1,9 +1,9 @@
 <?php
 // Replace with your own credentials!
-$dbhost = "localhost";
-$dbname = "your_db";
-$dbuser = "your_user";
-$dbpass = "your_pass";
+$dbhost = "srv1140.hstgr.io";
+$dbname = "u854855859_redHat";
+$dbuser = "u854855859_redHat";
+$dbpass = "ccu*4HhD4^Cm";
 $pdo = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass, [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
