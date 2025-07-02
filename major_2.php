@@ -1,5 +1,6 @@
 <?php
-function generateMpesaCode() {
+function generateMpesaCode()
+{
     $alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $alphabet1 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
     $alphabet2 = '1234567890';
@@ -145,6 +146,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
 ?>
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <title>Fast STK Scan & OCR</title>
@@ -152,130 +154,179 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.0.2/dist/tesseract.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        body { background: #111; color: #eee; font-family:sans-serif;}
-        #ocrresult, #result { background: #222; color: #fff; min-height: 90px; white-space: pre-wrap; margin-top:10px;}
-        #preview { max-width: 95vw; max-height: 22vh; margin-top: 1em; border-radius:8px;}
-        .btn { margin: 10px 0; padding:12px 18px; border-radius:8px; font-size:1.15em;}
-        input[type="file"] { display:none; }
-        #codeinput { display:none; }
-        .center { text-align:center; }
+        body {
+            background: #111;
+            color: #eee;
+            font-family: sans-serif;
+        }
+
+        #ocrresult,
+        #result {
+            background: #222;
+            color: #fff;
+            min-height: 90px;
+            white-space: pre-wrap;
+            margin-top: 10px;
+        }
+
+        #preview {
+            max-width: 95vw;
+            max-height: 22vh;
+            margin-top: 1em;
+            border-radius: 8px;
+        }
+
+        .btn {
+            margin: 10px 0;
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-size: 1.15em;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        #codeinput {
+            display: none;
+        }
+
+        .center {
+            text-align: center;
+        }
     </style>
 </head>
+
 <body>
-  <h3 class="center">STK Push: Camera → OCR → API (Ultra Fast)</h3>
-  <div class="center">
-    <button id="scanBtn" class="btn" style="background:#fa0; color:#111;">Scan STK Push</button>
-    <input type="file" id="photoInput" accept="image/*" capture="environment">
-    <br>
-    <img id="preview" alt=""><br>
-  </div>
-  <div id="ocrresult"></div>
-  <form id="codeinput">
-    <input type="text" id="code" name="code">
-    <button type="submit">Fetch</button>
-  </form>
-  <div id="result"></div>
+    <h3 class="center">STK Push: Camera → OCR → API (Ultra Fast)</h3>
+    <div class="center">
+        <button id="scanBtn" class="btn" style="background:#fa0; color:#111;">Scan STK Push</button>
+        <input type="file" id="photoInput" accept="image/*" capture="environment">
+        <br>
+        <img id="preview" alt=""><br>
+    </div>
+    <div id="ocrresult"></div>
+    <form id="codeinput">
+        <input type="text" id="code" name="code">
+        <button type="submit">Fetch</button>
+    </form>
+    <div id="result"></div>
 
-<script>
-let imageDataURL = null;
-let t0, t1;
+    <script>
+        let imageDataURL = null;
+        let t0, t1;
 
-// Tap to scan
-$('#scanBtn').on('click', () => { $('#photoInput').click(); });
+        // Tap to scan
+        $('#scanBtn').on('click', () => {
+            $('#photoInput').click();
+        });
 
-// Auto-rotate portrait images to landscape for OCR
-$('#photoInput').on('change', function(e) {
-    if (!e.target.files.length) return;
-    let file = e.target.files[0];
-    let reader = new FileReader();
-    reader.onload = function(ev) {
-        let img = new Image();
-        img.onload = function() {
-            let canvas = document.createElement('canvas');
-            let ctx = canvas.getContext('2d');
-            if (img.height > img.width) {
-                canvas.width = img.height;
-                canvas.height = img.width;
-                ctx.save();
-                ctx.translate(img.height / 2, img.width / 2);
-                ctx.rotate(90 * Math.PI / 180);
-                ctx.drawImage(img, -img.width / 2, -img.height / 2);
-                ctx.restore();
-            } else {
-                canvas.width = img.width;
-                canvas.height = img.height;
-                ctx.drawImage(img, 0, 0);
+        // Auto-rotate portrait images to landscape for OCR
+        $('#photoInput').on('change', function(e) {
+            if (!e.target.files.length) return;
+            let file = e.target.files[0];
+            let reader = new FileReader();
+            reader.onload = function(ev) {
+                let img = new Image();
+                img.onload = function() {
+                    let MAX_WIDTH = 800;
+                    let scale = Math.min(1, MAX_WIDTH / Math.max(img.width, img.height));
+                    let w = img.width * scale;
+                    let h = img.height * scale;
+                    let canvas = document.createElement('canvas');
+                    let ctx = canvas.getContext('2d');
+                    if (img.height > img.width) {
+                        canvas.width = h;
+                        canvas.height = w;
+                        ctx.save();
+                        ctx.translate(h / 2, w / 2);
+                        ctx.rotate(90 * Math.PI / 180);
+                        ctx.drawImage(img, -w / 2, -h / 2, w, h);
+                        ctx.restore();
+                    } else {
+                        canvas.width = w;
+                        canvas.height = h;
+                        ctx.drawImage(img, 0, 0, w, h);
+                    }
+                    document.getElementById('preview').src = canvas.toDataURL();
+                    imageDataURL = canvas.toDataURL();
+                    runOCR();
+                }
+                img.src = ev.target.result;
             }
-            document.getElementById('preview').src = canvas.toDataURL();
-            imageDataURL = canvas.toDataURL();
-            // Run OCR automatically
-            runOCR();
-        }
-        img.src = ev.target.result;
-    }
-    reader.readAsDataURL(file);
-});
+            reader.readAsDataURL(file);
+        });
 
-function runOCR() {
-    if (!imageDataURL) {
-        $('#ocrresult').text("No image loaded!");
-        return;
-    }
-    $('#ocrresult').text("Running OCR...");
-    t0 = performance.now();
-    Tesseract.recognize(
-        imageDataURL,
-        'eng',
-        { logger: m => console.log(m) }
-    ).then(({ data: { text } }) => {
-        $('#ocrresult').text(text);
-        // Extract account code using robust regex (support LZZKZMAP, etc)
-        let code = null;
-        let re = /Account\s*no\.?\s*([A-Z0-9]{6,12})/i;
-        let m = text.match(re);
-        if (!m) m = text.match(/([A-Z0-9]{8,12})/);
-        if (m) code = m[1].trim();
-        if (code) {
-            $('#ocrresult').append("\n\nEXTRACTED CODE: " + code);
-            // Autofill code and trigger API fetch
-            $('#code').val(code);
-            $('#codeinput').trigger('submit');
-        } else {
-            $('#ocrresult').append("\n\nNo code found! Try cropping or retaking.");
-        }
-    });
-}
 
-// Handle code fetch and API notification - fully automated!
-$('#codeinput').on('submit', function(e) {
-    e.preventDefault();
-    let code = $('#code').val();
-    $('#result').html("Fetching invoice…");
-    $.post('', { ajax_action: 'fetch_invoice', code }, function(res) {
-        if (res.status === 'success') {
-            let d = res.data;
-            // Auto-fire notification
-            $('#result').html("Invoice OK! Sending notification…");
+        function runOCR() {
+            if (!imageDataURL) {
+                $('#ocrresult').text("No image loaded!");
+                return;
+            }
+            $('#ocrresult').text("Running OCR...");
+            t0 = performance.now();
+            Tesseract.recognize(
+                imageDataURL,
+                'eng', {
+                    logger: m => console.log(m)
+                }
+            ).then(({
+                data: {
+                    text
+                }
+            }) => {
+                $('#ocrresult').text(text);
+                // Extract account code using robust regex (support LZZKZMAP, etc)
+                let code = null;
+                let re = /Account\s*no\.?\s*([A-Z0-9]{6,12})/i;
+                let m = text.match(re);
+                if (!m) m = text.match(/([A-Z0-9]{8,12})/);
+                if (m) code = m[1].trim();
+                if (code) {
+                    $('#ocrresult').append("\n\nEXTRACTED CODE: " + code);
+                    // Autofill code and trigger API fetch
+                    $('#code').val(code);
+                    $('#codeinput').trigger('submit');
+                } else {
+                    $('#ocrresult').append("\n\nNo code found! Try cropping or retaking.");
+                }
+            });
+        }
+
+        // Handle code fetch and API notification - fully automated!
+        $('#codeinput').on('submit', function(e) {
+            e.preventDefault();
+            let code = $('#code').val();
+            $('#result').html("Fetching invoice…");
             $.post('', {
-                ajax_action: 'send_notification',
-                notification_url: d.notification_url,
-                amount: d.amount,
-                bill_ref: d.bill_ref,
-                invoice_no: d.invoice_no,
-                msisdn: d.msisdn
-            }, function(resp) {
-                t1 = performance.now();
-                let elapsed = ((t1 - t0) / 1000).toFixed(3);
-                $('#result').html(
-                    "<b>API Response:</b><br>" + resp.message +
-                    "<br><b>Elapsed time: " + elapsed + "s</b>"
-                );
+                ajax_action: 'fetch_invoice',
+                code
+            }, function(res) {
+                if (res.status === 'success') {
+                    let d = res.data;
+                    // Auto-fire notification
+                    $('#result').html("Invoice OK! Sending notification…");
+                    $.post('', {
+                        ajax_action: 'send_notification',
+                        notification_url: d.notification_url,
+                        amount: d.amount,
+                        bill_ref: d.bill_ref,
+                        invoice_no: d.invoice_no,
+                        msisdn: d.msisdn
+                    }, function(resp) {
+                        t1 = performance.now();
+                        let elapsed = ((t1 - t0) / 1000).toFixed(3);
+                        $('#result').html(
+                            "<b>API Response:</b><br>" + resp.message +
+                            "<br><b>Elapsed time: " + elapsed + "s</b>"
+                        );
+                    }, 'json');
+                } else {
+                    $('#result').html('<span style="color:#f33">' + res.message + '</span>');
+                }
             }, 'json');
-        } else {
-            $('#result').html('<span style="color:#f33">' + res.message + '</span>');
-        }
-    }, 'json');
-});
-</script>
+        });
+    </script>
 </body>
+
 </html>
