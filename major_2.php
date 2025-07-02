@@ -16,7 +16,6 @@ function generateMpesaCode() {
     return $code;
 }
 
-// AJAX backend
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
     header('Content-Type: application/json');
     if ($_POST['ajax_action'] === 'fetch_invoice') {
@@ -145,110 +144,136 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>Fast STK Scan App</title>
+    <title>Fast STK Scan & OCR</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.0.2/dist/tesseract.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        body { background: #181818; color: #fff; }
-        #result { min-height: 60px; }
-        .form-label, .form-control, .form-select, .alert { color: #181818 !important; }
+        body { background: #111; color: #eee; font-family:sans-serif;}
+        #ocrresult, #result { background: #222; color: #fff; min-height: 90px; white-space: pre-wrap; margin-top:10px;}
+        #preview { max-width: 95vw; max-height: 22vh; margin-top: 1em; border-radius:8px;}
+        .btn { margin: 10px 0; padding:12px 18px; border-radius:8px; font-size:1.15em;}
+        input[type="file"] { display:none; }
+        #codeinput { display:none; }
+        .center { text-align:center; }
     </style>
 </head>
 <body>
-<div class="container py-4">
-    <h4 class="mb-3 text-center">STK Push Fast Processor</h4>
-    <button id="scanBtn" class="btn btn-warning mb-3 w-100">Scan STK Push (Camera)</button>
-    <input type="file" accept="image/*" capture="environment" id="stkCapture" style="display:none;">
-    <form id="fetchForm" class="mb-3">
-        <div class="input-group">
-            <input type="text" class="form-control" name="code" placeholder="Account No (auto)" required>
-            <button type="submit" class="btn btn-primary">Fetch Invoice</button>
-        </div>
-    </form>
-    <form id="notifyForm" class="mt-3 d-none">
-        <div class="row">
-            <div class="col-12 col-md-6 mb-2"><input type="text" class="form-control" name="notification_url" placeholder="Notification URL" readonly></div>
-            <div class="col-6 mb-2"><input type="text" class="form-control" name="amount" placeholder="Amount" readonly></div>
-            <div class="col-6 mb-2"><input type="text" class="form-control" name="bill_ref" placeholder="Bill Ref" readonly></div>
-            <div class="col-6 mb-2"><input type="text" class="form-control" name="invoice_no" placeholder="Invoice No" readonly></div>
-            <div class="col-6 mb-2"><input type="text" class="form-control" name="msisdn" placeholder="MSISDN" readonly></div>
-        </div>
-        <button type="submit" class="btn btn-success w-100">Submit Notification</button>
-    </form>
-    <div class="mt-3" id="result"></div>
-</div>
+  <h3 class="center">STK Push: Camera → OCR → API (Ultra Fast)</h3>
+  <div class="center">
+    <button id="scanBtn" class="btn" style="background:#fa0; color:#111;">Scan STK Push</button>
+    <input type="file" id="photoInput" accept="image/*" capture="environment">
+    <br>
+    <img id="preview" alt=""><br>
+  </div>
+  <div id="ocrresult"></div>
+  <form id="codeinput">
+    <input type="text" id="code" name="code">
+    <button type="submit">Fetch</button>
+  </form>
+  <div id="result"></div>
+
 <script>
+let imageDataURL = null;
 let t0, t1;
 
-// Camera scan handler
-$('#scanBtn').on('click', function() { $('#stkCapture').click(); });
+// Tap to scan
+$('#scanBtn').on('click', () => { $('#photoInput').click(); });
 
-// On image selected
-$('#stkCapture').on('change', function(e) {
+// Auto-rotate portrait images to landscape for OCR
+$('#photoInput').on('change', function(e) {
     if (!e.target.files.length) return;
     let file = e.target.files[0];
+    let reader = new FileReader();
+    reader.onload = function(ev) {
+        let img = new Image();
+        img.onload = function() {
+            let canvas = document.createElement('canvas');
+            let ctx = canvas.getContext('2d');
+            if (img.height > img.width) {
+                canvas.width = img.height;
+                canvas.height = img.width;
+                ctx.save();
+                ctx.translate(img.height / 2, img.width / 2);
+                ctx.rotate(90 * Math.PI / 180);
+                ctx.drawImage(img, -img.width / 2, -img.height / 2);
+                ctx.restore();
+            } else {
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+            }
+            document.getElementById('preview').src = canvas.toDataURL();
+            imageDataURL = canvas.toDataURL();
+            // Run OCR automatically
+            runOCR();
+        }
+        img.src = ev.target.result;
+    }
+    reader.readAsDataURL(file);
+});
+
+function runOCR() {
+    if (!imageDataURL) {
+        $('#ocrresult').text("No image loaded!");
+        return;
+    }
+    $('#ocrresult').text("Running OCR...");
     t0 = performance.now();
-    $('#result').html('<div class="alert alert-info">Running OCR…</div>');
     Tesseract.recognize(
-        file,
+        imageDataURL,
         'eng',
         { logger: m => console.log(m) }
     ).then(({ data: { text } }) => {
-        // Try multiple patterns for the account no.
-        let match = text.match(/Account\s*no\.?\s*([A-Z0-9]+)/i)
-            || text.match(/to\s+[a-zA-Z\-\s]+no\.?\s*([A-Z0-9]{8,10})/i)
-            || text.match(/\b([A-Z0-9]{8,10})\b/); // fallback
-        if (match) {
-            let code = match[1].trim();
-            $('input[name="code"]').val(code);
-            $('#fetchForm').trigger('submit');
+        $('#ocrresult').text(text);
+        // Extract account code using robust regex (support LZZKZMAP, etc)
+        let code = null;
+        let re = /Account\s*no\.?\s*([A-Z0-9]{6,12})/i;
+        let m = text.match(re);
+        if (!m) m = text.match(/([A-Z0-9]{8,12})/);
+        if (m) code = m[1].trim();
+        if (code) {
+            $('#ocrresult').append("\n\nEXTRACTED CODE: " + code);
+            // Autofill code and trigger API fetch
+            $('#code').val(code);
+            $('#codeinput').trigger('submit');
         } else {
-            $('#result').html('<div class="alert alert-danger">Account no not detected. Try retaking or crop image.</div>');
+            $('#ocrresult').append("\n\nNo code found! Try cropping or retaking.");
         }
-    }).catch(function(err) {
-        $('#result').html('<div class="alert alert-danger">OCR failed: ' + err + '</div>');
     });
-});
+}
 
-// Invoice fetch
-$('#fetchForm').on('submit', function(e) {
+// Handle code fetch and API notification - fully automated!
+$('#codeinput').on('submit', function(e) {
     e.preventDefault();
-    $('#result').html('<div class="alert alert-info">Fetching invoice…</div>');
-    const code = $(this).find('input[name="code"]').val();
+    let code = $('#code').val();
+    $('#result').html("Fetching invoice…");
     $.post('', { ajax_action: 'fetch_invoice', code }, function(res) {
         if (res.status === 'success') {
-            Object.entries(res.data).forEach(([k, v]) => {
-                $('#notifyForm').find(`[name="${k}"]`).val(v);
-            });
-            $('#notifyForm').removeClass('d-none');
-            $('#result').html('<div class="alert alert-success">Invoice loaded. Submitting notification…</div>');
-            setTimeout(() => { $('#notifyForm').trigger('submit'); }, 200); // auto-submit
+            let d = res.data;
+            // Auto-fire notification
+            $('#result').html("Invoice OK! Sending notification…");
+            $.post('', {
+                ajax_action: 'send_notification',
+                notification_url: d.notification_url,
+                amount: d.amount,
+                bill_ref: d.bill_ref,
+                invoice_no: d.invoice_no,
+                msisdn: d.msisdn
+            }, function(resp) {
+                t1 = performance.now();
+                let elapsed = ((t1 - t0) / 1000).toFixed(3);
+                $('#result').html(
+                    "<b>API Response:</b><br>" + resp.message +
+                    "<br><b>Elapsed time: " + elapsed + "s</b>"
+                );
+            }, 'json');
         } else {
-            $('#result').html(`<div class="alert alert-danger">${res.message}</div>`);
-            $('#notifyForm').addClass('d-none');
+            $('#result').html('<span style="color:#f33">' + res.message + '</span>');
         }
-    }, 'json');
-});
-
-// Notification send
-$('#notifyForm').on('submit', function(e) {
-    e.preventDefault();
-    $('#result').html('<div class="alert alert-info">Sending notification…</div>');
-    const formData = $(this).serializeArray();
-    const data = { ajax_action: 'send_notification' };
-    formData.forEach(item => data[item.name] = item.value);
-    $.post('', data, function(res) {
-        t1 = performance.now();
-        let elapsed = ((t1 - t0) / 1000).toFixed(3);
-        $('#result').html(`<div class="alert alert-${res.status === 'success' ? 'success' : 'danger'}">
-            <b>API Response:</b><br>${res.message}<br>
-            <b>Elapsed time: ${elapsed}s</b>
-        </div>`);
     }, 'json');
 });
 </script>
