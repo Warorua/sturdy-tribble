@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>STK OCR Auto-Rotate Demo</title>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.0.2/dist/tesseract.min.js"></script>
+  <style>
+    body { background: #111; color: #eee; }
+    #ocrresult { background: #222; color: #fff; min-height: 100px; white-space: pre-wrap; margin-top:10px;}
+    #preview { max-width: 90vw; max-height: 30vh; margin-top: 1em; }
+    .btn { margin: 10px 0; }
+  </style>
+</head>
+<body>
+  <h2>STK OCR Auto-Rotate</h2>
+  <input type="file" id="photoInput" accept="image/*" capture="environment"><br>
+  <canvas id="canvas" style="display:none;"></canvas>
+  <img id="preview"><br>
+  <button id="startOcr" class="btn">Run OCR</button>
+  <div id="ocrresult"></div>
+
+<script>
+let imageDataURL = null;
+
+document.getElementById('photoInput').onchange = function(e) {
+    if (!e.target.files.length) return;
+    let file = e.target.files[0];
+    let reader = new FileReader();
+    reader.onload = function(ev) {
+        let img = new Image();
+        img.onload = function() {
+            let canvas = document.getElementById('canvas');
+            let ctx = canvas.getContext('2d');
+            // Detect orientation: rotate if height > width (portrait)
+            if (img.height > img.width) {
+                canvas.width = img.height;
+                canvas.height = img.width;
+                ctx.save();
+                ctx.translate(img.height / 2, img.width / 2);
+                ctx.rotate(90 * Math.PI / 180);
+                ctx.drawImage(img, -img.width / 2, -img.height / 2);
+                ctx.restore();
+            } else {
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+            }
+            // Show preview (always landscape now)
+            document.getElementById('preview').src = canvas.toDataURL();
+            imageDataURL = canvas.toDataURL();
+        }
+        img.src = ev.target.result;
+    }
+    reader.readAsDataURL(file);
+};
+
+document.getElementById('startOcr').onclick = function() {
+    if (!imageDataURL) {
+        document.getElementById('ocrresult').innerText = "No image loaded!";
+        return;
+    }
+    document.getElementById('ocrresult').innerText = "Running OCR...";
+    Tesseract.recognize(
+        imageDataURL,
+        'eng',
+        { logger: m => console.log(m) }
+    ).then(({ data: { text } }) => {
+        // Show raw OCR text
+        document.getElementById('ocrresult').innerText = text;
+        // Try to extract code with multiple regexes (uppercase 8+ chars, after "Account no.", etc)
+        let code = null;
+        let re = /Account\s*no\.?\s*([A-Z0-9]{6,12})/i;
+        let m = text.match(re);
+        if (!m) {
+            // Fallback: look for long all-caps string
+            m = text.match(/([A-Z0-9]{8,12})/);
+        }
+        if (m) code = m[1];
+        if (code) {
+            document.getElementById('ocrresult').innerText += "\n\nEXTRACTED CODE: " + code;
+        } else {
+            document.getElementById('ocrresult').innerText += "\n\nNo code found! Try cropping or retaking.";
+        }
+    });
+};
+</script>
+</body>
+</html>
