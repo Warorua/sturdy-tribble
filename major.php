@@ -288,12 +288,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
         } else {
             //$notification_url = 'https://bomayangu.go.ke/payments/notify.php';
             $notification_url = $_POST['notification_url'];
+            $receipt_status = generateMpesaCode();
             $payload = [
                 "status" => "settled",
                 "secure_hash" => "NTk4NGE3NTIxNjk4OTg2MjhmMWZmMzU4NmU4NDBmYmVlYWVlYTMxN2E1MWMwYzg4MTU3YTBmN2Q0NGQ3ZjUyMA==",
                 "phone_number" => $msisdn,
                 "payment_reference" => [[
-                    "payment_reference" => generateMpesaCode(),
+                    "payment_reference" => $receipt_status,
                     "payment_date" => $payment_date_iso,
                     "inserted_at" => $payment_date_iso,
                     "currency" => "KES",
@@ -332,12 +333,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_action'])) {
                 'client' => $client,
                 'ref' => $notification_url,
                 'route' => $notification_url,
-                'extdoc' => $bill_ref
+                'extdoc' => $bill_ref,
+                'receipt_status' => $receipt_status
                 // Add more columns and values as needed
             );
             $tableName = 'bypass';
             // Call the insert method
-            $stmt = $conn->prepare('INSERT INTO bypass (invoice_no, amount, client, ref, route, extdoc) VALUES (:invoice_no, :amount, :client, :ref, :route, :extdoc)');
+            $stmt = $conn->prepare('INSERT INTO bypass (invoice_no, amount, client, ref, route, extdoc, receipt_status) VALUES (:invoice_no, :amount, :client, :ref, :route, :extdoc, :receipt_status)');
             $stmt->execute($dataToInsert);
             $dt1 = "Data inserted successfully recorded.";
         } else {
